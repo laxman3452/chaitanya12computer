@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Computer Science: DBMS Exam Notes</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --primary-dark: #0369a1;
+            --secondary: #1e293b;
+            --text-color: #334155;
+            --bg-light: #f8fafc;
+            --border: #cbd5e1;
+            --success: #15803d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--text-color);
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        .wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 4px solid var(--primary);
+        }
+
+        header h1 { font-size: 1.8rem; margin-bottom: 5px; }
+        header p { font-size: 1rem; color: #94a3b8; }
+
+        /* Exam Tabs */
+        .exam-tabs {
+            display: flex;
+            background: #e2e8f0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-link {
+            flex: 1;
+            padding: 12px 10px;
+            border: none;
+            background: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #475569;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .tab-link:hover { background: #cbd5e1; }
+        .tab-link.active {
+            background: white;
+            color: var(--primary);
+            border-top: 3px solid var(--primary);
+        }
+
+        .tab-content {
+            padding: 30px;
+            display: none;
+        }
+
+        .tab-content.active { display: block; }
+
+        h2 {
+            color: var(--secondary);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+            margin: 20px 0 10px 0;
+        }
+
+        p { margin-bottom: 12px; font-size: 1rem; }
+
+        /* Highlight Boxes for Definitions */
+        .exam-definition {
+            background-color: var(--bg-light);
+            border-left: 4px solid var(--primary);
+            padding: 12px 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .exam-definition strong { color: var(--secondary); }
+
+        ul, ol { margin-left: 25px; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
+
+        /* Standard Exam Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th { background-color: #f1f5f9; color: var(--secondary); }
+
+        /* Interactive Highlighters */
+        .btn-zone {
+            margin: 10px 0 15px 0;
+        }
+
+        .interactive-btn {
+            padding: 6px 12px;
+            background-color: white;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .interactive-btn:hover, .interactive-btn.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .field-hl { background-color: #fef08a !important; }
+        .record-hl { background-color: #bbf7d0 !important; }
+
+        /* Key Indicator Highlights */
+        .key-badge {
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-left: 5px;
+            display: inline-block;
+        }
+        .pk-bg { background-color: #fee2e2; color: #991b1b; }
+        .ck-bg { background-color: #dcfce7; color: #166534; }
+        .ak-bg { background-color: #e0f2fe; color: #075985; }
+
+        /* Simplified Flashcard Style Quiz */
+        .quiz-box {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            margin-top: 10px;
+        }
+
+        .quiz-opt {
+            display: block;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid var(--border);
+            margin-bottom: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .quiz-opt:hover { background: #f1f5f9; }
+
+        .result-msg {
+            font-weight: bold;
+            margin-top: 10px;
+            display: none;
+        }
+        .result-msg.correct { color: var(--success); display: block; }
+        .result-msg.wrong { color: #b91c1c; display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <header>
+            <h1>Computer Science XII — Chapter 1 Notes</h1>
+            <p>Simple, Point-wise Content Optimized for Board Examinations</p>
+        </header>
+
+        <nav class="exam-tabs">
+            <button class="tab-link active" onclick="openTab(event, 'notes1')">1.1 Introduction</button>
+            <button class="tab-link" onclick="openTab(event, 'notes2')">1.2 Table Terms</button>
+            <button class="tab-link" onclick="openTab(event, 'notes3')">Database Keys</button>
+            <button class="tab-link" onclick="openTab(event, 'notes4')">1.3 Pros & Cons</button>
+            <button class="tab-link" onclick="openTab(event, 'notes5')">Exam Practice</button>
+        </nav>
+
+        <section id="notes1" class="tab-content active">
+            <h2>1.1 Data, Information, Database & DBMS</h2>
+            
+            <div class="exam-definition">
+                <strong>Data:</strong> Data is a collection of raw facts, figures, or symbols that do not have a specific meaning on their own.<br>
+                <em>Example:</em> <code>1</code>, <code>Rubina</code>, <code>5.4</code>
+            </div>
+
+            <div class="exam-definition">
+                <strong>Information:</strong> Processed, organized, and structured data that carries a clear and complete meaning.<br>
+                <em>Example:</em> "The height of Rubina is 5.4 feet."
+            </div>
+
+            <h3>Difference between Data and Information (Highly Important for Exam)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Features</th>
+                        <th>Data</th>
+                        <th>Information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Meaning</strong></td>
+                        <td>Raw facts without meaning.</td>
+                        <td>Processed data with a clear meaning.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Input/Output</strong></td>
+                        <td>It serves as the input to a system.</td>
+                        <td>It is the final output of processing.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dependency</strong></td>
+                        <td>Does not depend on information.</td>
+                        <td>Completely depends on data.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="exam-definition">
+                <strong>Database:</strong> A systematic collection of interrelated data stored logically in tabular form (rows and columns).<br>
+                <em>Example:</em> Phone book, student mark sheet, library register.
+            </div>
+
+            <div class="exam-definition">
+                <strong>DBMS (Database Management System):</strong> A software system used to create, manage, manipulate, and retrieve data from a database safely.<br>
+                <em>Popular Examples:</em> MySQL, Oracle, MS-Access, MS-SQL Server, PostgreSQL.
+            </div>
+        </section>
+
+        <section id="notes2" class="tab-content">
+            <h2>1.2 Structural Elements of a Table</h2>
+            <p>Click the buttons below to see exactly what <strong>Fields</strong> and <strong>Records</strong> mean in an exam question:</p>
+            
+            <div class="btn-zone">
+                <button class="interactive-btn" onclick="highlightTable('field')">Show Fields</button>
+                <button class="interactive-btn" onclick="highlightTable('record')">Show One Record</button>
+                <button class="interactive-btn" onclick="highlightTable('clear')">Clear Highlights</button>
+            </div>
+
+            <table id="exam-grid">
+                <thead>
+                    <tr>
+                        <th class="col-f">S.N.</th>
+                        <th class="col-f">Student Name</th>
+                        <th class="col-f">Height</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="row-r">
+                        <td>1</td>
+                        <td>Rubina</td>
+                        <td>5.4</td>
+                    </tr>
+                    <tr id="target-row" class="row-r">
+                        <td>2</td>
+                        <td>Rasbina</td>
+                        <td>5.6</td>
+                    </tr>
+                    <tr class="row-r">
+                        <td>3</td>
+                        <td>Rahul</td>
+                        <td>5.8</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="exam-definition">
+                <strong>1. Field (Attribute/Column):</strong> The vertical column in a table that represents a single property or characteristic of an entity.<br>
+                <em>Example from table:</em> <code>Student Name</code>
+            </div>
+
+            <div class="exam-definition">
+                <strong>2. Record (Tuple/Row):</strong> The horizontal row in a table that contains a complete set of interrelated data for a single individual entity.<br>
+                <em>Example from table:</em> <code>2, Rasbina, 5.6</code>
+            </div>
+
+            <div class="exam-definition">
+                <strong>3. Table (Relation):</strong> A collection of rows and columns containing interconnected data with a unique name.
+            </div>
+        </section>
+
+        <section id="notes3" class="tab-content">
+            <h2>Database Keys Explained Simply</h2>
+            <p>Click on the key types to see which columns get selected below:</p>
+
+            <div class="btn-zone">
+                <button class="interactive-btn active" onclick="showKeys('cand')">1. Candidate Keys</button>
+                <button class="interactive-btn" onclick="showKeys('prim')">2. Primary Key</button>
+                <button class="interactive-btn" onclick="showKeys('alt')">3. Alternate Key</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Reg_Number <span id="k1" class="key-badge"></span></th>
+                        <th>Email_ID <span id="k2" class="key-badge"></span></th>
+                        <th>Student_Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1001</td><td>hari@gmail.com</td><td>Hari</td></tr>
+                    <tr><td>1002</td><td>sita@gmail.com</td><td>Sita</td></tr>
+                </tbody>
+            </table>
+
+            <div class="exam-definition">
+                <h3>Definitions to write in exam:</h3>
+                <p><strong>• Primary Key:</strong> A specific single field (or combination of fields) that uniquely identifies each row in a table. It **cannot be NULL** and **cannot contain duplicate values**.</p>
+                <p><strong>• Candidate Key:</strong> All columns or combinations of columns that have the potential capability to become a primary key (uniquely identify rows).</p>
+                <p><strong>• Alternate Key:</strong> The remaining candidate keys that were not chosen to be the primary key. (Also known as Secondary Keys).</p>
+            </div>
+        </section>
+
+        <section id="notes4" class="tab-content">
+            <h2>1.3 Advantages and Disadvantages of DBMS</h2>
+            
+            <h3>Advantages (Write these 4 points for full marks)</h3>
+            <ul>
+                <li><strong>Reduced Data Redundancy:</strong> It minimizes data duplication, saving storage room and avoiding conflicts.</li>
+                <li><strong>Easy Data Sharing:</strong> Multiple authorized users can access the exact same dataset simultaneously.</li>
+                <li><strong>Data Integrity:</strong> Enforces rules and constraints so that data remains accurate and consistent.</li>
+                <li><strong>Data Security:</strong> Protects private records using proper login access controls and permissions.</li>
+                <li><strong>Data Backup & Recovery:</strong> Provides automated tools to restore records safely if hardware fails.</li>
+            </ul>
+
+            <h3>Disadvantages</h3>
+            <ul>
+                <li><strong>High Cost:</strong> Requires expensive software licensing, setup configurations, and hardware.</li>
+                <li><strong>Technical Complexity:</strong> Requires highly skilled and trained professionals (DBAs) to handle it.</li>
+                <li><strong>High Impact of Failure:</strong> Since data is fully centralized, if the database crashes, all related applications stop working instantly.</li>
+            </ul>
+        </section>
+
+        <section id="notes5" class="tab-content">
+            <h2>Quick Revision Quiz</h2>
+            <p>Test if you can answer standard 1-mark board exam questions correctly.</p>
+
+            <div class="quiz-box">
+                <p><strong>Q1. Which of the following cannot contain a NULL value?</strong></p>
+                <div class="quiz-options">
+                    <span class="quiz-opt" onclick="checkAnswer(this, false, 'ans1')">Alternate Key</span>
+                    <span class="quiz-opt" onclick="checkAnswer(this, true, 'ans1')">Primary Key</span>
+                    <span class="quiz-opt" onclick="checkAnswer(this, false, 'ans1')">Candidate Key</span>
+                </div>
+                <p id="ans1" class="result-msg"></p>
+            </div>
+
+            <div class="quiz-box">
+                <p><strong>Q2. What is the alternative technical name for a horizontal row in a relational table?</strong></p>
+                <div class="quiz-options">
+                    <span class="quiz-opt" onclick="checkAnswer(this, true, 'ans2')">Tuple</span>
+                    <span class="quiz-opt" onclick="checkAnswer(this, false, 'ans2')">Attribute</span>
+                    <span class="quiz-opt" onclick="checkAnswer(this, false, 'ans2')">Relation</span>
+                </div>
+                <p id="ans2" class="result-msg"></p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Simple Navigation
+        function openTab(evt, tabId) {
+            let contents = document.querySelectorAll('.tab-content');
+            let links = document.querySelectorAll('.tab-link');
+            
+            contents.forEach(c => c.classList.remove('active'));
+            links.forEach(l => l.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Table Highlighting
+        function highlightTable(mode) {
+            let cells = document.querySelectorAll('#exam-grid td, #exam-grid th');
+            cells.forEach(c => c.className = '');
+
+            if (mode === 'field') {
+                let fields = document.querySelectorAll('.col-f');
+                fields.forEach(f => f.classList.add('field-hl'));
+            } else if (mode === 'record') {
+                let rowCells = document.querySelectorAll('#target-row td');
+                rowCells.forEach(rc => rc.classList.add('record-hl'));
+            }
+        }
+
+        // Key Configuration Display
+        function showKeys(type) {
+            let btns = document.querySelectorAll('#notes3 .interactive-btn');
+            btns.forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let k1 = document.getElementById('k1');
+            let k2 = document.getElementById('k2');
+
+            if (type === 'cand') {
+                k1.className = "key-badge ck-bg"; k1.innerText = "Candidate Key";
+                k2.className = "key-badge ck-bg"; k2.innerText = "Candidate Key";
+            } else if (type === 'prim') {
+                k1.className = "key-badge pk-bg"; k1.innerText = "Primary Key";
+                k2.className = "key-badge"; k2.innerText = "";
+            } else if (type === 'alt') {
+                k1.className = "key-badge"; k1.innerText = "";
+                k2.className = "key-badge ak-bg"; k2.innerText = "Alternate Key";
+            }
+        }
+        // Initialize keys on load
+        showKeys('cand');
+
+        // Simple quiz function
+        function checkAnswer(element, isCorrect, feedbackId) {
+            let msg = document.getElementById(feedbackId);
+            if (isCorrect) {
+                msg.innerText = "Correct answer! Write this definition in exams.";
+                msg.className = "result-msg correct";
+            } else {
+                msg.innerText = "Wrong option. Try again!";
+                msg.className = "result-msg wrong";
+            }
+        }
+    </script>
+</body>
+</html>
+
+
