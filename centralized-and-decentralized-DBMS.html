@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class XII: Centralized vs Distributed Database Notes</title>
+    <style>
+        :root {
+            --primary: #0284c7;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --success: #16a34a;
+            --error: #dc2626;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            padding: 15px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            background: var(--dark);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: #cbd5e1;
+            font-weight: bold;
+            color: var(--dark);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .content {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        h2 {
+            color: var(--dark);
+            margin-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 5px;
+            font-size: 1.4rem;
+        }
+
+        h3 {
+            color: var(--primary);
+            margin: 15px 0 8px 0;
+            font-size: 1.1rem;
+        }
+
+        ul {
+            list-style-position: inside;
+            margin-bottom: 10px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .bold {
+            font-weight: bold;
+            color: #000;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 10px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: var(--dark);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        /* Quiz UI */
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .option-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .correct {
+            background: #dcfce7 !important;
+            border-color: var(--success) !important;
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .wrong {
+            background: #fee2e2 !important;
+            border-color: var(--error) !important;
+            color: #b91c1c;
+        }
+
+        #next-btn {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: var(--dark);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .tabs { flex-direction: column; }
+            th, td { padding: 6px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Database Systems Notes</h1>
+        <p>Simple & Short Exam Revision (Class XII)</p>
+    </header>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('centralized')">1. Centralized</button>
+        <button class="tab-btn" onclick="switchTab('distributed')">2. Distributed</button>
+        <button class="tab-btn" onclick="switchTab('comparison')">3. Differences Table</button>
+        <button class="tab-btn" onclick="switchTab('quiz')">4. Memory Quiz</button>
+    </div>
+
+    <div id="centralized" class="content active">
+        <h2>Centralized Database</h2>
+        <p>A simple database system where all data is stored and kept at a <span class="bold">single central location</span> (like one main server machine).</p>
+        
+        <h3>Advantages (Easy to write)</h3>
+        <ul>
+            <li><span class="bold">Easy Maintenance:</span> Backups and management are easy because everything is in one place.</li>
+            <li><span class="bold">High Security:</span> It is easy to secure because there is only one central entry point.</li>
+            <li><span class="bold">Low Cost:</span> Simple and cheap setup for small organizations.</li>
+        </ul>
+
+        <h3>Disadvantages</h3>
+        <ul>
+            <li><span class="bold">Single Point of Failure:</span> If the central server crashes, the whole system stops.</li>
+            <li><span class="bold">Traffic Jams:</span> High data traffic slows it down because everyone connects to the same spot.</li>
+        </ul>
+    </div>
+
+    <div id="distributed" class="content">
+        <h2>Distributed Database</h2>
+        <p>A complex database system where data is physically split across <span class="bold">different geographical locations</span> and connected by a network.</p>
+        
+        <h3>Advantages (Easy to write)</h3>
+        <ul>
+            <li><span class="bold">High Availability:</span> If one server crashes, the other locations keep working normally.</li>
+            <li><span class="bold">Load Balancing:</span> User requests are shared across multiple servers, preventing slow-downs.</li>
+            <li><span class="bold">Easy to Expand:</span> Perfect for large companies with many regional branches.</li>
+        </ul>
+
+        <h3>Disadvantages</h3>
+        <ul>
+            <li><span class="bold">Complex Security:</span> Hard to secure data across multiple networks and locations.</li>
+            <li><span class="bold">Data Sync Issues:</span> Keeping data identical on all servers at the same time is difficult.</li>
+            <li><span class="bold">High Cost:</span> Setting up networks and multiple servers is expensive.</li>
+        </ul>
+    </div>
+
+    <div id="comparison" class="content">
+        <h2>Comparison Table</h2>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Basis</th>
+                        <th>Centralized Database</th>
+                        <th>Distributed Database</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="bold">Data Location</td>
+                        <td>Stored at a <b>single</b> central site.</td>
+                        <td>Split across <b>multiple</b> locations.</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Main Server</td>
+                        <td>Uses only <b>one</b> central server.</td>
+                        <td>Uses <b>multiple</b> connected servers.</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">System Crash</td>
+                        <td>If the server fails, the <b>whole system stops</b>.</td>
+                        <td>If one node fails, the <b>rest keeps working</b>.</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Traffic Rate</td>
+                        <td><b>High traffic congestion</b> at the center.</td>
+                        <td><b>Low traffic congestion</b> (queries are local).</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Management</td>
+                        <td>Very <b>easy</b> to secure and maintain.</td>
+                        <td>Very <b>complex</b> to manage and sync.</td>
+                    </tr>
+                    <tr>
+                        <td class="bold">Setup Cost</td>
+                        <td><b>Cheaper</b>; best for small scale.</td>
+                        <td><b>Expensive</b>; best for large scale.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="quiz" class="content">
+        <h2>Quick Revision Quiz</h2>
+        <div id="quiz-box">
+            <p id="q-text" class="bold" style="font-size: 1.1rem; margin-bottom: 10px;"></p>
+            <div id="q-options"></div>
+            <p id="q-feedback" style="margin-top: 10px; font-weight: bold;"></p>
+            <button id="next-btn" onclick="loadQuestion()">Next Question</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId) {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+        
+        if(tabId === 'quiz') startQuiz();
+    }
+
+    const quizData = [
+        {
+            q: "What happens if a centralized database server crashes?",
+            options: ["The whole system completely stops", "Other nodes take over instantly", "Nothing happens"],
+            correct: 0
+        },
+        {
+            q: "Which database system has lower traffic congestion?",
+            options: ["Centralized Database System", "Distributed Database System"],
+            correct: 1
+        },
+        {
+            q: "Which system is easier to secure and maintain?",
+            options: ["Distributed Database System", "Centralized Database System"],
+            correct: 1
+        }
+    ];
+
+    let currentQ = 0;
+
+    function startQuiz() {
+        currentQ = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if(currentQ >= quizData.length) {
+            document.getElementById('quiz-box').innerHTML = "<p class='bold' style='color:var(--success);'>🎉 Quiz Completed! You are ready for the exam!</p><button onclick='startQuiz()' style='margin-top:10px; padding:6px 12px; cursor:pointer;'>Restart Quiz</button>";
+            return;
+        }
+
+        const data = quizData[currentQ];
+        document.getElementById('q-text').innerText = `Q${currentQ + 1}: ${data.q}`;
+        document.getElementById('q-feedback').innerText = "";
+        document.getElementById('next-btn').style.display = "none";
+
+        const optionsDiv = document.getElementById('q-options');
+        optionsDiv.innerHTML = "";
+
+        data.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = "option-btn";
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(idx, btn);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected, btn) {
+        const data = quizData[currentQ];
+        const options = document.getElementById('q-options').children;
+
+        for(let b of options) b.disabled = true;
+
+        if(selected === data.correct) {
+            btn.classList.add('correct');
+            document.getElementById('q-feedback').innerText = "Correct! 🎯";
+            document.getElementById('q-feedback').style.color = "var(--success)";
+        } else {
+            btn.classList.add('wrong');
+            options[data.correct].classList.add('correct');
+            document.getElementById('q-feedback').innerText = "Wrong choice. ❌";
+            document.getElementById('q-feedback').style.color = "var(--error)";
+        }
+
+        currentQ++;
+        document.getElementById('next-btn').style.display = "block";
+    }
+</script>
+
+</body>
+</html>
