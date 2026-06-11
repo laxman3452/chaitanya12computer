@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL Exam Cheat Sheet & Playground</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --code-bg: #2d3748;
+            --code-text: #f7fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 20px;
+        }
+
+        h1 { color: var(--primary); margin-bottom: 5px; }
+        h2 { color: var(--primary); border-left: 5px solid var(--secondary); padding-left: 10px; margin-top: 30px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .badge-ddl { background-color: #e2f0cb; color: #43682b; }
+        .badge-dml { background-color: #d1ecf1; color: #0c5460; }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 10px 0;
+        }
+
+        .btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .btn:hover { background-color: #2980b9; }
+
+        /* Quick Interactive Sandbox Styles */
+        .sandbox {
+            background: #edf2f7;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+            border: 2px dashed #cbd5e0;
+        }
+
+        .output-box {
+            background: #ffffff;
+            border: 1px solid #cbd5e0;
+            padding: 15px;
+            min-height: 60px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>MySQL Syllabus Reference Guide</h1>
+        <p>Quick formulas, syntax structures, and execution blueprints for examinations.</p>
+    </header>
+
+    <h2>1. Structure Commands (DDL)</h2>
+    <div class="grid">
+        <div class="card">
+            <span class="badge badge-ddl">DDL : CREATE</span>
+            <h3>Create Table Syntax</h3>
+            <p>Defines column constraints and schema mappings.</p>
+            <pre id="code-create">CREATE TABLE student (
+    roll INT,
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    age INT
+);</pre>
+            <button class="btn" onclick="copyCode('code-create')">Copy Query</button>
+        </div>
+
+        <div class="card">
+            <span class="badge badge-ddl">DDL : ALTER</span>
+            <h3>Alter Table Operations</h3>
+            <p>Modifies schema structural design properties dynamically.</p>
+            <pre id="code-alter">/* Add column */
+ALTER TABLE student ADD DateOfBirth DATE;
+
+/* Drop column */
+ALTER TABLE student DROP COLUMN age;
+
+/* Modify column type */
+ALTER TABLE student MODIFY COLUMN DateOfBirth YEAR;</pre>
+            <button class="btn" onclick="copyCode('code-alter')">Copy Query</button>
+        </div>
+    </div>
+
+    <h2>2. Data Manipulation Commands (DML)</h2>
+    <div class="grid">
+        <div class="card">
+            <span class="badge badge-dml">DML : INSERT</span>
+            <h3>Insert Statement</h3>
+            <p>Appends value sets into defined database collection arrays.</p>
+            <pre id="code-insert">INSERT INTO student (roll, first_name, last_name, DateOfBirth) 
+VALUES (1, 'Aayushi', 'Karn', 2010);</pre>
+            <button class="btn" onclick="copyCode('code-insert')">Copy Query</button>
+        </div>
+
+        <div class="card">
+            <span class="badge badge-dml">DML : SELECT</span>
+            <h3>Select Queries & Sorting</h3>
+            <p>Filters data streams using logical evaluation assertions.</p>
+            <pre id="code-select">/* Filtered query matching structural constraints */
+SELECT roll, first_name FROM student 
+WHERE roll = 20;
+
+/* Output sorting execution structural rule */
+SELECT * FROM student 
+ORDER BY roll ASC;</pre>
+            <button class="btn" onclick="copyCode('code-select')">Copy Query</button>
+        </div>
+
+        <div class="card">
+            <span class="badge badge-dml">DML : UPDATE / DELETE</span>
+            <h3>Data Modification & Purging</h3>
+            <p>Warning: Always target accurate references with a WHERE clause handler.</p>
+            <pre id="code-update">/* Update entry */
+UPDATE student 
+SET first_name = 'Alok', last_name = 'Kumar' 
+WHERE roll = 1;
+
+/* Delete row sequence mapping */
+DELETE FROM student 
+WHERE roll = 20;</pre>
+            <button class="btn" onclick="copyCode('code-update')">Copy Query</button>
+        </div>
+    </div>
+
+    <div class="sandbox">
+        <h3>Exam Reference Action Simulator</h3>
+        <p>Select a command scenario configuration below to inspect structural code rendering behaviors:</p>
+        <select id="querySelector" onchange="simulateQuery()" style="padding: 8px; width: 100%; max-width: 300px; margin-bottom: 15px;">
+            <option value="">-- Choose a standard execution concept --</option>
+            <option value="create">Schema Instantiation (CREATE)</option>
+            <option value="insert">Data Pipeline Ingestion (INSERT)</option>
+            <option value="select">Data Query Verification (SELECT)</option>
+            <option value="drop">Structural Table Invalidation (DROP)</option>
+        </select>
+        <h4>Dynamic Simulated Terminal Logs:</h4>
+        <div class="output-box" id="terminalOutput">Awaiting user simulation event sequence processing actions...</div>
+    </div>
+</div>
+
+<script>
+    function copyCode(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('SQL snippet copied successfully into keyboard memory buffer.');
+        });
+    }
+
+    function simulateQuery() {
+        const action = document.getElementById('querySelector').value;
+        const output = document.getElementById('terminalOutput');
+        
+        switch(action) {
+            case 'create':
+                output.innerText = "mysql> CREATE TABLE student (roll INT, first_name VARCHAR(20));\nQuery OK, 0 rows affected (0.04 sec)\n\nStatus: Schema definition table container successfully registered into system cache memory.";
+                break;
+            case 'insert':
+                output.innerText = "mysql> INSERT INTO student VALUES (1, 'Aayushi');\nQuery OK, 1 row affected (0.01 sec)\n\nStatus: Target record row appended successfully into file architecture storage system arrays.";
+                break;
+            case 'select':
+                output.innerText = "mysql> SELECT * FROM student;\n+------+------------+\n| roll | first_name |\n+------+------------+\n|    1 | Aayushi    |\n+------+------------+\n1 row in set (0.00 sec)";
+                break;
+            case 'drop':
+                output.innerText = "mysql> DROP TABLE student;\nQuery OK, 0 rows affected (0.02 sec)\n\nStatus: Destruction complete. Target schema definition metadata records completely purged from file tree structures.";
+                break;
+            default:
+                output.innerText = "Awaiting user simulation event sequence processing actions...";
+        }
+    }
+</script>
+
+</body>
+</html>
