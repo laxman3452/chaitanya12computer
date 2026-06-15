@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Exam Notes: Normalization</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #16a085;
+            --bg: #f8f9fa;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: var(--accent);
+            margin-top: 30px;
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+        }
+        .rule-box {
+            background: #eef7f6;
+            border-left: 4px solid var(--accent);
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .arrow {
+            text-align: center;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Database Normalization (Quick Revision)</h1>
+
+    <section>
+        <h2>1. First Normal Form (1NF)</h2>
+        <div class="rule-box">Rule: Data fields must be ATOMIC (Only 1 value per cell. No combined or repeating groups).</div>
+        
+        <p><strong>Before 1NF (Un-atomic field):</strong> The <code>member_name</code> column contains full names combined.</p>
+        <table>
+            <tr>
+                <th>member_id</th>
+                <th>member_name</th>
+                <th>book_code</th>
+                <th>book_name</th>
+            </tr>
+            <tr>
+                <td>R01</td>
+                <td>Rabi Rai</td>
+                <td>5002</td>
+                <td>DBMS</td>
+            </tr>
+        </table>
+
+        <div class="arrow">↓ Transformed to 1NF ↓</div>
+
+        <p><strong>After 1NF (Atomic fields):</strong> Split <code>member_name</code> into <code>member_fname</code> and <code>member_lname</code>.</p>
+        <table>
+            <tr>
+                <th>member_id</th>
+                <th>member_fname</th>
+                <th>member_lname</th>
+                <th>book_code</th>
+                <th>book_name</th>
+            </tr>
+            <tr>
+                <td>R01</td>
+                <td>Rabi</td>
+                <td>Rai</td>
+                <td>5002</td>
+                <td>DBMS</td>
+            </tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>2. Second Normal Form (2NF)</h2>
+        <div class="rule-box">Rules: 1. Must be in 1NF.<br>2. No Partial Dependency (Every non-key column must depend on the WHOLE primary key).</div>
+        
+        <p>In the 1NF table above, the composite primary key is <code>(member_id, book_code)</code>. But <code>book_name</code> depends only on <code>book_code</code>. This is a partial dependency. To fix it, we break it into separate tables:</p>
+
+        <p><strong>Table 1: Member Info</strong></p>
+        <table>
+            <tr><th>member_id (PK)</th><th>member_fname</th><th>member_lname</th></tr>
+            <tr><td>R01</td><td>Rabi</td><td>Rai</td></tr>
+        </table>
+
+        <p><strong>Table 2: Book Info</strong></p>
+        <table>
+            <tr><th>book_code (PK)</th><th>book_name</th></tr>
+            <tr><td>5002</td><td>DBMS</td></tr>
+        </table>
+
+        <p><strong>Table 3: Issue Details</strong></p>
+        <table>
+            <tr><th>member_id (FK)</th><th>book_code (FK)</th></tr>
+            <tr><td>R01</td><td>5002</td></tr>
+        </table>
+    </section>
+
+    <section>
+        <h2>3. Third Normal Form (3NF)</h2>
+        <div class="rule-box">Rules: 1. Must be in 2NF.<br>2. No Transitive Dependency (Non-key columns cannot depend on other non-key columns).</div>
+        
+        <p><strong>Before 3NF:</strong> <code>Sid</code> determines <code>CId</code>, and <code>CId</code> determines <code>Class</code>/<code>SubName</code>. Therefore, <code>Sid</code> transitively determines <code>SubName</code>. This is incorrect for 3NF.</p>
+        <table>
+            <tr>
+                <th>Sid (PK)</th>
+                <th>Name</th>
+                <th>CId</th>
+                <th>Class</th>
+                <th>SubName</th>
+            </tr>
+            <tr>
+                <td>A1</td>
+                <td>Aayushi</td>
+                <td>S11</td>
+                <td>11</td>
+                <td>Computer</td>
+            </tr>
+        </table>
+
+        <div class="arrow">↓ Transformed to 3NF ↓</div>
+
+        <p>We split them into separate tables so non-key attributes only depend directly on their respective keys:</p>
+
+        <p><strong>Table 1: Student_Detail</strong></p>
+        <table>
+            <tr><th>Sid (PK)</th><th>Name</th><th>SubName</th></tr>
+            <tr><td>A1</td><td>Aayushi</td><td>Computer</td></tr>
+        </table>
+
+        <p><strong>Table 2: Class_Detail</strong></p>
+        <table>
+            <tr><th>CId (PK)</th><th>Class</th><th>SubName</th></tr>
+            <tr><td>S11</td><td>11</td><td>Computer</td></tr>
+        </table>
+    </section>
+
+    <section style="margin-top: 40px; background: #34495e; color: white; padding: 20px; border-radius: 6px;">
+        <h3 style="margin-top: 0; color: #1abc9c;">🧠 Quick Exam Memory Formulas:</h3>
+        <ul>
+            <li><strong>1NF</strong> = Make fields <strong>Atomic</strong> (No multi-values in a single cell).</li>
+            <li><strong>2NF</strong> = Remove <strong>Partial Dependencies</strong> (Split tables so everything depends on the complete primary key).</li>
+            <li><strong>3NF</strong> = Remove <strong>Transitive Dependencies</strong> (Non-key items cannot depend on other non-key items).</li>
+        </ul>
+    </section>
+</div>
+
+</body>
+</html>
+
+```
