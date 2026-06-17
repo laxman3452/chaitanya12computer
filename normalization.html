@@ -182,6 +182,73 @@
         </table>
     </section>
 
+    <section>
+    <h2>3. Third Normal Form (3NF)</h2>
+    <div class="rule-box">
+        Rules:<br>
+        1. Must be in 2NF.<br>
+        2. No Transitive Dependency (Non-key columns cannot depend on other non-key columns).
+    </div>
+    
+    <p><strong>Before 3NF:</strong> <code>Sid</code> determines <code>City</code>, and <code>City</code> determines <code>State</code>. Therefore, <code>Sid</code> transitively determines <code>State</code>. This violates 3NF because <code>City</code> is a completely non-key attribute determining another non-key attribute (<code>State</code>).</p>
+    
+    <table>
+        <tr>
+            <th>Sid (PK)</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>State</th>
+        </tr>
+        <tr>
+            <td>A1</td>
+            <td>Aayushi</td>
+            <td>Kathmandu</td>
+            <td>Bagmati</td>
+        </tr>
+        <tr>
+            <td>A2</td>
+            <td>Rohan</td>
+            <td>Kathmandu</td>
+            <td>Bagmati</td>
+        </tr>
+    </table>
+
+    <div class="arrow">↓ Transformed to 3NF ↓</div>
+
+    <p>We split them into separate tables so non-key attributes only depend directly on their respective primary keys:</p>
+
+    <p><strong>Table 1: Student_Detail</strong></p>
+    <table>
+        <tr>
+            <th>Sid (PK)</th>
+            <th>Name</th>
+            <th>City (FK)</th>
+        </tr>
+        <tr>
+            <td>A1</td>
+            <td>Aayushi</td>
+            <td>Kathmandu</td>
+        </tr>
+        <tr>
+            <td>A2</td>
+            <td>Rohan</td>
+            <td>Kathmandu</td>
+        </tr>
+    </table>
+
+    <p><strong>Table 2: Location_Detail</strong></p>
+    <table>
+        <tr>
+            <th>City (PK)</th>
+            <th>State</th>
+        </tr>
+        <tr>
+            <td>Kathmandu</td>
+            <td>Bagmati</td>
+        </tr>
+    </table>
+</section>
+
     <section style="margin-top: 40px; background: #34495e; color: white; padding: 20px; border-radius: 6px;">
         <h3 style="margin-top: 0; color: #1abc9c;">🧠 Quick Exam Memory Formulas:</h3>
         <ul>
