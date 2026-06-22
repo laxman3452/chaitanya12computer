@@ -1,247 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class 12 Computer Science: DBMS Security Mechanisms</title>
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-color: #333333;
-            --border-radius: 8px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Security</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.6;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-        }
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+    h1 {
+        text-align: center;
+        color: #1e3a8a;
+    }
 
-        header {
-            text-align: center;
-            padding: 30px 0;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border-radius: var(--border-radius);
-            margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+    h2 {
+        color: #2563eb;
+        border-bottom: 2px solid #2563eb;
+        padding-bottom: 5px;
+    }
 
-        header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
+    h3 {
+        color: #374151;
+    }
 
-        header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
+    .example {
+        background: #eef6ff;
+        padding: 10px;
+        border-left: 4px solid #2563eb;
+        border-radius: 5px;
+    }
 
-        .search-container {
-            margin-bottom: 20px;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
 
-        #searchBar {
-            width: 100%;
-            padding: 12px 20px;
-            font-size: 1rem;
-            border: 2px solid #ddd;
-            border-radius: var(--border-radius);
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
+    th {
+        background: #2563eb;
+        color: white;
+        padding: 12px;
+        text-align: left;
+    }
 
-        #searchBar:focus {
-            border-color: var(--secondary-color);
-        }
+    td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        vertical-align: top;
+    }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            border-left: 5px solid var(--secondary-color);
-        }
+    tr:nth-child(even) {
+        background: #f8fafc;
+    }
 
-        h2 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 5px;
-        }
+    tr:hover {
+        background: #e0f2fe;
+    }
 
-        h3 {
-            color: #2980b9;
-            margin: 15px 0 5px 0;
-            font-size: 1.2rem;
-        }
-
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 20px;
-        }
-
-        li::before {
-            content: "•";
-            color: var(--secondary-color);
-            font-weight: bold;
-            font-size: 1.2rem;
-            position: absolute;
-            left: 0;
-            top: -2px;
-        }
-
-        .strong-point {
-            font-weight: 600;
-            color: #111;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 600;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-        .highlight-box {
-            background-color: #e8f4f8;
-            border-left: 5px solid #2980b9;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-        }
-
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            header h1 { font-size: 1.6rem; }
-            th, td { padding: 8px; font-size: 0.9rem; }
-            table { display: block; overflow-x: auto; }
-        }
-    </style>
+    ul {
+        padding-left: 20px;
+    }
+</style>
 </head>
+
 <body>
 
 <div class="container">
-  
+    <h1>Data Security</h1>
 
-    <div class="search-container">
-        <input type="text" id="searchBar" placeholder="Search topics, keywords or security controls..." onkeyup="filterNotes()">
-    </div>
+    <section>
+        <h2>1. Introduction to Data Security</h2>
 
-   
+        <p>
+            Data Security means putting protective measures in place to keep a database safe from hackers,
+            accidental deletions, or system crashes.
+        </p>
 
-    <div class="card note-section">
-        <h2>2. Introduction to Data Security</h2>
-        <p><span class="strong-point">Definition:</span> Data security refers to the protective measures used to safeguard a database system against unauthorized access, malicious modifications, accidental disclosure, system failure, losses, or complete destruction.</p>
-        
-        <h3>Common Causes of Database Damage:</h3>
+        <h3>Common Causes of Database Damage</h3>
         <ul>
-            <li><span class="strong-point">Human Factors:</span> Unauthorized access by malicious hackers or accidental deletions by employees.</li>
-            <li><span class="strong-point">Physical Disasters:</span> Fire, water/flooding, heat, dust accumulation, and structural theft.</li>
-            <li><span class="strong-point">Technical Failures:</span> Power failures, regular voltage fluctuations, and hardware crashes.</li>
+            <li><strong>Human Mistakes & Actions:</strong> Hackers stealing data, or employees accidentally deleting files.</li>
+            <li><strong>Physical Disasters:</strong> Fire, flooding, earthquakes, or someone physically stealing the servers.</li>
+            <li><strong>Hardware & Power Failures:</strong> Power outages, sudden voltage drops, or hard drives breaking down.</li>
         </ul>
+    </section>
 
-        
+    <section>
+        <h2>2. Importance of Data Security</h2>
 
-     
-    </div>
+        <h3>Protecting Secrets (Intellectual Property)</h3>
+        <p>
+            Keeping a company's unique formulas or designs safe so competitors cannot copy them.
+        </p>
+        <div class="example">
+            Example: If the secret recipe for Coca-Cola leaked online, anyone could make it,
+            destroying the company's business edge.
+        </div>
 
-    <div class="card note-section">
-        <h2>3. Importance of Data Security</h2>
-        <p>Data is a company’s most valuable digital asset. Securing it protects organizations from financial ruin and structural collapse. The primary reasons for implementing security include:</p>
-        <ul>
-            <li><span class="strong-point">Protecting Intellectual Property:</span> Trade secrets, unique product inventions, and commercial trademarks are vital to keeping a competitive advantage in the open market. If leaked or exposed, recovery is near impossible.</li>
-            <li><span class="strong-point">Damage to Brand Reputation:</span> Customers and business partners only trust companies that explicitly guarantee data safety. Data breaches disintegrate consumer confidence and lead to brand erosion.</li>
-            <li><span class="strong-point">Financial Cost of Breaches:</span> Repairing breaches requires immense capital. Organizations must pay for extensive forensic investigations, crisis management teams, repairing affected network infrastructure, and notifying affected customers.</li>
-        </ul>
-    </div>
+        <h3>Saving the Brand's Reputation</h3>
+        <p>
+            Making sure customers feel safe doing business with a company.
+        </p>
+        <div class="example">
+            Example: If a major social media app leaks user passwords, millions of people
+            will close their accounts and switch to a competitor.
+        </div>
 
-    <div class="card note-section">
-        <h2>4. Key Types of Data Security Controls</h2>
-        <p>To safely secure a database against malicious actors, DBMS software applies six core administrative control structures:</p>
+        <h3>Avoiding Heavy Financial Costs</h3>
+        <p>
+            Fixing a data breach is incredibly expensive.
+        </p>
+        <div class="example">
+            Example: After a breach, a bank must spend millions of dollars to hire cybersecurity experts,
+            update software, pay legal fines, and compensate affected customers.
+        </div>
+    </section>
 
-        <h3>1. Authentication</h3>
-        <p>The system verification process that checks whether a user logging into the database is genuinely who they claim to be. Authentication is managed according to preset individual rights. A specific user can only access data up to their allowed privilege limits.</p>
-        <p><em>Examples:</em> Standard passwords, biological metrics (fingerprint scanners, retinal scans), and multi-factor pins.</p>
+    <section>
+        <h2>3. The 6 Core Database Security Controls</h2>
 
-        <h3>2. Access Control</h3>
-        <p>A mechanism that directly prevents unauthorized accounts from viewing or modifying files. It isolates specific accounts and controls the specific login process handled by the DBMS engine. This restricts the database access strictly to authorized users throughout their entire session.</p>
+        <p>
+            In your exam, you can list these six pillars as the primary ways a Database Management System (DBMS)
+            keeps information safe:
+        </p>
 
-        <h3>3. Flow Control</h3>
-        <p>This control prevents information from flowing or leaking in a way that allows unauthorized users to intercept it. It manages data paths to prevent information from flowing implicitly through hidden channels, known as <span class="strong-point">covert channels</span>, which intentionally violate organizational privacy rules.</p>
-
-        <h3>4. Database Security applying Statistical Methods</h3>
-        <p>This security system focuses on protecting confidential information belonging to individual records while allowing general analytical access. It permits users to run queries to retrieve broad summaries (like averages or total counts) based on general categories, but completely blocks queries that try to extract a specific individual's confidential or personal records.</p>
-
-        <h3>5. Encryption</h3>
-        <p>The specialized process of encoding sensitive information (such as personal credit card data, passwords, or transactional OTP numbers) into an unreadable, unformatted layout using complex mathematical encoding algorithms. If an unauthorized attacker intercepts the files, they face extreme difficulty decoding it; only authorized users holding matching decoding keys can view the original text.</p>
-
-        <h3>6. Backup and Recovery</h3>
-        <p>A proactive security control consisting of an explicit operational plan detailing how a company accesses its data archives after an unexpected infrastructure failure, natural disaster, system corruption, or a sudden malicious network breach. It entails creating periodic duplicates of active data and storing them on separate external hardware mediums (magnetic tapes, separate disks, or remote cloud platforms) to completely recover lost data points.</p>
-    </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Security Control</th>
+                    <th>What It Does (In Simple Terms)</th>
+                    <th>Clear Example</th>
+                </tr>
+            </thead>
+            <tbody id="securityTable"></tbody>
+        </table>
+    </section>
 </div>
 
 <script>
-    function filterNotes() {
-        let input = document.getElementById('searchBar').value.toLowerCase();
-        let sections = document.getElementsByClassName('note-section');
-        
-        for (let i = 0; i < sections.length; i++) {
-            let sectionText = sections[i].innerText.toLowerCase();
-            if (sectionText.includes(input)) {
-                sections[i].style.display = "";
-                // Highlight matches could be added here for extra polish
-            } else {
-                sections[i].style.display = "none";
-            }
-        }
+const controls = [
+    {
+        control: "1. Authentication",
+        description: "Verifies that you are exactly who you say you are before letting you in.",
+        example: "Entering your password and a one-time OTP code sent to your phone to log into online banking."
+    },
+    {
+        control: "2. Access Control",
+        description: "Restricts what you can actually see or do once you are logged in based on your job role.",
+        example: "A school database where a teacher can enter grades, but a student can only view them."
+    },
+    {
+        control: "3. Flow Control",
+        description: "Tracks and controls how data moves from one place to another to stop leaks through hidden paths (covert channels).",
+        example: "Blocking a user from copying confidential client files into a public, shared folder."
+    },
+    {
+        control: "4. Statistical Security",
+        description: "Allows people to look at big-picture data summaries while completely hiding individual, private details.",
+        example: "A researcher can query a hospital database to find the average age of heart patients, but the system blocks them from seeing any patient's name."
+    },
+    {
+        control: "5. Encryption",
+        description: "Scrambles plain text into a messy, unreadable secret code so that even if it is stolen, it cannot be read without a key.",
+        example: "Sending a chat message that turns into symbols like &*#kL9! while traveling across the internet."
+    },
+    {
+        control: "6. Backup & Recovery",
+        description: "Keeps regular copies of data in a separate, safe place so you can restore everything if the main system breaks.",
+        example: "Automatically saving a duplicate copy of the entire database to a remote cloud server every night at midnight."
     }
+];
+
+const tableBody = document.getElementById("securityTable");
+
+controls.forEach(item => {
+    tableBody.innerHTML += `
+        <tr>
+            <td>${item.control}</td>
+            <td>${item.description}</td>
+            <td>${item.example}</td>
+        </tr>
+    `;
+});
 </script>
 
 </body>
