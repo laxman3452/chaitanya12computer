@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 12 Computer Science: DBMS Security Mechanisms</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-radius: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        #searchBar {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: var(--border-radius);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchBar:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: #2980b9;
+            margin: 15px 0 5px 0;
+            font-size: 1.2rem;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .strong-point {
+            font-weight: 600;
+            color: #111;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .highlight-box {
+            background-color: #e8f4f8;
+            border-left: 5px solid #2980b9;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            header h1 { font-size: 1.6rem; }
+            th, td { padding: 8px; font-size: 0.9rem; }
+            table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+  
+
+    <div class="search-container">
+        <input type="text" id="searchBar" placeholder="Search topics, keywords or security controls..." onkeyup="filterNotes()">
+    </div>
+
+   
+
+    <div class="card note-section">
+        <h2>2. Introduction to Data Security</h2>
+        <p><span class="strong-point">Definition:</span> Data security refers to the protective measures used to safeguard a database system against unauthorized access, malicious modifications, accidental disclosure, system failure, losses, or complete destruction.</p>
+        
+        <h3>Common Causes of Database Damage:</h3>
+        <ul>
+            <li><span class="strong-point">Human Factors:</span> Unauthorized access by malicious hackers or accidental deletions by employees.</li>
+            <li><span class="strong-point">Physical Disasters:</span> Fire, water/flooding, heat, dust accumulation, and structural theft.</li>
+            <li><span class="strong-point">Technical Failures:</span> Power failures, regular voltage fluctuations, and hardware crashes.</li>
+        </ul>
+
+        
+
+     
+    </div>
+
+    <div class="card note-section">
+        <h2>3. Importance of Data Security</h2>
+        <p>Data is a company’s most valuable digital asset. Securing it protects organizations from financial ruin and structural collapse. The primary reasons for implementing security include:</p>
+        <ul>
+            <li><span class="strong-point">Protecting Intellectual Property:</span> Trade secrets, unique product inventions, and commercial trademarks are vital to keeping a competitive advantage in the open market. If leaked or exposed, recovery is near impossible.</li>
+            <li><span class="strong-point">Damage to Brand Reputation:</span> Customers and business partners only trust companies that explicitly guarantee data safety. Data breaches disintegrate consumer confidence and lead to brand erosion.</li>
+            <li><span class="strong-point">Financial Cost of Breaches:</span> Repairing breaches requires immense capital. Organizations must pay for extensive forensic investigations, crisis management teams, repairing affected network infrastructure, and notifying affected customers.</li>
+        </ul>
+    </div>
+
+    <div class="card note-section">
+        <h2>4. Key Types of Data Security Controls</h2>
+        <p>To safely secure a database against malicious actors, DBMS software applies six core administrative control structures:</p>
+
+        <h3>1. Authentication</h3>
+        <p>The system verification process that checks whether a user logging into the database is genuinely who they claim to be. Authentication is managed according to preset individual rights. A specific user can only access data up to their allowed privilege limits.</p>
+        <p><em>Examples:</em> Standard passwords, biological metrics (fingerprint scanners, retinal scans), and multi-factor pins.</p>
+
+        <h3>2. Access Control</h3>
+        <p>A mechanism that directly prevents unauthorized accounts from viewing or modifying files. It isolates specific accounts and controls the specific login process handled by the DBMS engine. This restricts the database access strictly to authorized users throughout their entire session.</p>
+
+        <h3>3. Flow Control</h3>
+        <p>This control prevents information from flowing or leaking in a way that allows unauthorized users to intercept it. It manages data paths to prevent information from flowing implicitly through hidden channels, known as <span class="strong-point">covert channels</span>, which intentionally violate organizational privacy rules.</p>
+
+        <h3>4. Database Security applying Statistical Methods</h3>
+        <p>This security system focuses on protecting confidential information belonging to individual records while allowing general analytical access. It permits users to run queries to retrieve broad summaries (like averages or total counts) based on general categories, but completely blocks queries that try to extract a specific individual's confidential or personal records.</p>
+
+        <h3>5. Encryption</h3>
+        <p>The specialized process of encoding sensitive information (such as personal credit card data, passwords, or transactional OTP numbers) into an unreadable, unformatted layout using complex mathematical encoding algorithms. If an unauthorized attacker intercepts the files, they face extreme difficulty decoding it; only authorized users holding matching decoding keys can view the original text.</p>
+
+        <h3>6. Backup and Recovery</h3>
+        <p>A proactive security control consisting of an explicit operational plan detailing how a company accesses its data archives after an unexpected infrastructure failure, natural disaster, system corruption, or a sudden malicious network breach. It entails creating periodic duplicates of active data and storing them on separate external hardware mediums (magnetic tapes, separate disks, or remote cloud platforms) to completely recover lost data points.</p>
+    </div>
+</div>
+
+<script>
+    function filterNotes() {
+        let input = document.getElementById('searchBar').value.toLowerCase();
+        let sections = document.getElementsByClassName('note-section');
+        
+        for (let i = 0; i < sections.length; i++) {
+            let sectionText = sections[i].innerText.toLowerCase();
+            if (sectionText.includes(input)) {
+                sections[i].style.display = "";
+                // Highlight matches could be added here for extra polish
+            } else {
+                sections[i].style.display = "none";
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
