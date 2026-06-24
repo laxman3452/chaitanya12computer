@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Management System MCQ Quiz</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success: #16a34a;
+            --success-bg: #f0fdf4;
+            --error: #dc2626;
+            --error-bg: #fef2f2;
+            --text: #1f2937;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+
+        .quiz-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .options-container.two-col {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .option-label input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-submit-quiz {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            background-color: #059669;
+            margin-top: 30px;
+            margin-bottom: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-submit-quiz:hover {
+            background-color: #047857;
+        }
+
+        .note-box {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.95rem;
+        }
+
+        .note-box.visible {
+            display: block;
+        }
+
+        .note-box.correct {
+            background-color: var(--success-bg);
+            border-left: 5px solid var(--success);
+            color: #14532d;
+        }
+
+        .note-box.incorrect {
+            background-color: var(--error-bg);
+            border-left: 5px solid var(--error);
+            color: #7f1d1d;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .status-badge.correct { background-color: #bbf7d0; color: #16a34a; }
+        .status-badge.incorrect { background-color: #fecaca; color: #dc2626; }
+
+        #results-summary {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            display: none;
+            text-align: center;
+            border: 2px solid #059669;
+        }
+
+        #results-summary h2 {
+            margin-top: 0;
+            color: #059669;
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .code-block {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Database Management System (DBMS) Quiz</h1>
+        <p>Interactive Chapter Self-Assessment Review</p>
+    </header>
+
+    <div id="quiz-form">
+        </div>
+
+    <button type="button" class="btn btn-submit-quiz" onclick="submitQuiz()">Submit Entire Quiz</button>
+
+    <div id="results-summary">
+        <h2>Quiz Results Summary</h2>
+        <div class="score-display" id="score-text">0 / 0</div>
+        <p id="percentage-text"></p>
+        <p>Scroll up to view feedback, correct statements, and analytical notes for each question.</p>
+    </div>
+</div>
+
+<script>
+    const questionsData = [
+        {
+            id: 1,
+            q: "A foreign key can have ... value",
+            options: ["unique and null", "duplicate and null", "duplication and not null", "none of the above"],
+            correct: "b",
+            note: "A foreign key links to a primary key in another table. It can accept duplicate values (establishing a one-to-many relationship) and can also accept NULL values if the relationship is optional."
+        },
+        {
+            id: 2,
+            q: "A key attribute of a master table being used in a child table for setting relationship is known as",
+            options: ["primary key", "candidate key", "foreign key", "super key"],
+            correct: "c",
+            note: "When a primary key from a master table is placed inside a child table to create a structural link, it operates as a Foreign Key."
+        },
+        {
+            id: 3,
+            q: "Decision tree is a tool to:",
+            options: ["design system", "test the system", "sell the system", "none of the above"],
+            correct: "a",
+            note: "In System Analysis and Design, decision trees are structured graphical tools used during system design to outline complex logic, rules, and outcomes."
+        },
+        {
+            id: 4,
+            q: "The ... statement is used to delete a table.",
+            options: ["delete table", "drop table", "del table", "remove table"],
+            correct: "b",
+            note: "The 'DROP TABLE table_name;' statement completely deletes the table structure, data, indexes, and constraints from the database system."
+        },
+        {
+            id: 5,
+            q: "In which normal form of database, atomicity is introduced?",
+            options: ["First", "Second", "Third", "Fourth"],
+            correct: "a",
+            note: "The First Normal Form (1NF) explicitly mandates that all domain values/attributes must be atomic (indivisible), meaning multi-valued or nested attributes are strictly disallowed."
+        },
+        {
+            id: 6,
+            q: "What is a relation in Relational Database Management System?",
+            options: ["Primary key", "Field", "Table", "Record"],
+            correct: "c",
+            note: "In relational formal design language (EF Codd terms), a 'Relation' is the mathematical definition for a structured Table containing tuples (rows) and attributes (columns)."
+        },
+        {
+            id: 7,
+            q: "In the relational model, the relations are generally termed as...",
+            options: ["tuples", "attributes", "rows", "table"],
+            correct: "d",
+            note: "As matching terminology shows: Relation = Table, Tuple = Row, and Attribute = Field/Column."
+        },
+        {
+            id: 8,
+            q: "Which of the following is a group of one or more attributes that uniquely identifies a row?",
+            options: ["Primary key", "Candidate key", "Composite key", "Super key"],
+            correct: "a",
+            note: "While candidate/super/composite keys participate in uniqueness rules, the specific chosen minimalist identifier assigned to maintain entity integrity is uniquely called the Primary Key. (Note: If multiple attributes together do this, it's a Composite Key, but Primary Key acts as the overarching correct book selection key here)."
+        },
+        {
+            id: 9,
+            q: "Which of the following principles apply to 2NF?",
+            options: [
+                "A table must have a primary key.",
+                "All non-key attributes must be dependent on the primary key.",
+                "All attributes must be atomic.",
+                "A table must have at least more than two attributes."
+            ],
+            correct: "b",
+            note: "Second Normal Form (2NF) mandates that the table is already in 1NF and contains absolutely no partial dependencies; meaning every non-prime attribute must be fully functionally dependent on the entire composite or single primary key."
+        },
+        {
+            id: 10,
+            q: "Which one of the following keys is used in a relational database to define the referential integrity constraint?",
+            options: ["Primary key", "Candidate key", "Foreign key", "Super key"],
+            correct: "c",
+            note: "Referential Integrity is enforced using Foreign Keys, ensuring that data relationships across tables remain synchronized and valid without orphaned child records."
+        },
+        {
+            id: 11,
+            q: "A foreign key can have ... value.",
+            options: ["unique and null", "duplicate and null", "duplication and not null", "none of the above"],
+            correct: "b",
+            note: "Duplicate item of Q1: Foreign keys can accept identical repetitive data keys from parents alongside blank NULL values."
+        },
+        {
+            id: 12,
+            q: "Which of the following gives a logical structure to the database graphically?",
+            options: ["Database diagram", "Relational diagram", "Entity-relationship diagram", "Architecture diagram"],
+            correct: "c",
+            note: "An Entity-Relationship (ER) Diagram provides a graphical schema of the data entities, properties, and physical or logical relationships binding them."
+        },
+        {
+            id: 13,
+            q: "The context diagram is also known as ...",
+            options: ["Level-0 DFD", "Level-1 DFD", "Level-2 DFD", "All of the above"],
+            correct: "a",
+            note: "In Data Flow Diagrams (DFD), a Level-0 chart maps the entire system overview as a singular high-level node process with external environmental entities, termed a Context Diagram."
+        },
+        {
+            id: 14,
+            q: "The primary key does not accept ...",
+            options: ["null value", "text", "number", "none of the above"],
+            correct: "a",
+            note: "Entity Integrity rules dictate that a Primary Key must be strictly NOT NULL and unique; it can naturally be mapped as numeric or text string types as long as it holds data."
+        },
+        {
+            id: 15,
+            q: "Which SQL keyword is used to retrieve data from a table?",
+            options: ["SELECT", "FROM", "WHERE", "JOIN"],
+            correct: "a",
+            note: "The Data Query Language core keyword is SELECT, which queries and fetches attribute blocks out of targeted relations."
+        },
+        {
+            id: 16,
+            q: "Which of the following SQL statements is used to DELETE rows from the database table?",
+            options: ["DELETE", "REMOVE", "DROP", "CLEAR"],
+            correct: "a",
+            note: "The DELETE command acts as a DML statement to slice specific row profiles out of active tables based on filtering parameters without killing the schema outline."
+        },
+        {
+            id: 17,
+            q: "Which of the following is not a DDL command?",
+            options: ["UPDATE", "TRUNCATE", "ALTER", "None of the mentioned"],
+            correct: "a",
+            note: "UPDATE is a Data Manipulation Language (DML) operational token changing inline row state records, whereas ALTER and TRUNCATE constitute physical schema structuring adjustments (DDL)."
+        },
+        {
+            id: 18,
+            q: "Which function is used to connect to the MySql database?",
+            options: ["mysqli_connect()", "mysqli_Open()", "mysqli_query()", "mysqli_con()"],
+            correct: "a",
+            note: "PHP's standard MySQL Improved Extension employs mysqli_connect() to generate open connection channels to underlying active database instances."
+        },
+        {
+            id: 19,
+            q: "Which command Copies the database from one server to another?",
+            options: ["Mysqlcopydb", "Mysqldbcopy", "Mysqlflushdb", "Mysqldbflush"],
+            correct: "b",
+            note: "The utility provided inside standard MySQL development toolboxes to clone distinct base catalogs across active instances is spelled 'mysqldbcopy'."
+        },
+        {
+            id: 20,
+            q: "Which of the following PHP functions is used to connect to a MySQL database?",
+            options: ["mysql_connect()", "mysqli_connect()", "pdo_connect()", "db_connect()"],
+            correct: "b",
+            note: "Per the book's specific selection keys, mysqli_connect() serves as the valid modern procedure utility reference for PHP engine linkage."
+        },
+        {
+            id: 21,
+            q: "Which statement is appropriate to create a table in SQL?",
+            options: [
+                "CREATE TABLE table_name (column);",
+                "CREATE TABLE table_name (column datatype);",
+                "CREATE TABLE table_name (datatype);",
+                "CREATE TABLE table_name (column datatype constant);"
+            ],
+            correct: "b",
+            note: "The baseline semantic syntax configuration requires declaring name targets followed by specific element structural identifiers: CREATE TABLE table_name (column_name datatype);"
+        },
+        {
+            id: 22,
+            q: "Using SQL, how would you select all the records from a table named 'staff' where the value of the city's column is 'Biratnagar'?",
+            options: [
+                "Select * from staff where city is exactly 'Biratnagar'",
+                "Select * from staff where city is equal to 'Biratnagar'",
+                "Select * from staff where city= 'Biratnagar'",
+                "Select * from staff where city is not in 'Biratnagar'"
+            ],
+            correct: "c",
+            note: "SQL evaluates strict structural equality filters via simple comparative operators: WHERE city = 'Biratnagar';"
+        },
+        {
+            id: 23,
+            q: "Which one of the following given statements possibly contains the error?",
+            options: [
+                "SELECT * from emp where empid=10003;",
+                "SELECT empid from emp where empid=10006;",
+                "SELECT empid from emp;",
+                "SELECT empid where empid=1009 and Lastname='GELLER';"
+            ],
+            correct: "d",
+            note: "Statement (d) contains a major syntax failure because it omits the vital FROM target table clause completely before applying filter conditions."
+        },
+        {
+            id: 24,
+            q: "With SQL, how do you select all the records from a table named \"Persons\" where the value of the column \"FirstName\" ends with an \"a\".",
+            options: [
+                "SELECT * FROM Persons WHERE FirstName='a';",
+                "SELECT * FROM Persons WHERE FirstName LIKE 'a%';",
+                "SELECT * FROM Persons WHERE FirstName LIKE '%a';",
+                "SELECT * FROM Persons WHERE FirstName='%a%';"
+            ],
+            correct: "c",
+            note: "To capture endings via SQL wildcards, position the trailing wild marker sign forward: LIKE '%a' identifies values terminating with the literal character 'a'."
+        },
+        {
+            id: 25,
+            q: "Which one of the following SQL commands is executed to display all the records having a second letter in the LNAME (LAST NAME) as \"A\" from the customer table?",
+            options: [
+                "SELECT * FROM CUSTOMER WHERE LNAME LIKE '?A%';",
+                "SELECT * FROM CUSTOMER WHERE LNAME LIKE '_A%';",
+                "SELECT * FROM CUSTOMER WHERE LNAME LIKE 'A%';",
+                "SELECT * FROM CUSTOMER WHERE LNAME LIKE '%A';"
+            ],
+            correct: "b",
+            note: "An underscore (_) wild marker evaluates as a single wildcard character placement holder. Thus, '_A%' checks for precisely one single starting element ahead of position two matching an 'A'."
+        },
+        {
+            id: 26,
+            q: "Which one of the following SQL commands is executed to change the address of employee whose employee id (emp_id. is e10001 with \"KATHMANDU\" in the table employee?",
+            options: [
+                "UPDATE EMPLOYEE SET ADDRESS= \"KATHMANDU\" WHERE emp_id=e10001;",
+                "UPDATE EMPLOYEE SET ADDRESS= \"KATHMANDU\";",
+                "UPDATE EMPLOYEE SET ADDRESS=\"KATHMANDU\" WHERE emp_id='e10001';",
+                "ALTER EMPLOYEE MODIFY ADDRESS=\"KATHMANDU\" WHERE emp_id='e10001';"
+            ],
+            correct: "c",
+            note: "Standard SQL text literal entries require proper enclosing quote wraps. Therefore, filtering text conditions properly utilizes emp_id='e10001'."
+        },
+        {
+            id: 27,
+            q: "Which of the following SQL commands is executed to display all records having a third letter in the LNAME (LAST NAME) as \"A\" from the customer table?",
+            options: [
+                "SELECT * FROM CUSTOMER WHERE LNAME LIKE '??A%';",
+                "SELECT * FROM CUSTOMER WHERE LNAME LIKE '__A%';",
+                "SELECT * FROM CUSTOMER WHERE LNAME LIKE 'A%%';",
+                "SELECT * FROM CUSTOMER WHERE LNAME LIKE '%%A';"
+            ],
+            correct: "b",
+            note: "Using two concurrent underscores ('__A%') skips the initial two leading data characters, forcing compliance checks specifically onto structural string placement position index 3."
+        },
+        {
+            id: 28,
+            q: "What SQL statement do we use to display the name and address of all students who live in Kathmandu?",
+            options: [
+                "SELECT * FROM STUDENTS WHERE address=\"Kathmandu\";",
+                "SELECT name, address FROM STUDENTS WHERE address=\"Kathmandu\";",
+                "SELECT * name, address FROM STUDENTS WHERE address=\"Kathmandu\";",
+                "SELECT FROM STUDENTS WHERE address=\"Kathmandu\";"
+            ],
+            correct: "b",
+            note: "Instead of choosing all columns with a wildcard (*), name the required columns explicitly: SELECT name, address FROM table;"
+        },
+        {
+            id: 29,
+            q: "Which SQL statement will show the names and heights of all basketball players taller than 6 feet?",
+            options: [
+                "SELECT name FROM Player WHERE height >6;",
+                "SELECT name FROM Player WHERE height >=6;",
+                "SELECT name, height FROM Player WHERE height >6;",
+                "SELECT name, height FROM Player WHERE height <6;"
+            ],
+            correct: "c",
+            note: "To display both attributes, select both explicitly. 'Taller than 6 feet' maps to the strict inequality operator (>)."
+        },
+        {
+            id: 30,
+            q: "Which one of the following given statement is correct?",
+            options: [
+                "SELECT * FROM emp WHERE empid=103;",
+                "SELECT FROM emp WHERE empid=103;",
+                "SELECT empid WHERE emp=103 FROM emp ;",
+                "SELECT emp WHERE EMPID=103 and table=emp;"
+            ],
+            correct: "a",
+            note: "Statement (a) contains the correct syntax structure: SELECT [columns/*] FROM [table] WHERE [condition]."
+        },
+        {
+            id: 31,
+            q: "Which database system normally offers better performance for geographically dispersed users?",
+            options: ["Centralized database system", "Distributed database system", "NoSQL database system", "Relational database system"],
+            correct: "b",
+            note: "Distributed databases place data nodes physically closer to global users, reducing latency and boosting access speeds across network locations."
+        },
+        {
+            id: 32,
+            q: "... is the DBMS.",
+            options: ["Lotus-123", "Oracle", "MS Excel", "All of the above"],
+            correct: "b",
+            note: "Oracle is a Relational Database Management System (RDBMS). Lotus-123 and MS Excel are spreadsheet tools."
+        },
+        {
+            id: 33,
+            q: "Date/Time occupies ... bytes of memory in the database.",
+            options: ["4", "2", "8", "16"],
+            correct: "c",
+            note: "In standard relational platforms (like MS Access or SQL engines), Date/Time fields consume 8 bytes of memory storage. Quick Storage Guide: Boolean/Bit = 1 bit | Byte = 1 byte | Integer = 2 or 4 bytes | Long Integer = 4 or 8 bytes | Currency = 8 bytes."
+        },
+        {
+            id: 34,
+            q: "Which is not a type of query?",
+            options: ["Search", "Select", "Update", "None of the above"],
+            correct: "d",
+            note: "Search, Select, and Update are all valid core operations performed via queries in database platforms. Therefore, none of them are incorrect."
+        },
+        {
+            id: 35,
+            q: "The data type appropriate to store salary ... in the database.",
+            options: ["memo", "currency", "text", "auto number"],
+            correct: "b",
+            note: "The Currency data type prevents rounding errors during financial math operations, making it optimal for storing monetary values like salary."
+        },
+        {
+            id: 36,
+            q: "The columns in a database table are called ...",
+            options: ["record", "field", "memo", "report"],
+            correct: "b",
+            note: "Columns represent attributes and are called Fields. Rows represent entities and are called Records."
+        },
+        {
+            id: 37,
+            q: "... query changes the value in the main table.",
+            options: ["Select", "Update", "Both a & b", "None of the above"],
+            correct: "b",
+            note: "The UPDATE query modifies existing records in a table. A SELECT query only reads and displays data without modifying it."
+        },
+        {
+            id: 38,
+            q: "The report can be generated by using data from ... in a database.",
+            options: ["table", "query", "forms", "both (a) & (b)"],
+            correct: "d",
+            note: "Reports format data for printing or viewing. They can pull data directly from physical Tables or from filtered Queries."
+        }
+    ];
+
+    // Render Questions
+    function initQuiz() {
+        const quizForm = document.getElementById('quiz-form');
+        let htmlContent = '';
+
+        questionsData.forEach((qItem, index) => {
+            const letters = ['a', 'b', 'c', 'd'];
+            // Detect if question has long options to apply multi-column style
+            const isLongText = qItem.options.some(opt => opt.length > 25);
+            const gridClass = isLongText ? '' : 'two-col';
+
+            htmlContent += `
+                <div class="quiz-card" id="card-q-${qItem.id}">
+                    <div class="question-text">${qItem.id}. ${qItem.q}</div>
+                    <div class="options-container ${gridClass}">
+            `;
+
+            qItem.options.forEach((option, optIdx) => {
+                const currentLetter = letters[optIdx];
+                htmlContent += `
+                    <label class="option-label" for="q-${qItem.id}-${currentLetter}">
+                        <input type="radio" id="q-${qItem.id}-${currentLetter}" name="question-${qItem.id}" value="${currentLetter}">
+                        <span><strong>${currentLetter}.</strong> ${option}</span>
+                    </label>
+                `;
+            });
+
+            htmlContent += `
+                    </div>
+                    <button type="button" class="btn" onclick="checkIndividual(${qItem.id})">Check Answer</button>
+                    <div class="note-box" id="note-${qItem.id}"></div>
+                </div>
+            `;
+        });
+
+        quizForm.innerHTML = htmlContent;
+    }
+
+    // Check individual question button
+    window.checkIndividual = function(qId) {
+        const qData = questionsData.find(item => item.id === qId);
+        const selectedOpt = document.querySelector(`input[name="question-${qId}"]:checked`);
+        const noteBox = document.getElementById(`note-${qId}`);
+        
+        if (!selectedOpt) {
+            alert("Please select an option before checking!");
+            return;
+        }
+
+        const userAns = selectedOpt.value;
+        const isCorrect = (userAns === qData.correct);
+
+        noteBox.className = `note-box visible ${isCorrect ? 'correct' : 'incorrect'}`;
+        noteBox.innerHTML = `
+            <span class="status-badge ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct' : 'Incorrect'}</span><br>
+            <strong>Correct Option: ${qData.correct.toUpperCase()}</strong><br>
+            ${qData.note}
+        `;
+    };
+
+    // Global Final Quiz Submission Button
+    window.submitQuiz = function() {
+        let totalScore = 0;
+        
+        questionsData.forEach(qData => {
+            const selectedOpt = document.querySelector(`input[name="question-${qData.id}"]:checked`);
+            const noteBox = document.getElementById(`note-${qData.id}`);
+            const userAns = selectedOpt ? selectedOpt.value : null;
+            const isCorrect = (userAns === qData.correct);
+
+            if (isCorrect) {
+                totalScore++;
+            }
+
+            // Enforce open display of individual answer boxes
+            noteBox.className = `note-box visible ${isCorrect ? 'correct' : 'incorrect'}`;
+            noteBox.innerHTML = `
+                <span class="status-badge ${isCorrect ? 'correct' : 'incorrect'}">${isCorrect ? 'Correct' : 'Incorrect'}</span><br>
+                <strong>Correct Option: ${qData.correct.toUpperCase()}</strong> ${!selectedOpt ? '(Unanswered)' : ''}<br>
+                ${qData.note}
+            `;
+        });
+
+        // Display results summary at bottom
+        const summaryBox = document.getElementById('results-summary');
+        const scoreText = document.getElementById('score-text');
+        const pctText = document.getElementById('percentage-text');
+        
+        const pct = Math.round((totalScore / questionsData.length) * 100);
+        
+        scoreText.innerText = `${totalScore} / ${questionsData.length}`;
+        pctText.innerText = `You scored ${pct}% on this quiz assessment.`;
+        summaryBox.style.display = 'block';
+        summaryBox.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    // Load data items on creation load
+    document.addEventListener("DOMContentLoaded", initQuiz);
+</script>
+</body>
+</html>
