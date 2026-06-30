@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Communication and Networking Study Notes</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --text-color: #1f2937;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 15px;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-top: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 20px;
+        }
+
+        ul, ol {
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        strong {
+            color: #0f172a;
+        }
+
+        .example-box {
+            background-color: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .example-title {
+            font-weight: bold;
+            color: #166534;
+            margin-bottom: 5px;
+        }
+
+        .highlight-box {
+            background-color: #f0f9ff;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            display: none;
+            transition: background-color 0.3s;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Unit 2: Data Communication and Networking</h1>
+
+        <h2>1. Concept of Communication System</h2>
+        
+        <h3>Definition</h3>
+        <p>The term <strong>communication</strong> refers to the sending, receiving, and processing of information by electronic media.</p>
+        
+        <h3>Historical Evolution</h3>
+        <ul>
+            <li><strong>1840s:</strong> Started with wire telegraphy.</li>
+            <li><strong>Later Decades:</strong> Developed into telephony (telephone systems).</li>
+            <li><strong>Beginning of 20th Century:</strong> Radio communication was introduced, made possible by the invention of the <em>triode tube</em> (vacuum tube).</li>
+            <li><strong>World War II:</strong> Stimulated rapid growth, leading to wider use and refinement.</li>
+            <li><strong>Mid-20th Century:</strong> Enhanced by the invention of transistors, integrated circuits (ICs), and other semiconductor devices.</li>
+            <li><strong>Modern Era:</strong> Shifted toward the use of satellites, fiber optics, computers, and advanced digital data communications.</li>
+        </ul>
+
+        <div class="example-box">
+            <div class="example-title">Example:</div>
+            <p>Making a cellular phone call uses a modern communication system where your voice is processed into a digital signal, transmitted wirelessly via radio waves to a tower, routed through fiber-optic cables, and received by another phone.</p>
+        </div>
+
+        <hr>
+
+        <h2>2. Computer Network</h2>
+        
+        <h3>Definition</h3>
+        <p>A <strong>computer network</strong> is defined as two or more computing devices linked together to communicate and share information (such as files and software programs) and hardware resources (such as printers, hard disks, and plotters).</p>
+        
+        <h3>Key Terms</h3>
+        <ul>
+            <li><strong>Networking:</strong> The concept of connected computers sharing resources.</li>
+            <li><strong>Node:</strong> Any computer or device connected to a network that can communicate with other users or devices.</li>
+            <li><strong>Mediums of Connection:</strong> Can be wired (cables) or wireless (Bluetooth, radio links, Wi-Fi, satellite, Infrared ports).</li>
+        </ul>
+
+        <div class="example-box">
+            <div class="example-title">Example:</div>
+            <p>An office room containing five computers connected together via a Wi-Fi router to share a single central printer forms a local computer network.</p>
+        </div>
+
+        <hr>
+
+        <h2>3. Advantages of Using Computer Network</h2>
+        
+        <ol>
+            <li>
+                <strong>Resource Sharing:</strong> Sharing hardware and software resources among multiple users. This reduces costs because every individual standalone computer does not need its own dedicated peripherals.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>Instead of buying ten separate printers for ten employees, a company installs one high-end laser printer connected to the network for everyone to use.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Centralized Control and Management:</strong> All computers in a network are typically connected to a central server. This server defines policies, updates software, and enforces security measures globally for all network members.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>A network administrator can block unauthorized websites on all office computers simultaneously by changing settings on the main server.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Speedy and Cost-Effective Communication:</strong> Users can send messages, files, and documents directly from one computer to another within seconds, eliminating manual delivery costs.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>An employee sending an instant text message or email to a colleague in another room over the office network instead of printing out a memo.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Backup and Recovery:</strong> Data can be securely and systematically stored on a central network server. If an individual node experiences a system crash, the data remains safe and can be easily recovered from the server.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>If an employee's laptop breaks down completely, they can log into another computer on the network and instantly access their saved files from the server backup.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Flexible Access:</strong> Users are not tied to one single machine; they can securely access their personal work files and applications from any authorized terminal connected to the network.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>A student logging into their school account from a computer in the library and accessing the same files they saved while working in the computer lab.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Workgroup Computing:</strong> Specialized workgroup software (such as collaborative office suites) allows multiple users in different locations to collaborate, edit, and contribute to the same document simultaneously.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>Three teachers from different schools working together in real-time online to draft a new educational curriculum document.</p>
+                </div>
+            </li>
+        </ol>
+
+        <hr>
+
+        <h2>4. Disadvantages of Using Computer Network</h2>
+        
+        <ol>
+            <li>
+                <strong>Expensive setup:</strong> Connecting computers requires additional specialized hardware infrastructure such as Network Interface Cards (NICs), hubs, switches, routers, and cabling, which increases initial installation and operational costs.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>Setting up a new cyber cafe requires a high initial budget to purchase routers, switches, LAN cables, and hire technicians to install them.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Security Problems:</strong> Because data is transmitted over a shared public or private medium, it is vulnerable to unauthorized access. Interconnected systems experience an increased risk of computer crimes such as viruses, hacking, data theft, software piracy, plagiarism, and spoofing.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>A single computer on a local network downloads a malicious virus from an email attachment, which then rapidly spreads and infects all other computers on the same network.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Needs Special Technical Knowledge:</strong> Designing, installing, managing, and maintaining a secure, functional network system requires trained, skilled manpower (Network Administrators).
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>When a company's network security settings need an update, they must hire a certified network engineer because standard office staff do not know how to configure routers.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Network Failure:</strong> If the central network hub, switch, or main server fails, the entire communication system can stall, halting day-to-day business operations.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>If the central server of a commercial bank crashes, tellers cannot process cash deposits or withdrawals, bringing bank transactions to a complete stop.</p>
+                </div>
+            </li>
+            <li>
+                <strong>Complex:</strong> A computer network is inherently complicated to configure, establish, troubleshoot, and operate compared to isolated standalone computers.
+                <div class="example-box">
+                    <div class="example-title">Example:</div>
+                    <p>When one computer loses internet access, finding the root cause requires checking multiple points: the network cable, the wall jack, the local switch, the router settings, or IP address conflicts.</p>
+                </div>
+            </li>
+        </ol>
+    </div>
+
+    <a href="#" class="back-to-top" id="topBtn">Top ↑</a>
+
+    <script>
+        // Scroll to top button functionality
+        const topBtn = document.getElementById("topBtn");
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                topBtn.style.display = "block";
+            } else {
+                topBtn.style.display = "none";
+            }
+        };
+
+        topBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
