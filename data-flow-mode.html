@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication Modes Interactive Tool</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #0f172a;
+            margin-bottom: 25px;
+        }
+
+        .controls {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #e2e8f0;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+
+        button.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+
+        .canvas-container {
+            background-color: var(--card);
+            border-radius: 12px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .device {
+            width: 100px;
+            height: 100px;
+            background-color: #334155;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .device span {
+            font-size: 12px;
+            margin-top: 5px;
+            font-weight: normal;
+            opacity: 0.8;
+        }
+
+        .channel {
+            flex-grow: 1;
+            height: 8px;
+            background-color: #cbd5e1;
+            margin: 0 20px;
+            position: relative;
+            border-radius: 4px;
+        }
+
+        .signal {
+            width: 16px;
+            height: 16px;
+            background-color: var(--danger);
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+            display: none;
+        }
+
+        .signal.reverse {
+            background-color: var(--success);
+        }
+
+        .description-box {
+            max-width: 660px;
+            background-color: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .description-box h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        @keyframes moveRight {
+            0% { left: 0%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes moveLeft {
+            0% { left: 100%; }
+            100% { left: 0%; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Data Communication Modes</h1>
+
+    <div class="controls">
+        <button id="simplexBtn" onclick="setMode('simplex')">Simplex</button>
+        <button id="halfBtn" onclick="setMode('half')">Half-Duplex</button>
+        <button id="fullBtn" onclick="setMode('full')">Full-Duplex</button>
+    </div>
+
+    <div class="canvas-container">
+        <div class="device" id="deviceA">Device A<span>Sender</span></div>
+        
+        <div class="channel">
+            <div id="sig1" class="signal"></div>
+            <div id="sig2" class="signal reverse"></div>
+        </div>
+        
+        <div class="device" id="deviceB">Device B<span>Receiver</span></div>
+    </div>
+
+    <div class="description-box">
+        <h3 id="modeTitle">Select a Mode</h3>
+        <p id="modeDesc">Click one of the buttons above to visualize how data flows through the transmission medium.</p>
+    </div>
+
+    <script>
+        const sig1 = document.getElementById('sig1');
+        const sig2 = document.getElementById('sig2');
+        const devA = document.getElementById('deviceA').querySelector('span');
+        const devB = document.getElementById('deviceB').querySelector('span');
+        const title = document.getElementById('modeTitle');
+        const desc = document.getElementById('modeDesc');
+
+        let halfDuplexInterval;
+
+        function clearAnimations() {
+            sig1.style.display = 'none';
+            sig2.style.display = 'none';
+            sig1.style.animation = 'none';
+            sig2.style.animation = 'none';
+            clearInterval(halfDuplexInterval);
+            
+            document.getElementById('simplexBtn').classList.remove('active');
+            document.getElementById('halfBtn').classList.remove('active');
+            document.getElementById('fullBtn').classList.remove('active');
+        }
+
+        function setMode(mode) {
+            clearAnimations();
+            
+            if (mode === 'simplex') {
+                document.getElementById('simplexBtn').classList.add('active');
+                title.innerText = "Simplex Mode";
+                desc.innerText = "Data flows continuously in one direction only (Device A to Device B). Device B can never send data back.";
+                devA.innerText = "Sender Only";
+                devB.innerText = "Receiver Only";
+
+                sig1.style.display = 'block';
+                sig1.style.animation = 'moveRight 2s infinite linear';
+            } 
+            else if (mode === 'half') {
+                document.getElementById('halfBtn').classList.add('active');
+                title.innerText = "Half-Duplex Mode";
+                desc.innerText = "Data can flow in both directions, but only one direction at a time. When A transmits, B listens, and vice versa.";
+                devA.innerText = "Sender / Receiver";
+                devB.innerText = "Sender / Receiver";
+
+                let toggle = true;
+                const runHalfDuplex = () => {
+                    if (toggle) {
+                        sig2.style.display = 'none';
+                        sig2.style.animation = 'none';
+                        sig1.style.display = 'block';
+                        sig1.style.animation = 'moveRight 2s infinite linear';
+                    } else {
+                        sig1.style.display = 'none';
+                        sig1.style.animation = 'none';
+                        sig2.style.display = 'block';
+                        sig2.style.animation = 'moveLeft 2s infinite linear';
+                    }
+                    toggle = !toggle;
+                };
+                
+                runHalfDuplex();
+                halfDuplexInterval = setInterval(runHalfDuplex, 4000);
+            } 
+            else if (mode === 'full') {
+                document.getElementById('fullBtn').classList.add('active');
+                title.innerText = "Full-Duplex Mode";
+                desc.innerText = "Data flows seamlessly in both directions simultaneously. Both devices can send and receive data at the exact same time.";
+                devA.innerText = "Sender + Receiver";
+                devB.innerText = "Sender + Receiver";
+
+                sig1.style.display = 'block';
+                sig2.style.display = 'block';
+                sig1.style.animation = 'moveRight 2s infinite linear';
+                sig2.style.animation = 'moveLeft 2.5s infinite linear';
+            }
+        }
+
+        // Initialize with Simplex mode on load
+        setMode('simplex');
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Notes: Communication Modes</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --success: #16a34a;
+            --danger: #dc2626;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-dark: #0f172a;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--card);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--text-dark);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: var(--primary);
+            margin-top: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            color: var(--text-dark);
+            margin-top: 20px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border);
+            margin: 30px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        strong {
+            color: var(--text-dark);
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        tr:nth-of-type(even) {
+            background-color: #fafafa;
+        }
+
+        /* Simulator Section Styling */
+        .simulator-section {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--card);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .controls {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #e2e8f0;
+            color: #475569;
+            transition: all 0.2s ease;
+        }
+
+        button.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+        }
+
+        .canvas-container {
+            background-color: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .device {
+            width: 110px;
+            height: 100px;
+            background-color: #334155;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            z-index: 2;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .device span {
+            font-size: 11px;
+            margin-top: 6px;
+            font-weight: normal;
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        .channel {
+            flex-grow: 1;
+            height: 8px;
+            background-color: #cbd5e1;
+            margin: 0 20px;
+            position: relative;
+            border-radius: 4px;
+        }
+
+        .signal {
+            width: 16px;
+            height: 16px;
+            background-color: var(--danger);
+            border-radius: 50%;
+            position: absolute;
+            top: -4px;
+            display: none;
+            box-shadow: 0 0 8px var(--danger);
+        }
+
+        .signal.reverse {
+            background-color: var(--success);
+            box-shadow: 0 0 8px var(--success);
+        }
+
+        .description-box {
+            width: 90%;
+            max-width: 600px;
+            background-color: var(--primary-light);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            text-align: center;
+        }
+
+        .description-box h3 {
+            margin-top: 0;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .description-box p {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        @keyframes moveRight {
+            0% { left: 0%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes moveLeft {
+            0% { left: 100%; }
+            100% { left: 0%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Exam Notes: Communication Modes</h1>
+        
+        <h2>1. Introduction to Communication Mode</h2>
+        <ul>
+            <li><strong>Definition:</strong> Communication mode (also known as transmission mode) defines the direction of data flow between two connected devices in a network.</li>
+            <li><strong>Purpose:</strong> It determines how data is directed, routed, and managed across a communication channel.</li>
+            <li><strong>Classification:</strong> There are three primary types: Simplex, Half-Duplex, and Full-Duplex.</li>
+        </ul>
+
+        <hr>
+
+        <h2>2. Types of Communication Modes</h2>
+
+        <h3>1. Simplex Mode</h3>
+        <ul>
+            <li><strong>Direction of Flow:</strong> Completely <strong>unidirectional</strong> (one-way communication).</li>
+            <li><strong>Mechanism:</strong> One device can only send data, while the other device can only receive data. The receiving device cannot send any data back.</li>
+            <li><strong>Channel Capacity:</strong> The entire capacity of the communication channel is dedicated to transmitting data in that single direction.</li>
+            <li><strong>Analogy:</strong> Similar to a <strong>one-way street</strong> where traffic can only move in one legal direction.</li>
+            <li><strong>Simple Example:</strong> A <strong>Keyboard and CPU</strong>. The keyboard can only type and send data to the CPU, but it can never receive text inputs back from the CPU.</li>
+        </ul>
+
+        <h3>2. Half-Duplex Mode</h3>
+        <ul>
+            <li><strong>Direction of Flow:</strong> <strong>Bidirectional</strong> (two-way communication), but <strong>not simultaneously</strong>.</li>
+            <li><strong>Mechanism:</strong> Both devices can send and receive data, but only one device can transmit at any given instant. While one device sends, the other must listen.</li>
+            <li><strong>Channel Capacity:</strong> The full capacity of the transmission medium is completely utilized by whichever device is currently sending.</li>
+            <li><strong>Analogy:</strong> Similar to a <strong>narrow one-lane bridge</strong>. Traffic can go both ways, but cars from one direction must stop and wait for oncoming cars to pass first.</li>
+            <li><strong>Simple Example:</strong> A <strong>Walkie-Talkie</strong>. One person presses a button to speak while the other listens. If both try to talk at the exact same time, the messages collide and cannot be heard.</li>
+        </ul>
+
+        <h3>3. Full-Duplex (Duplex) Mode</h3>
+        <ul>
+            <li><strong>Direction of Flow:</strong> <strong>Bidirectional</strong> (two-way communication) <strong>simultaneously</strong>.</li>
+            <li><strong>Mechanism:</strong> Both connected devices can send and receive data at the exact same time without needing to wait for each other.</li>
+            <li><strong>Channel Capacity:</strong> The total capacity of the communication line is shared/divided into two distinct paths to accommodate concurrent incoming and outgoing traffic.</li>
+            <li><strong>Analogy:</strong> Similar to a multi-lane <strong>two-way highway</strong> where vehicles travel in opposite directions at the same time smoothly.</li>
+            <li><strong>Simple Example:</strong> A <strong>Mobile Phone Call</strong>. Two people talking over smartphones can speak and hear each other at the exact same instant without waiting.</li>
+        </ul>
+
+        <hr>
+
+        <h2>3. Comparative Summary Table</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Simplex Mode</th>
+                    <th>Half-Duplex Mode</th>
+                    <th>Full-Duplex Mode</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Direction</strong></td>
+                    <td>Unidirectional (One-way)</td>
+                    <td>Bidirectional (Two-way), alternate times</td>
+                    <td>Simultaneous Bidirectional (Two-way)</td>
+                </tr>
+                <tr>
+                    <td><strong>Capability</strong></td>
+                    <td>Send OR Receive only</td>
+                    <td>Send AND Receive, but not together</td>
+                    <td>Send AND Receive at the same time</td>
+                </tr>
+                <tr>
+                    <td><strong>Efficiency</strong></td>
+                    <td>Lowest efficiency</td>
+                    <td>Moderate efficiency (waiting time involved)</td>
+                    <td>Highest efficiency (no delays)</td>
+                </tr>
+                <tr>
+                    <td><strong>Core Example</strong></td>
+                    <td>Keyboard / Monitor</td>
+                    <td>Walkie-Talkie</td>
+                    <td>Mobile Phone Call</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="simulator-section">
+        <h2>Interactive Mode Live Demonstration</h2>
+        <p style="margin-top:0; color:#64748b;">Click on the modes below to dynamically visualize data packets traversing the channel.</p>
+        
+        <div class="controls">
+            <button id="simplexBtn" onclick="setMode('simplex')">Simplex</button>
+            <button id="halfBtn" onclick="setMode('half')">Half-Duplex</button>
+            <button id="fullBtn" onclick="setMode('full')">Full-Duplex</button>
+        </div>
+
+        <div class="canvas-container">
+            <div class="device" id="deviceA">Device A<span>Sender</span></div>
+            
+            <div class="channel">
+                <div id="sig1" class="signal"></div>
+                <div id="sig2" class="signal reverse"></div>
+            </div>
+            
+            <div class="device" id="deviceB">Device B<span>Receiver</span></div>
+        </div>
+
+        <div class="description-box">
+            <h3 id="modeTitle">Select a Mode</h3>
+            <p id="modeDesc">Click one of the mode buttons above to trigger the live animation.</p>
+        </div>
+    </div>
+
+    <script>
+        const sig1 = document.getElementById('sig1');
+        const sig2 = document.getElementById('sig2');
+        const devA = document.getElementById('deviceA').querySelector('span');
+        const devB = document.getElementById('deviceB').querySelector('span');
+        const title = document.getElementById('modeTitle');
+        const desc = document.getElementById('modeDesc');
+
+        let halfDuplexInterval;
+
+        function clearAnimations() {
+            sig1.style.display = 'none';
+            sig2.style.display = 'none';
+            sig1.style.animation = 'none';
+            sig2.style.animation = 'none';
+            clearInterval(halfDuplexInterval);
+            
+            document.getElementById('simplexBtn').classList.remove('active');
+            document.getElementById('halfBtn').classList.remove('active');
+            document.getElementById('fullBtn').classList.remove('active');
+        }
+
+        function setMode(mode) {
+            clearAnimations();
+            
+            if (mode === 'simplex') {
+                document.getElementById('simplexBtn').classList.add('active');
+                title.innerText = "Simplex Mode Live";
+                desc.innerText = "Data flow is entirely one-way. Device A continuously broadcasts inputs, while Device B acts purely as a passive receiver.";
+                devA.innerText = "Sender Only";
+                devB.innerText = "Receiver Only";
+
+                sig1.style.display = 'block';
+                sig1.style.animation = 'moveRight 2s infinite linear';
+            } 
+            else if (mode === 'half') {
+                document.getElementById('halfBtn').classList.add('active');
+                title.innerText = "Half-Duplex Mode Live";
+                desc.innerText = "Data travels both paths but alternates turns. When Device A is transmitting (Red Signal), Device B must wait, and vice versa (Green Signal).";
+                devA.innerText = "Sender / Receiver";
+                devB.innerText = "Sender / Receiver";
+
+                let toggle = true;
+                const runHalfDuplex = () => {
+                    if (toggle) {
+                        sig2.style.display = 'none';
+                        sig2.style.animation = 'none';
+                        sig1.style.display = 'block';
+                        sig1.style.animation = 'moveRight 2s infinite linear';
+                    } else {
+                        sig1.style.display = 'none';
+                        sig1.style.animation = 'none';
+                        sig2.style.display = 'block';
+                        sig2.style.animation = 'moveLeft 2s infinite linear';
+                    }
+                    toggle = !toggle;
+                };
+                
+                runHalfDuplex();
+                // Alternates direction every 4 seconds
+                halfDuplexInterval = setInterval(runHalfDuplex, 4000);
+            } 
+            else if (mode === 'full') {
+                document.getElementById('fullBtn').classList.add('active');
+                title.innerText = "Full-Duplex Mode Live";
+                desc.innerText = "Data streams pass each other concurrently on independent paths inside the line channel. Neither device experiences communication lag.";
+                devA.innerText = "Sender + Receiver";
+                devB.innerText = "Sender + Receiver";
+
+                sig1.style.display = 'block';
+                sig2.style.display = 'block';
+                sig1.style.animation = 'moveRight 2s infinite linear';
+                sig2.style.animation = 'moveLeft 2.3s infinite linear';
+            }
+        }
+
+        // Default initialization to Simplex Mode view
+        setMode('simplex');
+    </script>
+</body>
+</html>
+
