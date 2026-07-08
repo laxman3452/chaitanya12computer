@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Prep: LAN, MAN, WAN Notes</title>
+    <style>
+        :root {
+            --primary: #2b6cb0;
+            --secondary: #319795;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: var(--secondary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        .quick-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1a365d;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95em;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background-color: #feebc8;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Computer Network Types (Exam Prep)</h1>
+    
+    <div class="quick-nav">
+        <button class="btn" onclick="scrollToSection('lan')">LAN</button>
+        <button class="btn" onclick="scrollToSection('man')">MAN</button>
+        <button class="btn" onclick="scrollToSection('wan')">WAN</button>
+        <button class="btn" onclick="scrollToSection('compare')">Comparison Table</button>
+    </div>
+
+    <section id="lan">
+        <h2>1. Local Area Network (LAN)</h2>
+        <p>A <strong>Local Area Network (LAN)</strong> is a network that interconnects computers and devices within a <span class="highlight">limited geographical area</span>, such as a single room, office, home, or a building.</p>
+        
+        <h3>Key Characteristics</h3>
+        <ul>
+            <li><strong>Coverage:</strong> Small geographic area (usually less than 1–2 km).</li>
+            <li><strong>Ownership:</strong> Private (owned by a single person or organization).</li>
+            <li><strong>Speed:</strong> Very high data transmission speeds (ranging from 100 Mbps to several Gbps).</li>
+        </ul>
+
+        <h3>Advantages</h3>
+        <ul>
+            <li><strong>High Speed:</strong> Data transmission is faster compared to MAN and WAN.</li>
+            <li><strong>Low Cost:</strong> It is cheaper to set up, manage, and maintain.</li>
+            <li><strong>High Security:</strong> Offers tighter security controls because it is isolated from the public network.</li>
+        </ul>
+    </section>
+
+    <section id="man">
+        <h2>2. Metropolitan Area Network (MAN)</h2>
+        <p>A <strong>Metropolitan Area Network (MAN)</strong> is a network that covers a <span class="highlight">larger geographic area than a LAN but smaller than a WAN</span>, typically spanning an entire city or town. A prime example is a cable TV network.</p>
+        
+        <h3>Key Characteristics</h3>
+        <ul>
+            <li><strong>Coverage:</strong> Medium geographic area (typically 5 km to 50 km).</li>
+            <li><strong>Ownership:</strong> Can be private or public utilities.</li>
+            <li><strong>Media:</strong> Frequently uses high-speed backbone lines such as fiber-optic cabling.</li>
+        </ul>
+    </section>
+
+    <section id="wan">
+        <h2>3. Wide Area Network (WAN)</h2>
+        <p>A <strong>Wide Area Network (WAN)</strong> is a network that extends over a <span class="highlight">vast geographical distance</span>, interconnecting computers across cities, states, countries, or even continents. The <strong>Internet</strong> is the most common example of a WAN.</p>
+        
+        <h3>Key Characteristics</h3>
+        <ul>
+            <li><strong>Coverage:</strong> Large/Global geographic area (thousands of kilometers).</li>
+            <li><strong>Devices Used:</strong> Utilizes advanced networking equipment like routers, gateways, switches, and satellite linkages.</li>
+            <li><strong>Speed:</strong> Slower relative speeds with higher error rates due to distances involved.</li>
+        </ul>
+    </section>
+
+    <section id="compare">
+        <h2>4. Core Differences (LAN vs MAN vs WAN)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Difference Category</th>
+                    <th>LAN</th>
+                    <th>MAN</th>
+                    <th>WAN</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Physical Distance</strong></td>
+                    <td>Limited to a room, home, or office building.</td>
+                    <td>Spans across a city or metropolitan area.</td>
+                    <td>Vast global coverage (countries/continents).</td>
+                </tr>
+                <tr>
+                    <td><strong>Speed</strong></td>
+                    <td>Very Fast</td>
+                    <td>Moderate</td>
+                    <td>Slower</td>
+                </tr>
+                <tr>
+                    <td><strong>Routing Devices</strong></td>
+                    <td>Hubs, Switches, NICs</td>
+                    <td>Routers, Bridges, Switches</td>
+                    <td>Routers, Gateways, Satellites</td>
+                </tr>
+                <tr>
+                    <td><strong>Error Rate</strong></td>
+                    <td>Very low error rate</td>
+                    <td>Moderate error rate</td>
+                    <td>Comparatively higher error rate</td>
+                </tr>
+                <tr>
+                    <td><strong>Setup Cost</strong></td>
+                    <td>Inexpensive</td>
+                    <td>Expensive</td>
+                    <td>Highly Expensive</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<script>
+    function scrollToSection(id) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+</script>
+
+</body>
+</html>
