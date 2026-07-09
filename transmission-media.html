@@ -1,495 +1,526 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Cram: Visual Transmission Media Dashboard</title>
-    <style>
-        :root {
-            --dark: #1e272e;
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --bg: #f5f6fa;
-            --card-bg: #ffffff;
-            --text: #2f3640;
-            --green: #4cd137;
-            --red: #e84118;
-            --border: #dcdde1;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .dashboard {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        header {
-            text-align: center;
-            border-bottom: 3px solid var(--accent);
-            padding-bottom: 20px;
-            margin-bottom: 35px;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 2.6em;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-
-        header p {
-            margin: 8px 0 0 0;
-            color: #7f8c8d;
-            font-size: 1.1em;
-        }
-
-        .menu-bar {
-            display: flex;
-            justify-content: center;
-            background: var(--primary);
-            padding: 8px;
-            border-radius: 12px;
-            margin-bottom: 35px;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .menu-btn {
-            background: transparent;
-            color: #ffffff;
-            border: none;
-            padding: 12px 24px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .menu-btn:hover, .menu-btn.active {
-            background-color: var(--accent);
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-        }
-
-        .panel {
-            display: none;
-        }
-
-        .panel.active {
-            display: block;
-            animation: fadeIn 0.4s ease forwards;
-        }
-
-        .media-card {
-            background: #fdfefe;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        }
-
-        h2 {
-            color: var(--primary);
-            font-size: 1.8em;
-            margin-top: 0;
-            border-bottom: 2px solid var(--bg);
-            padding-bottom: 10px;
-        }
-
-        h3 {
-            color: var(--accent);
-            font-size: 1.4em;
-            margin-top: 0;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .badge {
-            font-size: 0.6em;
-            padding: 4px 10px;
-            border-radius: 20px;
-            color: white;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .badge-wired { background-color: #9b59b6; }
-        .badge-wireless { background-color: #e67e22; }
-
-        ul {
-            padding-left: 20px;
-            margin: 0;
-        }
-
-        li {
-            margin-bottom: 12px;
-            font-size: 1.05em;
-        }
-
-        .diagram-box {
-            background: #2c3e50;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .split-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .split-grid { grid-template-columns: 1fr; }
-        }
-
-        .box-pro { background: #ecf0f1; border-top: 4px solid var(--green); padding: 15px; border-radius: 6px; }
-        .box-con { background: #ecf0f1; border-top: 4px solid var(--red); padding: 15px; border-radius: 6px; }
-        .box-title { font-weight: bold; margin-bottom: 8px; color: var(--primary); }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            background: var(--white);
-        }
-
-        th, td {
-            border: 1px solid var(--border);
-            padding: 14px;
-            text-align: left;
-        }
-
-        th {
-            background-color: var(--primary);
-            color: var(--white);
-        }
-
-        tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-
-<div class="dashboard">
-    <header>
-        <h1>Visual Transmission Media Hub</h1>
-        <p>Short Point Notes and Fully Labeled Diagrams for Exam Success</p>
-    </header>
-
-    <div class="menu-bar">
-        <button class="menu-btn active" onclick="changePanel(event, 'view-guided')">Guided Media (Wired)</button>
-        <button class="menu-btn" onclick="changePanel(event, 'view-unguided')">Unguided Media (Wireless)</button>
-        <button class="menu-btn" onclick="changePanel(event, 'view-matrix')">Comparison Matrix</button>
-    </div>
-
-    <div id="view-guided" class="panel active">
-        <h2>Guided Transmission Media</h2>
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Exam Cram: Visual Transmission Media Dashboard</title>  
+    <style>  
+        :root {  
+            --dark: #1e272e;  
+            --primary: #2c3e50;  
+            --accent: #3498db;  
+            --bg: #f5f6fa;  
+            --card-bg: #ffffff;  
+            --text: #2f3640;  
+            --green: #4cd137;  
+            --red: #e84118;  
+            --border: #dcdde1;  
+        }  
+        body {  
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+            background-color: var(--bg);  
+            color: var(--text);  
+            margin: 0;  
+            padding: 20px;  
+            line-height: 1.6;  
+        }  
+        .dashboard {  
+            max-width: 1100px;  
+            margin: 0 auto;  
+            background: var(--card-bg);  
+            padding: 40px;  
+            border-radius: 16px;  
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);  
+        }  
+        header {  
+            text-align: center;  
+            border-bottom: 3px solid var(--accent);  
+            padding-bottom: 20px;  
+            margin-bottom: 35px;  
+        }  
+        header h1 {  
+            margin: 0;  
+            font-size: 2.6em;  
+            color: var(--primary);  
+            letter-spacing: -0.5px;  
+            text-decoration: underline;  
+        }  
+        header p {  
+            margin: 8px 0 0 0;  
+            color: #7f8c8d;  
+            font-size: 1.1em;  
+        }  
+        .menu-bar {  
+            display: flex;  
+            justify-content: center;  
+            background: var(--primary);  
+            padding: 8px;  
+            border-radius: 12px;  
+            margin-bottom: 35px;  
+            gap: 10px;  
+            flex-wrap: wrap;  
+        }  
+        .menu-btn {  
+            background: transparent;  
+            color: #ffffff;  
+            border: none;  
+            padding: 12px 24px;  
+            font-size: 1em;  
+            font-weight: 600;  
+            cursor: pointer;  
+            border-radius: 8px;  
+            transition: all 0.2s ease;  
+        }  
+        .menu-btn:hover, .menu-btn.active {  
+            background-color: var(--accent);  
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);  
+        }  
+        .panel {  
+            display: none;  
+        }  
+        .panel.active {  
+            display: block;  
+            animation: fadeIn 0.4s ease forwards;  
+        }  
+        .media-card {  
+            background: #fdfefe;  
+            border: 1px solid var(--border);  
+            border-radius: 12px;  
+            padding: 25px;  
+            margin-bottom: 25px;  
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);  
+        }  
+        h2 {  
+            color: var(--primary);  
+            font-size: 1.8em;  
+            margin-top: 0;  
+            border-bottom: 2px solid var(--bg);  
+            padding-bottom: 10px;  
+            text-decoration: underline;  
+        }  
+        h3 {  
+            color: var(--accent);  
+            font-size: 1.4em;  
+            margin-top: 0;  
+            margin-bottom: 15px;  
+            display: flex;  
+            align-items: center;  
+            gap: 10px;  
+            text-decoration: underline;  
+        }  
+        .badge {  
+            font-size: 0.6em;  
+            padding: 4px 10px;  
+            border-radius: 20px;  
+            color: white;  
+            font-weight: bold;  
+            text-transform: uppercase;  
+            text-decoration: none;  
+            display: inline-block;  
+        }  
+        .badge-wired { background-color: #9b59b6; }  
+        .badge-wireless { background-color: #e67e22; }  
         
-        <div class="media-card">
-            <h3>Twisted-Pair Cable <span class="badge badge-wired">Wired</span></h3>
+        .diagram-box {  
+            background: #2c3e50;  
+            border-radius: 8px;  
+            padding: 20px;  
+            margin: 20px 0;  
+            display: flex;  
+            justify-content: center;  
+            align-items: center;  
+        }  
+        ul {  
+            padding-left: 20px;  
+            margin: 0;  
+        }  
+        li {  
+            margin-bottom: 12px;  
+            font-size: 1.05em;  
+        }  
+        .split-grid {  
+            display: grid;  
+            grid-template-columns: 1fr 1fr;  
+            gap: 20px;  
+            margin-top: 20px;  
+        }  
+        @media (max-width: 768px) {  
+            .split-grid { grid-template-columns: 1fr; }  
+        }  
+        .box-pro { background: #ecf0f1; border-top: 4px solid var(--green); padding: 15px; border-radius: 6px; }  
+        .box-con { background: #ecf0f1; border-top: 4px solid var(--red); padding: 15px; border-radius: 6px; }  
+        .box-title { font-weight: bold; margin-bottom: 8px; color: var(--primary); }  
+        table {  
+            width: 100%;  
+            border-collapse: collapse;  
+            margin-top: 10px;  
+            background: var(--white);  
+        }  
+        th, td {  
+            border: 1px solid var(--border);  
+            padding: 14px;  
+            text-align: left;  
+        }  
+        th {  
+            background-color: var(--primary);  
+            color: var(--white);  
+        }  
+        tr:nth-child(even) {  
+            background-color: #f8f9fa;  
+        }  
+        @keyframes fadeIn {  
+            from { opacity: 0; transform: translateY(8px); }  
+            to { opacity: 1; transform: translateY(0); }  
+        }  
+    </style>  
+</head>  
+<body>  
+<div class="dashboard">  
+    <header>  
+        <h1>Visual Transmission Media Hub</h1>  
+        <p>Short Point Notes and Fully Labeled Diagrams for Exam Success</p>  
+    </header>  
+    
+    <div class="menu-bar">  
+        <button class="menu-btn active" onclick="changePanel(event, 'view-guided')">Guided Media (Wired)</button>  
+        <button class="menu-btn" onclick="changePanel(event, 'view-unguided')">Unguided Media (Wireless)</button>  
+        <button class="menu-btn" onclick="changePanel(event, 'view-matrix')">Comparison Matrix</button>  
+    </div>  
+
+    <div id="view-guided" class="panel active">  
+        <h2>Guided Transmission Media</h2>  
+          
+        <div class="media-card">  
+            <h3>Twisted-Pair Cable <span class="badge badge-wired">Wired</span></h3>  
             
-            <div class="diagram-box">
-                <svg width="450" height="140" viewBox="0 0 450 140" style="background:#2c3e50;">
-                    <rect x="20" y="45" width="160" height="50" rx="5" fill="#34495e"/>
-                    <text x="60" y="75" fill="#fff" font-size="12" font-weight="bold">Outer Plastic Jacket</text>
-                    <path d="M 180 55 Q 210 35, 240 55 T 300 55 T 360 55 T 420 55" fill="none" stroke="#e74c3c" stroke-width="6"/>
-                    <path d="M 180 55 Q 210 75, 240 55 T 300 55 T 360 55 T 420 55" fill="none" stroke="#f1c40f" stroke-width="4"/>
-                    <path d="M 180 85 Q 210 65, 240 85 T 300 85 T 360 85 T 420 85" fill="none" stroke="#2ecc71" stroke-width="6"/>
-                    <path d="M 180 85 Q 210 105, 240 85 T 300 85 T 360 85 T 420 85" fill="none" stroke="#fff" stroke-width="4"/>
-                    <circle cx="420" cy="55" r="4" fill="#d35400"/>
-                    <circle cx="420" cy="85" r="4" fill="#d35400"/>
-                    <text x="320" y="25" fill="#f1c40f" font-size="12" font-weight="bold">Twisted Copper Pairs</text>
-                    <line x1="360" y1="30" x2="330" y2="50" stroke="#f1c40f" stroke-width="1.5"/>
-                    <text x="360" y="125" fill="#d35400" font-size="12" font-weight="bold">Bare Copper Conductor</text>
-                    <line x1="410" y1="115" x2="420" y2="90" stroke="#d35400" stroke-width="1.5"/>
-                </svg>
+            <div class="diagram-box">  
+                <svg width="450" height="140" viewBox="0 0 450 140" style="background:#2c3e50;">  
+                    <rect x="20" y="45" width="160" height="50" rx="5" fill="#34495e"/>  
+                    <text x="40" y="75" fill="#fff" font-size="12" font-weight="bold">Outer Plastic Jacket</text>  
+                    <path d="M 180 55 Q 210 35, 240 55 T 300 55 T 360 55 T 420 55" fill="none" stroke="#e74c3c" stroke-width="6"/>  
+                    <path d="M 180 55 Q 210 75, 240 55 T 300 55 T 360 55 T 420 55" fill="none" stroke="#f1c40f" stroke-width="4"/>  
+                    <path d="M 180 85 Q 210 65, 240 85 T 300 85 T 360 85 T 420 85" fill="none" stroke="#2ecc71" stroke-width="6"/>  
+                    <path d="M 180 85 Q 210 105, 240 85 T 300 85 T 360 85 T 420 85" fill="none" stroke="#fff" stroke-width="4"/>  
+                    <circle cx="420" cy="55" r="4" fill="#d35400"/>  
+                    <circle cx="420" cy="85" r="4" fill="#d35400"/>  
+                    <text x="320" y="25" fill="#f1c40f" font-size="12" font-weight="bold">Twisted Copper Pairs</text>  
+                    <line x1="360" y1="30" x2="330" y2="50" stroke="#f1c40f" stroke-width="1.5"/>  
+                    <text x="310" y="125" fill="#e67e22" font-size="12" font-weight="bold">Bare Copper Conductor</text>  
+                    <line x1="410" y1="115" x2="420" y2="90" stroke="#e67e22" stroke-width="1.5"/>  
+                </svg>  
             </div>
 
-            <ul>
-                <li>It consists of pairs of insulated copper wires twisted around each other in a spiral layout.</li>
-                <li>The wires are twisted to eliminate outside electrical noise and structural wire-to-wire interference (**crosstalk**).</li>
-                <li>It connects to host network interfaces using a standard 8-pin plastic **RJ-45 connector**.</li>
-                <li>**Unshielded Twisted Pair (UTP):** It features a basic outer plastic jacket with no internal metal shields. It is highly affordable and flexible.</li>
-                <li>**Shielded Twisted Pair (STP):** Every wire pair is wrapped inside a protective metal foil layer to block extreme motor noise. It is heavy and stiff.</li>
-                <li>**Categories:** Cat 1 handles basic telephone lines. Cat 5 manages speeds up to 100 Mbps. Cat 6 supports modern speeds up to 1 Gbps.</li>
-            </ul>
-            <div class="split-grid">
-                <div class="box-pro">
-                    <div class="box-title">🏆 Advantages</div>
-                    It is the most economical cable type for local networks, lightweight, and very easy to strip, cut, and deploy.
-                </div>
-                <div class="box-con">
-                    <div class="box-title">⚠️ Disadvantages</div>
-                    It suffers from high attenuation values. The signal drops out completely past 100 meters without active repeaters.
-                </div>
-            </div>
-        </div>
+            <ul>  
+                <li>It consists of pairs of insulated copper wires twisted around each other in a spiral layout.</li>  
+                <li>The wires are twisted to eliminate outside electrical noise and structural wire-to-wire interference (crosstalk).</li>  
+                <li>It connects to host network interfaces using a standard 8-pin plastic RJ-45 connector.</li>  
+                <li>Unshielded Twisted Pair (UTP): It features a basic outer plastic jacket with no internal metal shields. It is highly affordable and flexible.</li>  
+                <li>Shielded Twisted Pair (STP): Every wire pair is wrapped inside a protective metal foil layer to block extreme motor noise. It is heavy and stiff.</li>  
+                <li>Categories: Cat 1 handles basic telephone lines. Cat 5 manages speeds up to 100 Mbps. Cat 6 supports modern speeds up to 1 Gbps.</li>  
+            </ul>  
+            <div class="split-grid">  
+                <div class="box-pro">  
+                    <div class="box-title">🏆 Advantages</div>  
+                    It is the most economical cable type for local networks, lightweight, and very easy to strip, cut, and deploy.  
+                </div>  
+                <div class="box-con">  
+                    <div class="box-title">⚠️ Disadvantages</div>  
+                    It suffers from high attenuation values. The signal drops out completely past 100 meters without active repeaters.  
+                </div>  
+            </div>  
+        </div>  
 
-        <div class="media-card">
-            <h3>Coaxial Cable (COAX) <span class="badge badge-wired">Wired</span></h3>
+        <div class="media-card">  
+            <h3>Coaxial Cable (COAX) <span class="badge badge-wired">Wired</span></h3>  
             
-            <div class="diagram-box">
-                <svg width="450" height="150" viewBox="0 0 450 150" style="background:#2c3e50;">
-                    <rect x="20" y="35" width="130" height="80" fill="#34495e" rx="4"/>
-                    <text x="30" y="25" fill="#34495e" font-size="11" font-weight="bold">1. Outer Jacket</text>
-                    
-                    <rect x="150" y="45" width="90" height="60" fill="#95a5a6"/>
-                    <text x="145" y="130" fill="#95a5a6" font-size="11" font-weight="bold">2. Metallic Braid Shield</text>
-                    
-                    <rect x="240" y="55" width="90" height="40" fill="#ecf0f1"/>
-                    <text x="240" y="25" fill="#ecf0f1" font-size="11" font-weight="bold">3. Insulator Ring</text>
-                    
-                    <rect x="330" y="68" width="90" height="14" fill="#d35400"/>
-                    <text x="325" y="130" fill="#d35400" font-size="11" font-weight="bold">4. Copper Core</text>
-                    
-                    <line x1="85" y1="35" x2="85" y2="5" stroke="#34495e" stroke-dasharray="3"/>
-                    <line x1="195" y1="105" x2="195" y2="135" stroke="#95a5a6" stroke-dasharray="3"/>
-                </svg>
+            <div class="diagram-box">  
+                <svg width="450" height="150" viewBox="0 0 450 150" style="background:#2c3e50;">  
+                    <rect x="20" y="35" width="130" height="80" fill="#34495e" rx="4"/>  
+                    <text x="30" y="25" fill="#fff" font-size="11" font-weight="bold">1. Outer Jacket</text>  
+                      
+                    <rect x="150" y="45" width="90" height="60" fill="#95a5a6"/>  
+                    <text x="135" y="135" fill="#95a5a6" font-size="11" font-weight="bold">2. Metallic Braid Shield</text>  
+                      
+                    <rect x="240" y="55" width="90" height="40" fill="#ecf0f1"/>  
+                    <text x="245" y="25" fill="#ecf0f1" font-size="11" font-weight="bold">3. Insulator Ring</text>  
+                      
+                    <rect x="330" y="68" width="90" height="14" fill="#d35400"/>  
+                    <text x="335" y="135" fill="#e67e22" font-size="11" font-weight="bold">4. Copper Core</text>  
+                      
+                    <line x1="85" y1="35" x2="85" y2="5" stroke="#34495e" stroke-dasharray="3"/>  
+                    <line x1="195" y1="105" x2="195" y2="135" stroke="#95a5a6" stroke-dasharray="3"/>  
+                </svg>  
             </div>
 
-            <ul>
-                <li>A coaxial cable carries high-frequency electrical signals along four concentric layers sharing one axis.</li>
-                <li>The central copper conductor wire is the component that transmits the actual data currents.</li>
-                <li>The solid white plastic insulator ring keeps the central core perfectly isolated.</li>
-                <li>The braided outer metal mesh shield acts as a grounding loop and blocks radio noise.</li>
-                <li>It secures into target electronics ports using a twist-locking metallic plug called a **BNC connector**.</li>
-                <li>**Thinnet:** It is a thin, flexible cable variant that covers structural distances up to 185 meters.</li>
-                <li>**Thicknet:** It is a thick, rigid trunk line that spans up to 500 meters and acts as a central network backbone.</li>
-            </ul>
-            <div class="split-grid">
-                <div class="box-pro">
-                    <div class="box-title">🏆 Advantages</div>
-                    It provides higher overall bandwidth capacities and covers longer physical distances than twisted-pair cables.
-                </div>
-                <div class="box-con">
-                    <div class="box-title">⚠️ Disadvantages</div>
-                    It is heavy and rigid to handle. If the main central backbone trunk breaks, the entire network drops.
-                </div>
-            </div>
-        </div>
+            <ul>  
+                <li>A coaxial cable carries high-frequency electrical signals along four concentric layers sharing one axis.</li>  
+                <li>The central copper conductor wire is the component that transmits the actual data currents.</li>  
+                <li>The solid white plastic insulator ring keeps the central core perfectly isolated.</li>  
+                <li>The braided outer metal mesh shield acts as a grounding loop and blocks radio noise.</li>  
+                <li>It secures into target electronics ports using a twist-locking metallic plug called a BNC connector.</li>  
+                <li>Thinnet: It is a thin, flexible cable variant that covers structural distances up to 185 meters.</li>  
+                <li>Thicknet: It is a thick, rigid trunk line that spans up to 500 meters and acts as a central network backbone.</li>  
+            </ul>  
+            <div class="split-grid">  
+                <div class="box-pro">  
+                    <div class="box-title">🏆 Advantages</div>  
+                    It provides higher overall bandwidth capacities and covers longer physical distances than twisted-pair cables.  
+                </div>  
+                <div class="box-con">  
+                    <div class="box-title">⚠️ Disadvantages</div>  
+                    It is heavy and rigid to handle. If the main central backbone trunk breaks, the entire network drops.  
+                </div>  
+            </div>  
+        </div>  
 
-        <div class="media-card">
-            <h3>Fiber-Optic Cable <span class="badge badge-wired">Wired</span></h3>
+        <div class="media-card">  
+            <h3>Fiber-Optic Cable <span class="badge badge-wired">Wired</span></h3>  
             
-            <div class="diagram-box">
-                <svg width="450" height="140" viewBox="0 0 450 140" style="background:#2c3e50;">
-                    <rect x="20" y="30" width="410" height="80" fill="#2980b9" rx="4" opacity="0.3"/>
-                    <text x="30" y="23" fill="#3498db" font-size="11" font-weight="bold">Outer Buffer Jacket</text>
-                    <rect x="20" y="45" width="410" height="50" fill="#7f8c8d" opacity="0.5"/>
-                    <text x="210" y="130" fill="#7f8c8d" font-size="11" font-weight="bold">Cladding (Lower Refractive Glass)</text>
-                    <rect x="20" y="60" width="410" height="20" fill="#fff" opacity="0.9"/>
-                    <text x="30" y="130" fill="#fff" font-size="11" font-weight="bold">Inner Glass Core</text>
-                    <path d="M 20 70 L 100 62 L 180 78 L 260 62 L 340 78 L 420 62 L 430 70" fill="none" stroke="#e74c3c" stroke-width="3" stroke-dasharray="2"/>
-                    <text x="200" y="75" fill="#e74c3c" font-size="11" font-weight="bold">Light Beam Bouncing (TIR)</text>
-                </svg>
+            <div class="diagram-box">  
+                <svg width="450" height="140" viewBox="0 0 450 140" style="background:#2c3e50;">  
+                    <rect x="20" y="30" width="410" height="80" fill="#2980b9" rx="4" opacity="0.3"/>  
+                    <text x="30" y="23" fill="#3498db" font-size="11" font-weight="bold">Outer Buffer Jacket</text>  
+                    <rect x="20" y="45" width="410" height="50" fill="#7f8c8d" opacity="0.5"/>  
+                    <text x="210" y="130" fill="#7f8c8d" font-size="11" font-weight="bold">Cladding (Lower Refractive Glass)</text>  
+                    <rect x="20" y="60" width="410" height="20" fill="#fff" opacity="0.9"/>  
+                    <text x="30" y="130" fill="#fff" font-size="11" font-weight="bold">Inner Glass Core</text>  
+                    <path d="M 20 70 L 100 62 L 180 78 L 260 62 L 340 78 L 420 62 L 430 70" fill="none" stroke="#e74c3c" stroke-width="3" stroke-dasharray="2"/>  
+                    <text x="160" y="75" fill="#e74c3c" font-size="11" font-weight="bold">Light Beam Bouncing (TIR)</text>  
+                </svg>  
             </div>
 
-            <ul>
-                <li>This is an advanced cable network made of pure glass or plastic strands as thin as a human hair.</li>
-                <li>It transmits network information using high-speed **pulses of light** instead of standard electrical currents.</li>
-                <li>It operates on the physics principle of **Total Internal Reflection (TIR)** where light reflections bounce inside core walls.</li>
-                <li>It features an internal core glass lane, a mirror-finished outer cladding layer, and a protective plastic shock jacket.</li>
-                <li>It uses cheap **LEDs** for short building connections and high-power **Lasers** for transatlantic undersea routes.</li>
-                <li>It interfaces into clean commercial routing nodes via specialized locking hardware plugs named **ST and SC connectors**.</li>
-            </ul>
-            <div class="split-grid">
-                <div class="box-pro">
-                    <div class="box-title">🏆 Advantages</div>
-                    It offers unmatched gigabit bandwidth speeds, long cross-country reaches, and complete immunity to all electrical noise.
-                </div>
-                <div class="box-con">
-                    <div class="box-title">⚠️ Disadvantages</div>
-                    It carries a high material purchase cost, is fragile to bend, and requires specialized tools and experts to splice lines.
-                </div>
-            </div>
-        </div>
-    </div>
+            <ul>  
+                <li>This is an advanced cable network made of pure glass or plastic strands as thin as a human hair.</li>  
+                <li>It transmits network information using high-speed pulses of light instead of standard electrical currents.</li>  
+                <li>It operates on the physics principle of Total Internal Reflection (TIR) where light reflections bounce inside core walls.</li>  
+                <li>It features an internal core glass lane, a mirror-finished outer cladding layer, and a protective plastic shock jacket.</li>  
+                <li>It uses cheap LEDs for short building connections and high-power Lasers for transatlantic undersea routes.</li>  
+                <li>It interfaces into clean commercial routing nodes via specialized locking hardware plugs named ST and SC connectors.</li>  
+            </ul>  
+            <div class="split-grid">  
+                <div class="box-pro">  
+                    <div class="box-title">🏆 Advantages</div>  
+                    It offers unmatched gigabit bandwidth speeds, long cross-country reaches, and complete immunity to all electrical noise.  
+                </div>  
+                <div class="box-con">  
+                    <div class="box-title">⚠️ Disadvantages</div>  
+                    It carries a high material purchase cost, is fragile to bend, and requires specialized tools and experts to splice lines.  
+                </div>  
+            </div>  
+        </div>  
+    </div>  
 
-    <div id="view-unguided" class="panel">
-        <h2>Unguided Transmission Media</h2>
+    <div id="view-unguided" class="panel">  
+        <h2>Unguided Transmission Media</h2>  
 
-        <div class="media-card">
-            <h3>Microwave Transmission <span class="badge badge-wireless">Wireless</span></h3>
+        <div class="media-card">  
+            <h3>Microwave Transmission <span class="badge badge-wireless">Wireless</span></h3>  
             
-            <div class="diagram-box">
-                <svg width="450" height="140" viewBox="0 0 450 140" style="background:#2c3e50;">
-                    <line x1="60" y1="130" x2="90" y2="40" stroke="#fff" stroke-width="3"/>
-                    <line x1="120" y1="130" x2="90" y2="40" stroke="#fff" stroke-width="3"/>
-                    <line x1="60" y1="130" x2="120" y2="130" stroke="#fff" stroke-width="2"/>
-                    <path d="M 90 40 Q 75 40 75 25 Q 75 10 90 10 Q 105 10 105 25 Z" fill="#95a5a6"/>
-                    <text x="45" y="138" fill="#fff" font-size="10">Tower 1</text>
-                    <line x1="330" y1="130" x2="360" y2="40" stroke="#fff" stroke-width="3"/>
-                    <line x1="390" y1="130" x2="360" y2="40" stroke="#fff" stroke-width="3"/>
-                    <line x1="330" y1="130" x2="390" y2="130" stroke="#fff" stroke-width="2"/>
-                    <path d="M 360 40 Q 345 40 345 25 Q 345 10 360 10 Q 375 10 375 25 Z" fill="#95a5a6"/>
-                    <text x="350" y="138" fill="#fff" font-size="10">Tower 2</text>
-                    <line x1="105" y1="25" x2="345" y2="25" stroke="#f1c40f" stroke-width="3" stroke-dasharray="5"/>
-                    <text x="160" y="20" fill="#f1c40f" font-size="12" font-weight="bold">Straight Line-of-Sight Path</text>
-                </svg>
+            <div class="diagram-box">  
+                <svg width="450" height="140" viewBox="0 0 450 140" style="background:#2c3e50;">  
+                    <line x1="60" y1="130" x2="90" y2="40" stroke="#fff" stroke-width="3"/>  
+                    <line x1="120" y1="130" x2="90" y2="40" stroke="#fff" stroke-width="3"/>  
+                    <line x1="60" y1="130" x2="120" y2="130" stroke="#fff" stroke-width="2"/>  
+                    <path d="M 90 40 Q 75 40 75 25 Q 75 10 90 10 Q 105 10 105 25 Z" fill="#95a5a6"/>  
+                    <text x="45" y="138" fill="#fff" font-size="10">Tower 1</text>  
+                    <line x1="330" y1="130" x2="360" y2="40" stroke="#fff" stroke-width="3"/>  
+                    <line x1="390" y1="130" x2="360" y2="40" stroke="#fff" stroke-width="3"/>  
+                    <line x1="330" y1="130" x2="390" y2="130" stroke="#fff" stroke-width="2"/>  
+                    <path d="M 360 40 Q 345 40 345 25 Q 345 10 360 10 Q 375 10 375 25 Z" fill="#95a5a6"/>  
+                    <text x="350" y="138" fill="#fff" font-size="10">Tower 2</text>  
+                    <line x1="105" y1="25" x2="345" y2="25" stroke="#f1c40f" stroke-width="3" stroke-dasharray="5"/>  
+                    <text x="145" y="20" fill="#f1c40f" font-size="12" font-weight="bold">Straight Line-of-Sight Path</text>  
+                </svg>  
             </div>
 
-            <ul>
-                <li>Microwave systems send high-frequency wireless electromagnetic radio signals through the atmosphere.</li>
-                <li>These waves travel strictly along direct, straight lines and cannot wrap around mountains or the Earth’s curve.</li>
-                <li>Because of this straight directional travel, they require a strict **Line-of-Sight (LoS)** alignment between links.</li>
-                <li>Large parabolic dish antennas are mounted on top of tall steel towers, hills, or skyscrapers to maintain sight lines.</li>
-                <li>Due to the curved surface of the Earth, repeating amplification towers must be constructed every 25 to 30 miles.</li>
-            </ul>
-            <div class="split-grid">
-                <div class="box-pro">
-                    <div class="box-title">🏆 Advantages</div>
-                    It avoids the expensive logistics of purchasing land pathways, digging trenches, or laying thousands of miles of wires.
-                </div>
-                <div class="box-con">
-                    <div class="box-title">⚠️ Disadvantages</div>
-                    Wireless signals are prone to environmental fading. Heavy downpours, thick winter fog, or blizzards block data streams.
-                </div>
-            </div>
-        </div>
+            <ul>  
+                <li>Microwave systems send high-frequency wireless electromagnetic radio signals through the atmosphere.</li>  
+                <li>These waves travel strictly along direct, straight lines and cannot wrap around mountains or the Earth’s curve.</li>  
+                <li>Because of this straight directional travel, they require a strict Line-of-Sight (LoS) alignment between links.</li>  
+                <li>Large parabolic dish antennas are mounted on top of tall steel towers, hills, or skyscrapers to maintain sight lines.</li>  
+                <li>Due to the curved surface of the Earth, repeating amplification towers must be constructed every 25 to 30 miles.</li>  
+            </ul>  
+            <div class="split-grid">  
+                <div class="box-pro">  
+                    <div class="box-title">🏆 Advantages</div>  
+                    It avoids the expensive logistics of purchasing land pathways, digging trenches, or laying thousands of miles of wires.  
+                </div>  
+                <div class="box-con">  
+                    <div class="box-title">⚠️ Disadvantages</div>  
+                    Wireless signals are prone to environmental fading. Heavy downpours, thick winter fog, or blizzards block data streams.  
+                </div>  
+            </div>  
+        </div>  
 
-        <div class="media-card">
-            <h3>Satellite Communication <span class="badge badge-wireless">Wireless</span></h3>
+        <div class="media-card">  
+            <h3>Satellite Communication <span class="badge badge-wireless">Wireless</span></h3>  
             
-            <div class="diagram-box">
-                <svg width="450" height="150" viewBox="0 0 450 150" style="background:#2c3e50;">
-                    <path d="M 10 150 Q 225 100 440 150 Z" fill="#2e86de"/>
-                    <rect x="60" y="110" width="30" height="20" fill="#bdc3c7"/>
-                    <path d="M 75 110 Q 60 95 75 95 Q 90 95 75 110" fill="#fff"/>
-                    <rect x="360" y="110" width="30" height="20" fill="#bdc3c7"/>
-                    <path d="M 375 110 Q 360 95 375 95 Q 390 95 375 110" fill="#fff"/>
-                    <rect x="210" y="15" width="30" height="20" fill="#f1c40f" rx="2"/>
-                    <rect x="170" y="20" width="40" height="10" fill="#3498db"/>
-                    <rect x="240" y="20" width="40" height="10" fill="#3498db"/>
-                    <line x1="80" y1="95" x2="210" y2="30" stroke="#2ecc71" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="85" y="65" fill="#2ecc71" font-size="10" font-weight="bold">Uplink</text>
-                    
-                    <line x1="240" y1="30" x2="370" y2="95" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4"/>
-                    <text x="310" y="65" fill="#e74c3c" font-size="10" font-weight="bold">Downlink</text>
-                    
-                    <text x="180" y="142" fill="#fff" font-size="11" font-weight="bold">Geostationary Orbit (~36,000 km)</text>
-                </svg>
+            <div class="diagram-box">  
+                <svg width="450" height="150" viewBox="0 0 450 150" style="background:#2c3e50;">  
+                    <path d="M 10 150 Q 225 100 440 150 Z" fill="#2e86de"/>  
+                    <rect x="60" y="110" width="30" height="20" fill="#bdc3c7"/>  
+                    <path d="M 75 110 Q 60 95 75 95 Q 90 95 75 110" fill="#fff"/>  
+                    <rect x="360" y="110" width="30" height="20" fill="#bdc3c7"/>  
+                    <path d="M 375 110 Q 360 95 375 95 Q 390 95 375 110" fill="#fff"/>  
+                    <rect x="210" y="15" width="30" height="20" fill="#f1c40f" rx="2"/>  
+                    <rect x="170" y="20" width="40" height="10" fill="#3498db"/>  
+                    <rect x="240" y="20" width="40" height="10" fill="#3498db"/>  
+                    <line x1="80" y1="95" x2="210" y2="30" stroke="#2ecc71" stroke-width="2" stroke-dasharray="4"/>  
+                    <text x="85" y="65" fill="#2ecc71" font-size="10" font-weight="bold">Uplink</text>  
+                      
+                    <line x1="240" y1="30" x2="370" y2="95" stroke="#e74c3c" stroke-width="2" stroke-dasharray="4"/>  
+                    <text x="310" y="65" fill="#e74c3c" font-size="10" font-weight="bold">Downlink</text>  
+                      
+                    <text x="135" y="142" fill="#fff" font-size="11" font-weight="bold">Geostationary Orbit (~36,000 km)</text>  
+                </svg>  
             </div>
 
-            <ul>
-                <li>A satellite functions as an advanced microwave repeater platform stationed out in deep space.</li>
-                <li>The system is parked inside a geostationary orbit roughly 36,000 kilometers directly above the Earth’s equator line.</li>
-                <li>It matches the exact rotational velocity of the Earth, which makes it look perfectly stationary from any ground base.</li>
-                <li>**The Uplink:** A large ground base station dish on Earth beams a high-frequency radio carrier signal up to the orbit path.</li>
-                <li>**The Transponder:** The satellite system intercepts the weak beam, filters out atmospheric noise, and amplifies its energy.</li>
-                <li>**The Downlink:** The satellite sends the boosted beam back down to Earth over an entire country or continent footprint.</li>
-            </ul>
-            <div class="split-grid">
-                <div class="box-pro">
-                    <div class="box-title">🏆 Advantages</div>
-                    It provides absolute worldwide coverage and connects isolated islands, cruise ships, and desert research outposts easily.
-                </div>
-                <div class="box-con">
-                    <div class="box-title">⚠️ Disadvantages</div>
-                    The huge trip distance causes signal delay (**latency**). Launch costs are massive and in-space hardware repairs are impossible.
-                </div>
-            </div>
-        </div>
-    </div>
+            <ul>  
+                <li>A satellite functions as an advanced microwave repeater platform stationed out in deep space.</li>  
+                <li>The system is parked inside a geostationary orbit roughly 36,000 kilometers directly above the Earth’s equator line.</li>  
+                <li>It matches the exact rotational velocity of the Earth, which makes it look perfectly stationary from any ground base.</li>  
+                <li>The Uplink: A large ground base station dish on Earth beams a high-frequency radio carrier signal up to the orbit path.</li>  
+                <li>The Transponder: The satellite system intercepts the weak beam, filters out atmospheric noise, and amplifies its energy.</li>  
+                <li>The Downlink: The satellite sends the boosted beam back down to Earth over an entire country or continent footprint.</li>  
+            </ul>  
+            <div class="split-grid">  
+                <div class="box-pro">  
+                    <div class="box-title">🏆 Advantages</div>  
+                    It provides absolute worldwide coverage and connects isolated islands, cruise ships, and desert research outposts easily.  
+                </div>  
+                <div class="box-con">  
+                    <div class="box-title">⚠️ Disadvantages</div>  
+                    The huge trip distance causes signal delay (latency). Launch costs are massive and in-space hardware repairs are impossible.  
+                </div>  
+            </div>  
+        </div>  
+    </div>  
 
-    <div id="view-matrix" class="panel">
-        <h2>System Comparison Matrix</h2>
-        <div class="media-card" style="padding: 10px; overflow-x: auto;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Media Type</th>
-                        <th>Signal Base</th>
-                        <th>Max Run Reach</th>
-                        <th>EMI Security</th>
-                        <th>Cost Level</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Twisted-Pair (UTP)</strong></td>
-                        <td>Electricity</td>
-                        <td>100 meters</td>
-                        <td>Low Resistance</td>
-                        <td>Very Inexpensive</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Twisted-Pair (STP)</strong></td>
-                        <td>Electricity</td>
-                        <td>100 meters</td>
-                        <td>High Resistance</td>
-                        <td>Moderate Cost</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Coaxial Cable</strong></td>
-                        <td>Electricity</td>
-                        <td>185m - 500m</td>
-                        <td>Excellent Mesh</td>
-                        <td>Moderate Cost</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Fiber-Optic Cable</strong></td>
-                        <td>Light Pulses</td>
-                        <td>Many Kilometers</td>
-                        <td><strong>Totally Immune</strong></td>
-                        <td>Highly Expensive</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Microwave Systems</strong></td>
-                        <td>Radio Waves</td>
-                        <td>~30 miles (LoS)</td>
-                        <td>Weather Sensitive</td>
-                        <td>High Tower Cost</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Satellite Links</strong></td>
-                        <td>Radio Waves</td>
-                        <td>Global Reach</td>
-                        <td>Weather Sensitive</td>
-                        <td>Extremely High</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+    <div id="view-matrix" class="panel">  
+        <h2>System Comparison Matrix</h2>  
+        <div class="media-card" style="padding: 10px; overflow-x: auto;">  
+            <table>  
+                <thead>  
+                    <tr>  
+                        <th>Media Type</th>  
+                        <th>Signal Base</th>  
+                        <th>Max Run Reach</th>  
+                        <th>EMI Security</th>  
+                        <th>Cost Level</th>  
+                    </tr>  
+                </thead>  
+                <tbody>  
+                    <tr>  
+                        <td>Twisted-Pair (UTP)</td>  
+                        <td>Electricity</td>  
+                        <td>100 meters</td>  
+                        <td>Low Resistance</td>  
+                        <td>Very Inexpensive</td>  
+                    </tr>  
+                    <tr>  
+                        <td>Twisted-Pair (STP)</td>  
+                        <td>Electricity</td>  
+                        <td>100 meters</td>  
+                        <td>High Resistance</td>  
+                        <td>Moderate Cost</td>  
+                    </tr>  
+                    <tr>  
+                        <td>Coaxial Cable</td>  
+                        <td>Electricity</td>  
+                        <td>185m - 500m</td>  
+                        <td>Excellent Mesh</td>  
+                        <td>Moderate Cost</td>  
+                    </tr>  
+                    <tr>  
+                        <td>Fiber-Optic Cable</td>  
+                        <td>Light Pulses</td>  
+                        <td>Many Kilometers</td>  
+                        <td>Totally Immune</td>  
+                        <td>Highly Expensive</td>  
+                    </tr>  
+                    <tr>  
+                        <td>Microwave Systems</td>  
+                        <td>Radio Waves</td>  
+                        <td>~30 miles (LoS)</td>  
+                        <td>Weather Sensitive</td>  
+                        <td>High Tower Cost</td>  
+                    </tr>  
+                    <tr>  
+                        <td>Satellite Links</td>  
+                        <td>Radio Waves</td>  
+                        <td>Global Reach</td>  
+                        <td>Weather Sensitive</td>  
+                        <td>Extremely High</td>  
+                    </tr>  
+                </tbody>  
+            </table>  
+        </div>  
+    </div>  
+</div>  
 
-<script>
-    function changePanel(event, panelId) {
-        const panels = document.querySelectorAll('.panel');
-        panels.forEach(p => p.classList.remove('active'));
-
-        const buttons = document.querySelectorAll('.menu-btn');
-        buttons.forEach(b => b.classList.remove('active'));
-
-        document.getElementById(panelId).classList.add('active');
-        event.currentTarget.classList.add('active');
-    }
-</script>
-
-</body>
+<script>  
+    function changePanel(event, panelId) {  
+        const panels = document.querySelectorAll('.panel');  
+        panels.forEach(p => p.classList.remove('active'));  
+  
+        const buttons = document.querySelectorAll('.menu-btn');  
+        buttons.forEach(b => b.classList.remove('active'));  
+  
+        document.getElementById(panelId).classList.add('active');  
+        event.currentTarget.classList.add('active');  
+    }  
+</script>  
+</body>  
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
