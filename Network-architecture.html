@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Science Exam Notes: Data Communication & Networking</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        section {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 20px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            color: #111;
+        }
+
+        .important-note {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .diagram-container {
+            background-color: #f9f9f9;
+            border: 1px dashed #cccccc;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+
+        .ascii-art {
+            font-family: monospace;
+            white-space: pre;
+            display: inline-block;
+            text-align: left;
+            background: #222;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            max-width: 100%;
+            line-height: 1.2;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media print {
+            body { background-color: white; }
+            .btn, .controls { display: none; }
+            section { box-shadow: none; padding: 0; margin-bottom: 40px; }
+            .ascii-art { background: white; color: black; border: 1px solid #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Computer Science High-Yield Exam Notes</h1>
+            <p>Data Transmission Impairments & Network Architecture</p>
+        </header>
+
+        <div class="controls">
+            <button class="btn" id="toggleNav">Toggle Study Mode (Highlight Headers)</button>
+        </div>
+
+        <section id="section1">
+            <h2>1. Transmission Impairments Terminology</h2>
+            <p>In data communication, signals travel through transmission media. Because physical media are not perfect, the signals degrade during transit. This imperfection is called <strong>transmission impairment</strong>, meaning "what is sent is not exactly what is received."</p>
+            
+            <h3>Key Impairment Terms</h3>
+            <ul>
+                <li><strong>1. Jitter:</strong> Small, irregular time delays during data transfer. It is the variations in arrival time of data packets caused by network congestion, packet collisions, or signal interference.</li>
+                <li><strong>2. Attenuation:</strong> The loss or reduction in the strength/amplitude of a signal as it travels through a cable. 
+                    <ul>
+                        <li>It increases with distance.</li>
+                        <li>An <strong>Amplifier</strong> is used to boost signal strength back to original levels to compensate for this loss.</li>
+                        <li>It is measured in <strong>decibels (dB)</strong>.</li>
+                    </ul>
+                </li>
+                <li><strong>3. Distortion:</strong> The change in the original form or shape of a waveform. It usually happens because different frequency components of a composite signal travel at different speeds through the medium.</li>
+                <li><strong>4. Noise:</strong> Random, unwanted, or extra signals that mix with the original transmitted signal and corrupt it. Types include:
+                    <ul>
+                        <li><em>Thermal noise:</em> Random motion of electrons.</li>
+                        <li><em>Induced noise:</em> From external sources like motors or appliances.</li>
+                        <li><em>Crosstalk:</em> Unwanted signal transfer from an adjacent wire/channel.</li>
+                        <li><em>Impulse noise:</em> Sudden, high-energy spikes (like lightning).</li>
+                    </ul>
+                </li>
+                <li><strong>5. Echo:</strong> A reflection of a sound or signal that arrives back at the sender/listener with a distinct delay after the direct path signal. It acts as an interfering noise source.</li>
+                <li><strong>6. Singing:</strong> An extreme form of echo that gets completely out of control. It occurs at a circuit's <strong>resonant frequency</strong> when line losses are so low that the signal oscillates continuously even after the source pulse stops.</li>
+                <li><strong>7. Crosstalk:</strong> Unwanted signals leaking into a communication channel from another nearby circuit. It is caused by unintended <strong>capacitive, inductive, or conductive coupling</strong> between channels.</li>
+                <li><strong>8. Bandwidth:</strong> The maximum rate of data transfer across a network or internet connection in a given amount of time. For example, Gigabit Ethernet features a bandwidth of <strong>1Gbps</strong> (1 Gigabyte per second). Transmission impairments reduce the usable bandwidth.</li>
+                <li><strong>9. Number of Receivers:</strong> Every added node or device connected to a shared transmission line introduces additional attenuation and distortion. Therefore, a higher number of receivers limits the maximum distance and maximum data rate achievable.</li>
+            </ul>
+
+            <div class="diagram-container">
+                <h4>Visualizing Signal Impairments</h4>
+                <div class="ascii-art">
+[Original Signal]    =======>   (Physical Medium)   =======>    [Received Signal]
+   |‾|_|‾|_|‾|                  (Impairments)                  ~/\_/\_~/\_
+                                                              (Distorted/Attenuated)
+
+* Attenuation: Signal gets smaller (Loss of amplitude)
+* Distortion: Signal changes shape
+* Noise: Extra jagged lines added to the signal
+                </div>
+            </div>
+        </section>
+
+        <section id="section2">
+            <h2>2. Basic Concepts of Network Architecture</h2>
+            <p><strong>Network Architecture</strong> refers to the physical and logical design of software, hardware, protocols, and transmission media. It explains how computers and network devices interact and how tasks are allocated across the system.</p>
+            
+            <h3>Types of Network Architectures</h3>
+            <p>Computer networks are primarily classified into two main structural architectures:</p>
+            <ol>
+                <li>Peer-to-Peer (P2P) Architecture</li>
+                <li>Client/Server Architecture</li>
+            </ol>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+            <h3>A. Peer-to-Peer (P2P) Architecture</h3>
+            <p>In a peer-to-peer network, all computers have <strong>equal authority and rights</strong> to access data. There is <strong>no dedicated or central server</strong>. Every individual computer acts as both a client (requesting services) and a server (providing services). A small group of P2P connected computers is often called a <strong>workgroup</strong>.</p>
+            
+            <div class="diagram-container">
+                <h4>Peer-to-Peer (P2P) Layout</h4>
+                <div class="ascii-art">
+    [PC 1: Peer] <=========> [PC 2: Peer]
+         ^                        ^
+         |                        |
+         v                        v
+    [PC 4: Peer] <=========> [PC 3: Peer]
+    (All PCs are equal; no central server)
+                </div>
+            </div>
+
+            <h4>Advantages:</h4>
+            <ul>
+                <li>Simple design and very easy to set up.</li>
+                <li>Highly cost-effective (cheaper to implement and manage).</li>
+                <li>Fault isolation: If one computer fails, it does not stop the rest of the network.</li>
+                <li>No specialized, dedicated system administrator is required.</li>
+            </ul>
+
+            <h4>Disadvantages:</h4>
+            <ul>
+                <li>Network administration becomes highly decentralized and difficult.</li>
+                <li>Data security is weak because every user manages their own security settings.</li>
+                <li>Data backup and recovery processes are complex and scattered across nodes.</li>
+                <li>Not suitable for large organizations with a massive number of computers.</li>
+            </ul>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+            <h3>B. Client/Server Architecture</h3>
+            <p>This architecture consists of at least one powerful, centralized <strong>dedicated server</strong> and multiple <strong>client computers</strong>. The server holds resource databases and provides specialized network services (like data files, web pages, email, SMS, routing, or printing) upon receiving explicit requests from the clients.</p>
+            <p><em>Example:</em> A dedicated central file server or a mail server acting as a network "post office" to handle and distribute external communication.</p>
+
+            <div class="diagram-container">
+                <h4>Client/Server Layout</h4>
+                <div class="ascii-art">
+    [Client PC] ----\                /---- [Client PC]
+                     v              v
+                   [CENTRAL SERVER]
+                     ^              ^
+    [Client PC] ----/                \---- [Client PC]
+    (Centralized control and services)
+                </div>
+            </div>
+
+            <h4>Advantages:</h4>
+            <ul>
+                <li><strong>Centralized Administration:</strong> Easier control over all assets from a single point.</li>
+                <li><strong>High Security:</strong> Access permissions can be tightly regulated at the server level.</li>
+                <li>Perfectly optimized for large organizations containing numerous endpoints.</li>
+                <li><strong>Simplified Backups:</strong> Centralized data means recovery operations are fast and reliable.</li>
+            </ul>
+
+            <h4>Disadvantages:</h4>
+            <ul>
+                <li>Expensive setup due to the cost of high-end dedicated servers and operating software.</li>
+                <li>Complex configuration, setup, management, and deployment routines.</li>
+                <li>Requires experienced, professional network administrators to operate.</li>
+                <li><strong>Single Point of Failure:</strong> If the central server goes down, the entire network stops functioning.</li>
+            </ul>
+        </section>
+
+        <section id="section3">
+            <h2>3. Core Differences: P2P vs. Client/Server</h2>
+            <p>Use this comprehensive comparison table to secure full marks on long-form exam questions comparing network models:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.N.</th>
+                        <th>Peer-to-Peer (P2P) Network Architecture</th>
+                        <th>Client-Server Network Architecture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1</strong></td>
+                        <td>A simple connection of similar computers called peers.</td>
+                        <td>Contains two distinct roles: Centralized Server and Client computers.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2</strong></td>
+                        <td>Does not contain any dedicated server. Each node acts as both client and server.</td>
+                        <td>Contains dedicated servers that store, process, and deliver requested resources to clients.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3</strong></td>
+                        <td>Appropriate for small organizations with a limited number of computers.</td>
+                        <td>Appropriate for large environments and enterprises running massive operations.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>4</strong></td>
+                        <td>Easier and significantly cheaper to set up, deploy, and maintain.</td>
+                        <td>Complex, structured, and expensive to establish and administer.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>5</strong></td>
+                        <td>Difficult to secure efficiently without a central database.</td>
+                        <td>High level of security can be established through unified server policies.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>6</strong></td>
+                        <td>Administration is distributed; difficult to manage on a large scale.</td>
+                        <td>Administration is centralized, making network tracking much cleaner.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>7</strong></td>
+                        <td>Highly skilled manpower is not required to run day-to-day operations.</td>
+                        <td>Requires skilled, certified network engineers to design and manage.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        // Interactive JavaScript for enhanced studying
+        document.getElementById('toggleNav').addEventListener('click', function() {
+            const headers = document.querySelectorAll('h2, h3');
+            headers.forEach(header => {
+                if (header.style.backgroundColor === 'yellow') {
+                    header.style.backgroundColor = '';
+                    header.style.paddingLeft = '';
+                } else {
+                    header.style.backgroundColor = 'yellow';
+                    header.style.paddingLeft = '5px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
