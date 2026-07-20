@@ -168,7 +168,194 @@
     </style>
 </head>
 <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking Terms Glossary</title>
+    <style>
+        /* Modern, clean font and reset */
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 2rem;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #1a1a1a;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Search Bar styling for the JS functionality */
+        .search-box {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: #4dabf7;
+            box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.25);
+        }
+
+        /* Table Styling */
+        .table-wrapper {
+            overflow-x: auto; /* Makes it responsive on mobile */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #f1f3f5;
+            color: #495057;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Zebra striping for readability */
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        /* Hover effect */
+        tbody tr:hover {
+            background-color: #e9ecef;
+            transition: background-color 0.2s ease;
+        }
+
+        .term-badge {
+            font-weight: 600;
+            color: #228be6;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Networking Terms Glossary</h2>
+    
+    <!-- JavaScript filters through this input -->
+    <input type="text" id="searchInput" class="search-box" placeholder="Search terms, meanings, or examples...">
+
+    <div class="table-wrapper">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Simple Meaning</th>
+                    <th>Real-life Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="term-badge">Jitter</td>
+                    <td>Data arrives at irregular times</td>
+                    <td>Video call lag</td>
+                </tr>
+                <tr>
+                    <td class="term-badge">Attenuation</td>
+                    <td>Signal becomes weak</td>
+                    <td>Wi-Fi gets weaker far from router</td>
+                </tr>
+                <tr>
+                    <td class="term-badge">Distortion</td>
+                    <td>Signal changes shape</td>
+                    <td>Stretched drawing</td>
+                </tr>
+                <tr>
+                    <td class="term-badge">Noise</td>
+                    <td>Unwanted extra signals</td>
+                    <td>Traffic noise while talking</td>
+                </tr>
+                <tr>
+                    <td class="term-badge">Echo</td>
+                    <td>Your own signal comes back</td>
+                    <td>Hearing your own voice on a call</td>
+                </tr>
+                <tr>
+                    <td class="term-badge">Singing</td>
+                    <td>Continuous echo/feedback</td>
+                    <td>Microphone screech</td>
+                </tr>
+                <tr>
+                    <td class="term-badge">Crosstalk</td>
+                    <td>Another signal mixes into yours</td>
+                    <td>Hearing another phone conversation</td>
+                </tr>
+                <tr>
+                    <td class="term-badge">Bandwidth</td>
+                    <td>Maximum data transfer capacity</td>
+                    <td>Width of a highway</td>
+                </tr>
+                <tr>
+                    <td class="term-badge">Number of Receivers</td>
+                    <td>More devices share the medium</td>
+                    <td>One teacher addressing many students</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // JavaScript to handle live table filtering
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        const searchQuery = this.value.toLowerCase();
+        const tableRows = document.querySelectorAll('#dataTable tbody tr');
+
+        tableRows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            // If the row text matches the search query, show it; otherwise, hide it
+            if (text.includes(searchQuery)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
     <div class="container">
         <header>
             <h1>Computer Science High-Yield Exam Notes</h1>
