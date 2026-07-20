@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IP Addressing & Subnet Mask - Academic Notes</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #eff6ff;
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --exam-bg: #fff7ed;
+            --exam-border: #f97316;
+            --exam-text: #9a3412;
+            --accent: #0d9488;
+            --accent-light: #f0fdfa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text-main);
+            background-color: var(--bg-main);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            padding: 0 1.5rem;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            position: sticky;
+            top: 2rem;
+            height: calc(100vh - 4rem);
+            overflow-y: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        aside h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .nav-links {
+            list-style: none;
+        }
+
+        .nav-links li a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-links li a:hover {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding-left: 1rem;
+        }
+
+        .nav-links li.active a {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        section {
+            margin-bottom: 3.5rem;
+            scroll-margin-top: 2rem;
+        }
+
+        section:last-child {
+            margin-bottom: 0;
+        }
+
+        h2.section-title {
+            font-size: 1.75rem;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.35rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        /* Special Card Components */
+        .definition-card {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+        }
+
+        .exam-card {
+            background-color: var(--exam-bg);
+            border: 1px dashed var(--exam-border);
+            border-left: 4px solid var(--exam-border);
+            padding: 1rem 1.25rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            color: var(--exam-text);
+        }
+
+        .exam-card strong {
+            color: var(--exam-border);
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .analogy-card {
+            background-color: var(--accent-light);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.25rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        /* Lists */
+        ul {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* Visual Blocks / Diagrams */
+        .diagram-container {
+            background-color: #0f172a;
+            color: #38bdf8;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            overflow-x: auto;
+        }
+
+        .diagram-bits {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: var(--primary-light);
+            color: var(--text-main);
+        }
+
+        /* Interactive Widget Styling */
+        .widget-box {
+            background: linear-gradient(to bottom right, #ffffff, #f8fafc);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .widget-input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .widget-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .widget-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .widget-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .widget-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .widget-result {
+            background-color: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            display: none;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .result-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .result-val {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+        }
+
+        /* Responsive Breakdowns */
+        @media (max-width: 968px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            aside {
+                display: none; /* Hide sidebar map on small screens */
+            }
+            main {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IP Addressing & Subnet Mask</h1>
+        <p>Complete Academic Reference & Study Notes</p>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar Navigation Map -->
+        <aside>
+            <h2>Table of Contents</h2>
+            <ul class="nav-links" id="sidebar-nav">
+                <li><a href="#sec-analyzer">Interactive Analyzer</a></li>
+                <li><a href="#sec-ip">1. Internet Protocol (IP)</a></li>
+                <li><a href="#sec-address">2. IP Address</a></li>
+                <li><a href="#sec-why">3. Why is it Needed?</a></li>
+                <li><a href="#sec-ipv4">4. IPv4 Overview</a></li>
+                <li><a href="#sec-ipv6">5. IPv6 Overview</a></li>
+                <li><a href="#sec-comparison">6. IPv4 vs IPv6</a></li>
+                <li><a href="#sec-types">7. Types of IP Addresses</a></li>
+                <li><a href="#sec-ids">8. Network & Host IDs</a></li>
+                <li><a href="#sec-classes">9. Classful IP Addressing</a></li>
+                <li><a href="#sec-summary">10. Summary of Classes</a></li>
+                <li><a href="#sec-subtract">11. Why Subtract Two?</a></li>
+                <li><a href="#sec-mask">12. Subnet Mask</a></li>
+                <li><a href="#sec-mask-why">13. Why Mask is Needed</a></li>
+                <li><a href="#sec-binary">14. Binary Representation</a></li>
+                <li><a href="#sec-default-masks">15. Default Masks</a></li>
+                <li><a href="#sec-examples">16. Practical Examples</a></li>
+                <li><a href="#sec-mac">17. IP vs MAC Address</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div role="main">
+            <!-- JavaScript Demo Feature Box -->
+            <div class="widget-box" id="sec-analyzer">
+                <h3 style="margin-bottom: 0.5rem; color: var(--primary-dark)">Interactive Classroom Sandbox</h3>
+                <p style="font-size: 0.95rem;">Type any IPv4 address below to analyze its default Class, Subnet Mask, and Network structure in real-time.</p>
+                <div class="widget-input-group">
+                    <input type="text" id="ip-input" class="widget-input" placeholder="e.g., 192.168.1.25" value="192.168.1.25">
+                    <button onclick="analyzeIP()" class="widget-btn">Analyze Address</button>
+                </div>
+                <div id="widget-result" class="widget-result">
+                    <div class="result-grid">
+                        <div class="result-item"><div class="result-label">Detected Class</div><div id="res-class" class="result-val">-</div></div>
+                        <div class="result-item"><div class="result-label">Default Subnet Mask</div><div id="res-mask" class="result-val">-</div></div>
+                        <div class="result-item"><div class="result-label">CIDR Prefix</div><div id="res-cidr" class="result-val">-</div></div>
+                        <div class="result-item"><div class="result-label">Network Boundary Address</div><div id="res-netid" class="result-val">-</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <main>
+                <section id="sec-ip">
+                    <h2 class="section-title">1. Internet Protocol (IP)</h2>
+                    <div class="definition-card">
+                        <strong>Definition:</strong> Internet Protocol (IP) is a communication protocol used to identify devices and deliver data from a source device to a destination device over a network.
+                    </div>
+                    <div class="exam-card">
+                        <strong>Exam Setup Definition</strong>
+                        Internet Protocol (IP) is a set of rules used to identify devices and transfer data over a network.
+                    </div>
+                </section>
+
+                <section id="sec-address">
+                    <h2 class="section-title">2. IP Address</h2>
+                    <div class="definition-card">
+                        <strong>Definition:</strong> An IP Address is a unique logical numerical address assigned to every device connected to a network so that devices can communicate with each other.
+                    </div>
+                    <h3 style="margin: 1rem 0 0.5rem 0;">Examples</h3>
+                    <ul>
+                        <li><code>192.168.1.10</code></li>
+                        <li><code>172.16.5.20</code></li>
+                        <li><code>10.0.0.5</code></li>
+                    </ul>
+                    <h3 style="margin: 1.5rem 0 0.5rem 0;">Functions of an IP Address</h3>
+                    <ul>
+                        <li>Identifies every device uniquely.</li>
+                        <li>Enables communication between devices.</li>
+                        <li>Helps routers deliver data to the correct destination.</li>
+                        <li>Identifies both the network and the host.</li>
+                    </ul>
+                </section>
+
+                <section id="sec-why">
+                    <h2 class="section-title">3. Why is an IP Address Needed?</h2>
+                    <p>Without an IP address framework:</p>
+                    <ul>
+                        <li>Devices cannot identify each other.</li>
+                        <li>Data cannot reach the correct destination.</li>
+                        <li>Internet communication is impossible.</li>
+                    </ul>
+                    <div class="analogy-card">
+                        <strong>Real-World Analogy:</strong> A physical house needs a structured mailing address to receive letters correctly. Similarly, a computer or node needs an IP address to receive digital data packets over the web.
+                    </div>
+                </section>
+
+                <section id="sec-ipv4">
+                    <h2 class="section-title">4. IPv4 (Internet Protocol Version 4)</h2>
+                    <p>IPv4 is the most widely deployed and commonly recognized version of the Internet Protocol.</p>
+                    <h3 style="margin-bottom: 0.5rem;">Characteristics</h3>
+                    <ul>
+                        <li>32-bit total address length.</li>
+                        <li>Divided into 4 equal octets.</li>
+                        <li>Each individual octet contains exactly 8 bits.</li>
+                        <li>Uses decimal numbers separated by dots (.).</li>
+                    </ul>
+                    <h3 style="margin: 1.25rem 0 0.5rem 0;">Structural Blueprint</h3>
+                    <div class="diagram-container">
+                        192  .  168  .   1   .  25
+                        <div class="diagram-bits">8 bits | 8 bits | 8 bits | 8 bits  ==> Total = 32 bits</div>
+                    </div>
+                    <p><em>Note: The decimal value of each individual octet can strictly range from 0 to 255.</em></p>
+                </section>
+
+                <section id="sec-ipv6">
+                    <h2 class="section-title">5. IPv6 (Internet Protocol Version 6)</h2>
+                    <p>IPv6 is the newer generation version of IP developed primarily to replace IPv4 due to the imminent global shortage of available IPv4 address spaces.</p>
+                    <h3 style="margin-bottom: 0.5rem;">Characteristics</h3>
+                    <ul>
+                        <li>128-bit long address block.</li>
+                        <li>Uses hexadecimal numbers instead of decimal.</li>
+                        <li>Separated internally by colons (:) instead of dots.</li>
+                    </ul>
+                    <h3 style="margin: 1rem 0 0.5rem 0;">Example</h3>
+                    <p><code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code> (Often compressed as <code>2001:db8:85a3::8a2e:370:7334</code>)</p>
+                </section>
+
+                <section id="sec-comparison">
+                    <h2 class="section-title">6. IPv4 vs IPv6</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                /<tr>
+                                    <th>Feature</th>
+                                    <th>IPv4</th>
+                                    <th>IPv6</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Address Size</strong></td>
+                                    <td>32 bits</td>
+                                    <td>128 bits</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Format Structure</strong></td>
+                                    <td>4 octets (Decimal numbers)</td>
+                                    <td>8 hexadecimal groups</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Separators</strong></td>
+                                    <td>Uses dots (.)</td>
+                                    <td>Uses colons (:)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Address Pool</strong></td>
+                                    <td>Limited address capacity (~4.3 Billion)</td>
+                                    <td>Virtually unlimited addresses Space</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="sec-types">
+                    <h2 class="section-title">7. Types of IP Addresses</h2>
+                    
+                    <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Public IP Address</h3>
+                    <ul>
+                        <li>Assigned directly by an Internet Service Provider (ISP).</li>
+                        <li>Globally unique and accessible through the open Internet.</li>
+                        <li>Example: <code>103.56.100.12</code></li>
+                    </ul>
+
+                    <h3 style="color: var(--primary); margin: 1.25rem 0 0.5rem 0;">Private IP Address</h3>
+                    <p>Used inside isolated local environments like homes, schools, and offices. They cannot route onto the public web directly.</p>
+                    <p><strong>Reserved Private IP Ranges:</strong></p>
+                    <ul>
+                        <li><code>10.0.0.0 – 10.255.255.255</code></li>
+                        <li><code>172.16.0.0 – 172.31.255.255</code></li>
+                        <li><code>192.168.0.0 – 192.168.255.255</code></li>
+                    </ul>
+
+                    <h3 style="color: var(--primary); margin: 1.25rem 0 0.5rem 0;">Static IP Address</h3>
+                    <ul>
+                        <li>Fixed manually; does not change when the machine restarts.</li>
+                        <li>Ideal for hosting core structural servers, corporate printers, network web pages, and CCTV streams.</li>
+                    </ul>
+
+                    <h3 style="color: var(--primary); margin: 1.25rem 0 0.5rem 0;">Dynamic IP Address</h3>
+                    <ul>
+                        <li>Leased dynamically and automatically via a DHCP Server.</li>
+                        <li>Subject to structural change automatically over time.</li>
+                        <li>Standard default profile for consumer laptops, personal smart phones, and typical home users.</li>
+                    </ul>
+                </section>
+
+                <section id="sec-ids">
+                    <h2 class="section-title">8. Network ID and Host ID</h2>
+                    <p>Every logical IPv4 address is split into two structural segments:</p>
+                    <div class="diagram-container" style="text-align: center; color: #a7f3d0;">
+                        Network ID &nbsp;|&nbsp; Host ID
+                    </div>
+                    <h3 style="margin-bottom: 0.5rem;">Example breakdown: <code>192.168.1.25</code></h3>
+                    <ul>
+                        <li><strong>Network ID:</strong> <code>192.168.1</code> (Identifies the target subnet context)</li>
+                        <li><strong>Host ID:</strong> <code>25</code> (Identifies the exact physical node target on that subnet)</li>
+                    </ul>
+                </section>
+
+                <section id="sec-classes">
+                    <h2 class="section-title">9. Classful IP Addressing</h2>
+                    <p>Historically, legacy IPv4 environments divided structural blocks into five specific architectural tiers determined strictly by evaluating the address's **first octet** boundary.</p>
+                    
+                    <h3 style="margin: 1rem 0 0.5rem 0; color: var(--primary-dark)">Class A</h3>
+                    <ul>
+                        <li><strong>First Octet Range:</strong> 1 – 126</li>
+                        <li><strong>Default Subnet Mask:</strong> <code>255.0.0.0</code></li>
+                        <li><strong>Bit Layout:</strong> 8 Network bits, 24 Host bits</li>
+                        <li><strong>Host Math Allocation:</strong> 2<sup>24</sup> = 16,777,216 total addresses</li>
+                        <li><strong>Usable Hosts:</strong> 16,777,216 − 2 = 16,777,214 usable devices</li>
+                        <li><strong>Primary Intent:</strong> Designed for massive multinational organizations and tier-1 ISPs.</li>
+                    </ul>
+
+                    <h3 style="margin: 1.5rem 0 0.5rem 0; color: var(--primary-dark)">Class B</h3>
+                    <ul>
+                        <li><strong>First Octet Range:</strong> 128 – 191</li>
+                        <li><strong>Default Subnet Mask:</strong> <code>255.255.0.0</code></li>
+                        <li><strong>Bit Layout:</strong> 16 Network bits, 16 Host bits</li>
+                        <li><strong>Host Math Allocation:</strong> 2<sup>16</sup> = 65,536 total addresses</li>
+                        <li><strong>Usable Hosts:</strong> 65,536 − 2 = 65,534 usable devices</li>
+                        <li><strong>Primary Intent:</strong> Geared towards medium to large scale enterprises.</li>
+                    </ul>
+
+                    <h3 style="margin: 1.5rem 0 0.5rem 0; color: var(--primary-dark)">Class C</h3>
+                    <ul>
+                        <li><strong>First Octet Range:</strong> 192 – 223</li>
+                        <li><strong>Default Subnet Mask:</strong> <code>255.255.255.0</code></li>
+                        <li><strong>Bit Layout:</strong> 24 Network bits, 8 Host bits</li>
+                        <li><strong>Host Math Allocation:</strong> 2<sup>8</sup> = 256 total addresses</li>
+                        <li><strong>Usable Hosts:</strong> 256 − 2 = 254 usable devices</li>
+                        <li><strong>Primary Intent:</strong> Standard format for default home setups, small offices, and schools.</li>
+                    </ul>
+
+                    <h3 style="margin: 1.5rem 0 0.5rem 0; color: var(--primary-dark)">Class D</h3>
+                    <ul>
+                        <li><strong>First Octet Range:</strong> 224 – 239</li>
+                        <li><strong>Primary Intent:</strong> Dedicated solely to <strong>Multicast Communication</strong> parameters. No default mask.</li>
+                    </ul>
+
+                    <h3 style="margin: 1.5rem 0 0.5rem 0; color: var(--primary-dark)">Class E</h3>
+                    <ul>
+                        <li><strong>First Octet Range:</strong> 240 – 255</li>
+                        <li><strong>Primary Intent:</strong> Reserved completely for global research, national labs, and experimental purposes.</li>
+                    </ul>
+                </section>
+
+                <section id="sec-summary">
+                    <h2 class="section-title">10. Summary of Classes</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>First Octet</th>
+                                    <th>Default Mask</th>
+                                    <th>Net Bits</th>
+                                    <th>Host Bits</th>
+                                    <th>Usable Devices</th>
+                                    <th>Purpose</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>A</strong></td>
+                                    <td>1 – 126</td>
+                                    <td>255.0.0.0</td>
+                                    <td>8</td>
+                                    <td>24</td>
+                                    <td>16,777,214</td>
+                                    <td>Large Networks</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>B</strong></td>
+                                    <td>128 – 191</td>
+                                    <td>255.255.0.0</td>
+                                    <td>16</td>
+                                    <td>16</td>
+                                    <td>65,534</td>
+                                    <td>Medium Networks</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>C</strong></td>
+                                    <td>192 – 223</td>
+                                    <td>255.255.255.0</td>
+                                    <td>24</td>
+                                    <td>8</td>
+                                    <td>254</td>
+                                    <td>Small Networks</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>D</strong></td>
+                                    <td>224 – 239</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>Multicast</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>E</strong></td>
+                                    <td>240 – 255</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>Experimental</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="sec-subtract">
+                    <h2 class="section-title">11. Why Do We Subtract Two Addresses?</h2>
+                    <p>Every operational IP network context must strictly reserve two addresses from its pool for internal management logic:</p>
+                    <ul>
+                        <li><strong>Network Address:</strong> The first address in the block. Identifies the network interface itself (All host bits are 0).</li>
+                        <li><strong>Broadcast Address:</strong> The absolute final address in the block. Used to drop packets out to all nodes inside that network layer concurrently (All host bits are 1).</li>
+                    </ul>
+                    <h3 style="margin: 1rem 0 0.5rem 0;">Structural Breakdown Loop (192.168.1.0/24)</h3>
+                    <ul>
+                        <li><code>192.168.1.0</code> &rarr; <strong>Network Address</strong> (Unusable for assignments)</li>
+                        <li><code>192.168.1.1</code> down to <code>192.168.1.254</code> &rarr; <strong>Usable Node Hosts</strong></li>
+                        <li><code>192.168.1.255</code> &rarr; <strong>Broadcast Address</strong> (Unusable for assignments)</li>
+                    </ul>
+                    <p style="font-weight: bold; margin-top: 0.5rem;">Mathematical Proof: 256 Total Combinations − 2 Fixed Reserves = 254 Real Usable Node Interfaces.</p>
+                </section>
+
+                <section id="sec-mask">
+                    <h2 class="section-title">12. Subnet Mask</h2>
+                    <div class="definition-card">
+                        <strong>Definition:</strong> A Subnet Mask is a 32-bit number that separates the Network ID and the Host ID of an IP address.
+                    </div>
+                    <div class="exam-card">
+                        <strong>Exam Setup Definition</strong>
+                        A subnet mask identifies which part of an IP address is the network portion and which part is the host portion.
+                    </div>
+                </section>
+
+                <section id="sec-mask-why">
+                    <h2 class="section-title">13. Why is a Subnet Mask Needed?</h2>
+                    <p>Consider looking at this unmasked address interface alone: <code>192.168.1.25</code></p>
+                    <p>Without an explicit masking value attached, hardware logic cannot dynamically determine exactly where the Network ID boundary ends and the local Host ID interface segment begins.</p>
+                    <p><strong>Applying the Masking Parameter:</strong></p>
+                    <ul>
+                        <li><strong>IP Address:</strong> <code>192.168.1.25</code></li>
+                        <li><strong>Subnet Mask:</strong> <code>255.255.255.0</code></li>
+                    </ul>
+                    <p>By mapping these structural items against one another, components read the alignment map as:</p>
+                    <div class="diagram-container" style="background-color: #1e293b; color: #f8fafc; text-align: center;">
+                        <span style="color: #f43f5e; font-weight: bold;">192.168.1</span> | <span style="color: #10b981; font-weight: bold;">25</span>
+                        <div style="font-size: 0.8rem; margin-top: 0.25rem; color: #94a3b8;">Network Segment &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Host Segment</div>
+                    </div>
+                </section>
+
+                <section id="sec-binary">
+                    <h2 class="section-title">14. Binary Representation of Subnet Mask</h2>
+                    <p>How systems execute this evaluation at the logic-gate layer:</p>
+                    <h3 style="margin-bottom: 0.5rem;">Decimal Profile: <code>255.255.255.0</code></h3>
+                    <div class="diagram-container" style="color: #a855f7;">
+                        11111111 . 11111111 . 11111111 . 00000000
+                    </div>
+                    <p><strong>Core Binary Structural Evaluation Rules:</strong></p>
+                    <ul>
+                        <li>Binary <strong>1</strong> values indicate network portion bits.</li>
+                        <li>Binary <strong>0</strong> values indicate local node host portion bits.</li>
+                    </ul>
+                    <p>Because there are exactly 24 contiguous binary ones tracked from left to right in this map, the structure is cleanly compressed into shorthand **CIDR notation** as: <strong>`/24`</strong></p>
+                </section>
+
+                <section id="sec-default-masks">
+                    <h2 class="section-title">15. Default Subnet Masks</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Default Subnet Mask</th>
+                                    <th>CIDR Shorthand Notation</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Class A</strong></td>
+                                    <td>255.0.0.0</td>
+                                    <td>/8</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Class B</strong></td>
+                                    <td>255.255.0.0</td>
+                                    <td>/16</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Class C</strong></td>
+                                    <td>255.255.255.0</td>
+                                    <td>/24</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="sec-examples">
+                    <h2 class="section-title">16. Practical Examples</h2>
+                    
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--border); border-radius: 6px;">
+                        <h4 style="color: var(--primary);">Example 1</h4>
+                        <p style="margin: 0.25rem 0;"><strong>IP Address:</strong> 192.168.1.25 | <strong>Subnet Mask:</strong> 255.255.255.0</p>
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-muted);">&bull; Isolated Network ID = 192.168.1.0 <br> &bull; Isolated Host Token = 25</p>
+                    </div>
+
+                    <div style="margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--border); border-radius: 6px;">
+                        <h4 style="color: var(--primary);">Example 2</h4>
+                        <p style="margin: 0.25rem 0;"><strong>IP Address:</strong> 172.16.25.100 | <strong>Subnet Mask:</strong> 255.255.0.0</p>
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-muted);">&bull; Isolated Network ID = 172.16.0.0 <br> &bull; Isolated Host Token = 25.100</p>
+                    </div>
+
+                    <div style="padding: 1rem; border: 1px solid var(--border); border-radius: 6px;">
+                        <h4 style="color: var(--primary);">Example 3</h4>
+                        <p style="margin: 0.25rem 0;"><strong>IP Address:</strong> 10.20.30.40 | <strong>Subnet Mask:</strong> 255.0.0.0</p>
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-muted);">&bull; Isolated Network ID = 10.0.0.0 <br> &bull; Isolated Host Token = 20.30.40</p>
+                    </div>
+                </section>
+
+                <section id="sec-mac">
+                    <h2 class="section-title">17. IP Address vs MAC Address</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Feature Aspect</th>
+                                    <th>IP Address</th>
+                                    <th>MAC Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Address Nature</strong></td>
+                                    <td>Logical network addressing assignment.</td>
+                                    <td>Physical hardware burn-in identity string.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Mutability</strong></td>
+                                    <td>Dynamic profile; alters depending on location/network.</td>
+                                    <td>Permanent identity string set at factory layer.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>OSI Layer Matrix</strong></td>
+                                    <td>Operates at the Network Layer (Layer 3).</td>
+                                    <td>Operates at the Data Link Layer (Layer 2).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Core Intended Role</strong></td>
+                                    <td>Utilized for cross-network packet routing worldwide.</td>
+                                    <td>Handles point-to-point delivery inside a local LAN.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Interactive Analyzer JavaScript Logic -->
+    <script>
+        function analyzeIP() {
+            const inputVal = document.getElementById('ip-input').value.trim();
+            const resultBox = document.getElementById('widget-result');
+            
+            // Clean simple octet splitting evaluation logic
+            const octets = inputVal.split('.');
+            
+            if (octets.length !== 4) {
+                alert('Please check your IP entry format! Enter 4 decimal segments separated by single dots (e.g., 192.168.1.25).');
+                return;
+            }
+
+            const firstOctet = parseInt(octets[0], 10);
+
+            if (isNaN(firstOctet) || firstOctet < 0 || firstOctet > 255) {
+                alert('The first octet must be a valid number between 0 and 255.');
+                return;
+            }
+
+            let ipClass = 'Unknown / Invalid';
+            let defaultMask = 'N/A';
+            let cidr = 'N/A';
+            let networkId = 'N/A';
+
+            if (firstOctet >= 1 && firstOctet <= 126) {
+                ipClass = 'Class A';
+                defaultMask = '255.0.0.0';
+                cidr = '/8';
+                networkId = octets[0] + '.0.0.0';
+            } else if (firstOctet === 127) {
+                ipClass = 'Class A (Loopback Diagnostics)';
+                defaultMask = '255.0.0.0';
+                cidr = '/8';
+                networkId = '127.0.0.0';
+            } else if (firstOctet >= 128 && firstOctet <= 191) {
+                ipClass = 'Class B';
+                defaultMask = '255.255.0.0';
+                cidr = '/16';
+                networkId = octets[0] + '.' + octets[1] + '.0.0';
+            } else if (firstOctet >= 192 && firstOctet <= 223) {
+                ipClass = 'Class C';
+                defaultMask = '255.255.255.0';
+                cidr = '/24';
+                networkId = octets[0] + '.' + octets[1] + '.' + octets[2] + '.0';
+            } else if (firstOctet >= 224 && firstOctet <= 239) {
+                ipClass = 'Class D (Multicast Transport Group)';
+                defaultMask = 'No Default Mask Layer';
+                cidr = 'N/A';
+                networkId = 'Multicast Range Address';
+            } else if (firstOctet >= 240 && firstOctet <= 255) {
+                ipClass = 'Class E (Experimental / Research)';
+                defaultMask = 'No Default Mask Layer';
+                cidr = 'N/A';
+                networkId = 'Experimental Range Address';
+            }
+
+            // Print changes directly to the structural view elements
+            document.getElementById('res-class').textContent = ipClass;
+            document.getElementById('res-mask').textContent = defaultMask;
+            document.getElementById('res-cidr').textContent = cidr;
+            document.getElementById('res-netid').textContent = networkId;
+            
+            resultBox.style.display = 'block';
+        }
+
+        // Active Sidebar scroll tracking accent highlights
+        window.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const linkElement = document.querySelector(`.nav-links li a[href="#${id}"]`);
+                    if (!linkElement) return;
+
+                    if (entry.intersectionRatio > 0) {
+                        document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+                        linkElement.parentElement.classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-20% 0px -60% 0px' });
+
+            // Track sections
+            document.querySelectorAll('section, .widget-box').forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // Initialize display automatically on load 
+        window.onload = function() {
+            analyzeIP();
+        };
+    </script>
+</body>
+</html>
