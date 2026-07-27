@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computer Networking MCQ Quiz</title>
+  <style>
+    :root {
+      --bg-color: #f4f6f9;
+      --card-bg: #ffffff;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --error: #ef4444;
+      --error-bg: #fef2f2;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border-color: #e5e7eb;
+      --reveal-bg: #eff6ff;
+      --reveal-border: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 850px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      padding: 30px;
+    }
+
+    header {
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .stats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background-color: var(--border-color);
+      border-radius: 4px;
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    .question-card {
+      margin-bottom: 25px;
+    }
+
+    .question-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 12px 18px;
+      background: #f9fafb;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background-color: #f3f4f6;
+    }
+
+    .option-btn.selected-correct {
+      background-color: var(--success-bg);
+      border-color: var(--success);
+      color: #065f46;
+      font-weight: 600;
+    }
+
+    .option-btn.selected-wrong {
+      background-color: var(--error-bg);
+      border-color: var(--error);
+      color: #991b1b;
+      font-weight: 600;
+    }
+
+    .option-btn.highlight-correct {
+      border-color: var(--success);
+      background-color: var(--success-bg);
+      color: #065f46;
+      font-weight: 600;
+    }
+
+    .description-box {
+      margin-top: 20px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      display: none;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .description-box.wrong-desc {
+      background-color: var(--error-bg);
+      border-left: 5px solid var(--error);
+      color: #7f1d1d;
+    }
+
+    .description-box.reveal-desc {
+      background-color: var(--reveal-bg);
+      border-left: 5px solid var(--reveal-border);
+      color: #1e3a8a;
+    }
+
+    .description-box.correct-desc {
+      background-color: var(--success-bg);
+      border-left: 5px solid var(--success);
+      color: #064e3b;
+    }
+
+    .action-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 25px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-reveal {
+      background-color: #f3f4f6;
+      color: #374151;
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-reveal:hover {
+      background-color: #e5e7eb;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .grid-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .grid-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: #f9fafb;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .grid-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+
+    .grid-btn.answered-right {
+      background-color: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    .grid-btn.answered-wrong {
+      background-color: var(--error);
+      color: white;
+      border-color: var(--error);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Data Communication & Networking Quiz</h1>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Interactive MCQ Practice Module</p>
+    </header>
+
+    <div class="stats-bar">
+      <span id="question-count">Question 1 of 33</span>
+      <span id="score-counter">Score: 0 / 33</span>
+    </div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <main>
+      <div class="question-card">
+        <div class="question-title" id="question-text">Loading question...</div>
+        <div class="options-list" id="options-container"></div>
+        <div class="description-box" id="description-box"></div>
+      </div>
+
+      <div class="action-controls">
+        <button class="btn btn-reveal" id="reveal-btn" onclick="revealAnswer()">👁️ Show & Reveal Answer</button>
+        <div>
+          <button class="btn btn-primary" id="prev-btn" onclick="navigate(-1)">Previous</button>
+          <button class="btn btn-primary" id="next-btn" onclick="navigate(1)">Next</button>
+        </div>
+      </div>
+
+      <div class="grid-nav" id="grid-nav"></div>
+    </main>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        id: 1,
+        question: "1. Which of the following represents the fastest data transmission speed?",
+        options: ["Gbps", "Kbps", "Bps", "Mbps"],
+        correct: 0,
+        explanation: "Gbps (Gigabits per second = 1,000,000,000 bits/sec) is significantly faster than Mbps (10^6), Kbps (10^3), and Bps."
+      },
+      {
+        id: 2,
+        question: "2. What type of transmission media is commonly used in LAN networks due to its cost-effectiveness and flexibility?",
+        options: ["Unshielded Twisted Pair Cable (UTP)", "Digital Subscriber Line (DSL)", "Microwave", "Satellite"],
+        correct: 0,
+        explanation: "UTP cable is standard in LANs because it is inexpensive, highly flexible, and easy to install."
+      },
+      {
+        id: 3,
+        question: "3. Which transmission media offers high bandwidth and immunity to electromagnetic interference, making it suitable for long-distance communication?",
+        options: ["Wireless communication", "Ethernet cable", "Twisted pair cable", "Fiber optic cable"],
+        correct: 3,
+        explanation: "Fiber optic cables carry light pulses through glass/plastic, offering immunity to electromagnetic interference (EMI) and massive bandwidth."
+      },
+      {
+        id: 4,
+        question: "4. Which type of transmission media is commonly employed in cable television systems owing to its proficiency in transmitting high-frequency signals across extensive distances?",
+        options: ["Coaxial cable", "Bluetooth", "Radio waves", "Optical fiber"],
+        correct: 0,
+        explanation: "Coaxial cables feature shielded copper conductors, making them ideal for carrying high-frequency radio signals in cable TV networks."
+      },
+      {
+        id: 5,
+        question: "5. Which transmission media is characterized by its ability to transmit data wirelessly through radio frequency signals?",
+        options: ["Coaxial cable", "Bluetooth", "Radio waves", "Unshielded twisted pair cable (UTP)"],
+        correct: 2,
+        explanation: "Radio waves transmit wireless signals using electromagnetic radio frequencies across physical space."
+      },
+      {
+        id: 6,
+        question: "6. Select the perfect order of data communication system or model.",
+        options: [
+          "Source, Sink, Encoder, Decoder, Transmitter, Receiver and Channel",
+          "Source, Encoder, Channel, Transmitter, Receiver, Decoder and Sink",
+          "Source, Encoder, Transmitter, Receiver, Channel, Decoder and Sink",
+          "Source, Encoder, Transmitter, Channel, Receiver, Decoder and Sink"
+        ],
+        correct: 3,
+        explanation: "Correct sequential order: Source → Encoder → Transmitter → Transmission Channel → Receiver → Decoder → Sink."
+      },
+      {
+        id: 7,
+        question: "7. Which one of the following network device operates at the Network layer?",
+        options: ["Repeater", "Switch", "Router", "Hub"],
+        correct: 2,
+        explanation: "A Router operates at Layer 3 (Network Layer) of the OSI reference model."
+      },
+      {
+        id: 8,
+        question: "8. Which of the following is a device that connects two or more networks and can filter and forward network traffic based on its destination address?",
+        options: ["Switch", "Router", "Hub", "Modem"],
+        correct: 1,
+        explanation: "A Router connects multiple independent networks and filters/routes traffic using logical IP addresses."
+      },
+      {
+        id: 9,
+        question: "9. How many layers are there in the ISO OSI reference model?",
+        options: ["5", "6", "7", "8"],
+        correct: 2,
+        explanation: "The ISO OSI model contains 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application."
+      },
+      {
+        id: 10,
+        question: "10. What is the correct order of the OSI reference model of a computer network from bottom to top?",
+        options: [
+          "Physical, datalink, network, transport, session, application and presentation.",
+          "Physical, datalink, network, transport, presentation, session and application",
+          "Physical, datalink, transport, network, session, presentation and application",
+          "Physical, datalink, network, transport, session, presentation and application."
+        ],
+        correct: 3,
+        explanation: "From Layer 1 to Layer 7: Physical → Data Link → Network → Transport → Session → Presentation → Application."
+      },
+      {
+        id: 11,
+        question: "11. Which of the following is an incorrect IP address?",
+        options: ["192.168.0.1", "192.168.1.256", "172.255.0.0", "202.10.79.4"],
+        correct: 1,
+        explanation: "IPv4 octets range strictly from 0 to 255. The value 256 is out of range."
+      },
+      {
+        id: 12,
+        question: "12. Which of the following IP addresses is wrong?",
+        options: ["192.168.0.1", "256.2.5.76", "127.1.1.1", "10.144.1.0"],
+        correct: 1,
+        explanation: "The first octet value '256' is invalid because IPv4 octet limits are 0 to 255."
+      },
+      {
+        id: 13,
+        question: "13. Which of the following is an example of a public IPv4 address?",
+        options: ["192.168.1.1", "172.16.10.1", "10.10.10.10", "203.0.113.10"],
+        correct: 3,
+        explanation: "10.x.x.x, 172.16.x.x, and 192.168.x.x are RFC 1918 private address ranges. 203.0.113.10 is a public IP address."
+      },
+      {
+        id: 14,
+        question: "14. ... refers to the sending, receiving, and processing of information by electronic means.",
+        options: ["Computer", "Communication", "software", "Program"],
+        correct: 1,
+        explanation: "Communication is the transmission, reception, and processing of information electronically."
+      },
+      {
+        id: 15,
+        question: "15. Which refers to the communication media?",
+        options: ["UTP cable", "Fiber optic cable", "Satellite", "All of the above"],
+        correct: 3,
+        explanation: "All listed items (UTP, Fiber optic, and Satellite) are valid physical or wireless communication media."
+      },
+      {
+        id: 16,
+        question: "16. Which one is not network topology?",
+        options: ["Star", "Ring", "Client-Server", "BUS"],
+        correct: 2,
+        explanation: "Client-Server is a software architecture, not a physical/logical topology pattern."
+      },
+      {
+        id: 17,
+        question: "17. Which is not a guided media?",
+        options: ["UTP cable", "STP cable", "Satellite", "Fiber optic"],
+        correct: 2,
+        explanation: "Satellite is unguided (wireless) transmission media, whereas cables are guided media."
+      },
+      {
+        id: 18,
+        question: "18. Which device is necessary to operate the Internet?",
+        options: ["CD-ROM", "ISP", "Modem", "All of the above"],
+        correct: 2,
+        explanation: "A Modem converts digital computer data into transmission signals for network lines."
+      },
+      {
+        id: 19,
+        question: "19. Modem converts ...",
+        options: ["sound into digital", "digital signal into sound", "both (a and b)", "none of the above"],
+        correct: 3,
+        explanation: "Modems modulate digital signals into analog signals (and vice versa), not audio sound waves."
+      },
+      {
+        id: 20,
+        question: "20. Which is not an internet service?",
+        options: ["e-mail", "e-telephone", "e-fax", "e-commerce"],
+        correct: 2,
+        explanation: "Traditional e-fax operates primarily over telephone PSTN lines rather than native Internet protocols."
+      },
+      {
+        id: 21,
+        question: "21. Which is not Communication Media?",
+        options: ["NIC", "Microwave", "Satellite", "Wire"],
+        correct: 0,
+        explanation: "NIC (Network Interface Card) is a hardware computer adapter, not a transmission medium."
+      },
+      {
+        id: 22,
+        question: "22. Which is web browser software?",
+        options: ["Windows 2007", "Internet explorer", "Windows NT", "All of the above"],
+        correct: 1,
+        explanation: "Internet Explorer is a web browser. Windows 2007 and Windows NT are Operating Systems."
+      },
+      {
+        id: 23,
+        question: "23. In which network topology, devices are connected through the hub?",
+        options: ["Ring topology", "Bus topology", "Star topology", "None of the above"],
+        correct: 2,
+        explanation: "In a Star topology, all individual client devices connect to a central node like a hub or switch."
+      },
+      {
+        id: 24,
+        question: "24. Which is not related to Internet?",
+        options: ["ISP", "TCP/IP", "WWW", "UPS"],
+        correct: 3,
+        explanation: "UPS (Uninterruptible Power Supply) provides power backup and is unrelated to network protocols/services."
+      },
+      {
+        id: 25,
+        question: "25. E-mail is a/an ...",
+        options: ["organization, which controls the internet", "protocol to access the internet", "service of internet", "none of the above"],
+        correct: 2,
+        explanation: "E-mail is a message transmission service running over the Internet."
+      },
+      {
+        id: 26,
+        question: "26. Which one is an example of bound media?",
+        options: ["Fiber optic", "Microwave transmission", "Laser transmission", "Infrared transmission"],
+        correct: 0,
+        explanation: "Fiber optic is bound (guided) cable media. Microwave, laser, and infrared are unbound wireless media."
+      },
+      {
+        id: 27,
+        question: "27. Which of the following is not a protocol?",
+        options: ["POP", "TCP/IP", "NOS", "FTP"],
+        correct: 2,
+        explanation: "NOS stands for Network Operating System (software), whereas POP, TCP/IP, and FTP are protocols."
+      },
+      {
+        id: 28,
+        question: "28. In which communication media, the data transfer rate is high?",
+        options: ["Twisted pair", "Co-axial cable", "Fiber optics", "Microwave"],
+        correct: 2,
+        explanation: "Fiber optics offer the highest bandwidth and data transfer rates among transmission media."
+      },
+      {
+        id: 29,
+        question: "29. Which of the following is not a guided communication media?",
+        options: ["Coaxial cable", "Fiber optic", "Twisted pair", "Satellite"],
+        correct: 3,
+        explanation: "Satellite communication uses unguided wireless frequencies propagating through space."
+      },
+      {
+        id: 30,
+        question: "30. Which of the following is a remote login service?",
+        options: ["Video conference", "Telnet", "FTP", "All of the above"],
+        correct: 1,
+        explanation: "Telnet is a terminal emulation protocol used for remote interactive login access."
+      },
+      {
+        id: 31,
+        question: "31. Which is not unguided media?",
+        options: ["Fiber optic", "Microwave", "Infrared", "Radio wave"],
+        correct: 0,
+        explanation: "Fiber optic is a physical/guided medium."
+      },
+      {
+        id: 32,
+        question: "32. Each computer on the Internet has a unique numeric address called a/an...",
+        options: ["web address", "domain address", "network binding", "IP address"],
+        correct: 3,
+        explanation: "An IP address is the unique numerical identifier assigned to each host device on a TCP/IP network."
+      },
+      {
+        id: 33,
+        question: "33. In... ...Network Topology, nodes are connected in a single wire.",
+        options: ["star", "bus", "mesh", "all of the above"],
+        correct: 1,
+        explanation: "In a Bus topology, all host nodes connect sequentially to a single shared central cable backbone."
+      }
+    ];
+
+    let currentIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+
+    function initQuiz() {
+      renderGridNav();
+      loadQuestion();
+    }
+
+    function renderGridNav() {
+      const gridContainer = document.getElementById('grid-nav');
+      gridContainer.innerHTML = '';
+      questions.forEach((q, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `grid-btn ${idx === currentIndex ? 'active' : ''}`;
+        btn.innerText = idx + 1;
+        btn.onclick = () => jumpToQuestion(idx);
+        gridContainer.appendChild(btn);
+      });
+    }
+
+    function updateGridNavStatus(idx) {
+      const btns = document.querySelectorAll('.grid-btn');
+      btns.forEach((btn, i) => {
+        btn.classList.remove('active');
+        if (i === currentIndex) btn.classList.add('active');
+        
+        if (userAnswers[i] !== null) {
+          if (userAnswers[i] === questions[i].correct) {
+            btn.classList.add('answered-right');
+            btn.classList.remove('answered-wrong');
+          } else {
+            btn.classList.add('answered-wrong');
+            btn.classList.remove('answered-right');
+          }
+        }
+      });
+    }
+
+    function loadQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById('question-text').innerText = q.question;
+      document.getElementById('question-count').innerText = `Question ${currentIndex + 1} of ${questions.length}`;
+      
+      const progressBar = document.getElementById('progress-bar');
+      progressBar.style.width = `${((currentIndex + 1) / questions.length) * 100}%`;
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+
+      const descBox = document.getElementById('description-box');
+      descBox.style.display = 'none';
+      descBox.className = 'description-box';
+
+      q.options.forEach((optText, optIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span style="font-weight: bold; margin-right: 8px;">${String.fromCharCode(97 + optIdx)}.</span> ${optText}`;
+        btn.onclick = () => selectOption(optIdx);
+        optionsContainer.appendChild(btn);
+      });
+
+      if (userAnswers[currentIndex] !== null) {
+        showSavedAnswerState();
+      }
+
+      document.getElementById('prev-btn').disabled = currentIndex === 0;
+      document.getElementById('next-btn').disabled = currentIndex === questions.length - 1;
+
+      updateScore();
+      updateGridNavStatus(currentIndex);
+    }
+
+    function selectOption(selectedIdx) {
+      if (userAnswers[currentIndex] !== null) return; // Prevent changing answer once selected
+
+      userAnswers[currentIndex] = selectedIdx;
+      const q = questions[currentIndex];
+      const descBox = document.getElementById('description-box');
+      const optionBtns = document.querySelectorAll('.option-btn');
+
+      optionBtns.forEach(btn => btn.disabled = true);
+
+      if (selectedIdx === q.correct) {
+        optionBtns[selectedIdx].classList.add('selected-correct');
+        descBox.className = 'description-box correct-desc';
+        descBox.innerHTML = `<strong>✅ Correct!</strong><br>${q.explanation}`;
+      } else {
+        optionBtns[selectedIdx].classList.add('selected-wrong');
+        optionBtns[q.correct].classList.add('highlight-correct');
+        descBox.className = 'description-box wrong-desc';
+        descBox.innerHTML = `<strong>❌ Incorrect Answer!</strong><br><strong>Correct Answer:</strong> (${String.fromCharCode(97 + q.correct)}) ${q.options[q.correct]}<br><br><strong>Description:</strong> ${q.explanation}`;
+      }
+      descBox.style.display = 'block';
+
+      updateScore();
+      updateGridNavStatus(currentIndex);
+    }
+
+    function revealAnswer() {
+      const q = questions[currentIndex];
+      const descBox = document.getElementById('description-box');
+      const optionBtns = document.querySelectorAll('.option-btn');
+
+      optionBtns.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === q.correct) {
+          btn.classList.add('highlight-correct');
+        }
+      });
+
+      descBox.className = 'description-box reveal-desc';
+      descBox.innerHTML = `<strong>💡 Answer Description & Solution:</strong><br><strong>Correct Answer:</strong> (${String.fromCharCode(97 + q.correct)}) ${q.options[q.correct]}<br><br><strong>Explanation:</strong> ${q.explanation}`;
+      descBox.style.display = 'block';
+    }
+
+    function showSavedAnswerState() {
+      const selectedIdx = userAnswers[currentIndex];
+      if (selectedIdx === null) return;
+
+      const q = questions[currentIndex];
+      const descBox = document.getElementById('description-box');
+      const optionBtns = document.querySelectorAll('.option-btn');
+
+      optionBtns.forEach(btn => btn.disabled = true);
+
+      if (selectedIdx === q.correct) {
+        optionBtns[selectedIdx].classList.add('selected-correct');
+        descBox.className = 'description-box correct-desc';
+        descBox.innerHTML = `<strong>✅ Correct!</strong><br>${q.explanation}`;
+      } else {
+        optionBtns[selectedIdx].classList.add('selected-wrong');
+        optionBtns[q.correct].classList.add('highlight-correct');
+        descBox.className = 'description-box wrong-desc';
+        descBox.innerHTML = `<strong>❌ Incorrect Answer!</strong><br><strong>Correct Answer:</strong> (${String.fromCharCode(97 + q.correct)}) ${q.options[q.correct]}<br><br><strong>Description:</strong> ${q.explanation}`;
+      }
+      descBox.style.display = 'block';
+    }
+
+    function updateScore() {
+      let correctCount = 0;
+      userAnswers.forEach((ans, i) => {
+        if (ans === questions[i].correct) correctCount++;
+      });
+      document.getElementById('score-counter').innerText = `Score: ${correctCount} / ${questions.length}`;
+    }
+
+    function navigate(direction) {
+      const newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < questions.length) {
+        currentIndex = newIndex;
+        loadQuestion();
+      }
+    }
+
+    function jumpToQuestion(index) {
+      currentIndex = index;
+      loadQuestion();
+    }
+
+    window.onload = initQuiz;
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
