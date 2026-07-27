@@ -1,0 +1,375 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding JavaScript to HTML - Notes</title>
+
+    <!-- CSS STYLES HERE -->
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            background-color: #f7fafc;
+            padding-bottom: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #2b6cb0;
+            color: #ffffff;
+            padding: 40px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #ebf8ff;
+        }
+
+        .intro {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+        }
+
+        /* Section Cards */
+        .card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        h2 {
+            color: #2b6cb0;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            color: #4a5568;
+            font-size: 1.1rem;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        /* Inline Code & Code Blocks */
+        code {
+            background-color: #edf2f7;
+            color: #c53030;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.95em;
+        }
+
+        pre {
+            background-color: #1a202c;
+            color: #f7fafc;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 10px 0 15px 0;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: #f7fafc;
+            padding: 0;
+        }
+
+        /* Table Styling */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f7fafc;
+        }
+
+        /* Interactive Demo Section */
+        .interactive-box {
+            background-color: #ebf8ff;
+            border-color: #bee3f8;
+        }
+
+        .demo-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-inline {
+            background-color: #dd6b20;
+            color: white;
+        }
+
+        .btn-inline:hover {
+            background-color: #c05621;
+        }
+
+        .btn-external {
+            background-color: #319795;
+            color: white;
+        }
+
+        .btn-external:hover {
+            background-color: #2c7a7b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <h1>Adding JavaScript to HTML</h1>
+            <p class="subtitle">Complete Study Notes & Reference</p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        
+        <p class="intro">
+            JavaScript can be added to an HTML document in <strong>three</strong> main ways:
+        </p>
+
+        <!-- SECTION 1 -->
+        <section class="card">
+            <h2>1. Internal JavaScript (Embedded JavaScript)</h2>
+            
+            <h3>Definition</h3>
+            <p>Internal JavaScript is written directly inside the HTML file between the <code>&lt;script&gt;</code> and <code>&lt;/script&gt;</code> tags. The browser treats everything inside these tags as executable script rather than standard HTML code.</p>
+
+            <h3>Syntax</h3>
+            <pre><code>&lt;script&gt;
+    // JavaScript code goes here
+&lt;/script&gt;</code></pre>
+
+            <h3>Example</h3>
+            <pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Internal JS Example&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;script&gt;
+        var greet = "Hello World!";
+        document.write(greet);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h3>Key Points</h3>
+            <ul>
+                <li><strong>Location:</strong> Placed inside the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code> section of an HTML document.</li>
+                <li><strong>Best Used For:</strong> Small scripts or single-page applications.</li>
+                <li><strong>Limitation:</strong> Cannot be reused across multiple HTML pages.</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section class="card">
+            <h2>2. External JavaScript</h2>
+
+            <h3>Definition</h3>
+            <p>External JavaScript involves writing the script in a separate file with a <code>.js</code> extension and linking it to the HTML document using the <code>src</code> attribute of the <code>&lt;script&gt;</code> tag.</p>
+
+            <h3>Syntax</h3>
+            <pre><code>&lt;script src="filename.js"&gt;&lt;/script&gt;</code></pre>
+
+            <h3>Example</h3>
+            <p><strong>External file (<code>hello.js</code>):</strong></p>
+            <pre><code>function sayHello() {
+    alert("Hello Nepal!");
+}</code></pre>
+
+            <p><strong>HTML File (<code>index.html</code>):</strong></p>
+            <pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;External JS Demo&lt;/title&gt;
+    &lt;script src="hello.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;input type="button" onclick="sayHello()" value="Click Me"&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h3>Key Points</h3>
+            <ul>
+                <li><strong>File Extension:</strong> Saves code separately in a file ending with <code>.js</code> (contains no HTML tags).</li>
+                <li><strong>Advantages:</strong>
+                    <ul>
+                        <li><strong>Reusability:</strong> The same <code>.js</code> file can be linked to multiple HTML pages.</li>
+                        <li><strong>Code Cleanliness:</strong> Keeps HTML and JavaScript separate, making code easier to read and maintain.</li>
+                        <li><strong>Faster Loading:</strong> Browsers can cache external JavaScript files to speed up page load times.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section class="card">
+            <h2>3. Inline JavaScript</h2>
+
+            <h3>Definition</h3>
+            <p>Inline JavaScript is written directly inside an HTML tag attribute using event handlers (such as <code>onclick</code>, <code>onmouseover</code>, <code>onload</code>, <code>onkeypress</code>, etc.).</p>
+
+            <h3>Syntax</h3>
+            <pre><code>&lt;tagname event_attribute="JavaScript code"&gt;</code></pre>
+
+            <h3>Example</h3>
+            <pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Inline JavaScript&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;button onclick="alert('Hello World!')"&gt;Click Me&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h3>Key Points</h3>
+            <ul>
+                <li><strong>Trigger:</strong> Code executes only when the specific event (like a button click) is triggered by the user.</li>
+                <li><strong>Common Event Attributes:</strong> <code>onclick</code>, <code>onmouseover</code>, <code>onkeypress</code>, <code>onload</code>.</li>
+                <li><strong>Disadvantage:</strong> Clutters HTML markup with script logic, making long programs difficult to read and maintain.</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 4: COMPARISON TABLE -->
+        <section class="card">
+            <h2>Quick Comparison Table</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Internal JS</th>
+                            <th>External JS</th>
+                            <th>Inline JS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Location</strong></td>
+                            <td>Inside <code>&lt;script&gt;</code> tags in HTML</td>
+                            <td>In a separate <code>.js</code> file</td>
+                            <td>Inside an HTML tag's event attribute</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Attribute Used</strong></td>
+                            <td>None</td>
+                            <td><code>src</code> attribute</td>
+                            <td>Event attributes (e.g., <code>onclick</code>)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Reusability</strong></td>
+                            <td>Only on the same page</td>
+                            <td>Across multiple HTML pages</td>
+                            <td>Single element only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best For</strong></td>
+                            <td>Small single-page scripts</td>
+                            <td>Large projects / shared scripts</td>
+                            <td>Simple quick triggers (e.g., alerts)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE DEMO -->
+        <section class="card interactive-box">
+            <h2>Live Interactive Demos</h2>
+            <p>Click the buttons below to see each method working in this page!</p>
+            
+            <div class="demo-buttons">
+                <!-- Inline JS Button -->
+                <button onclick="alert('Inline JS Triggered!')" class="btn btn-inline">Inline JS Demo</button>
+
+                <!-- Internal/Script JS Button -->
+                <button id="demoBtn" class="btn btn-external">Script JS Demo</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT CODE HERE -->
+    <script>
+        function sayHello() {
+            alert("Script Triggered! Hello Nepal!");
+        }
+
+        document.getElementById("demoBtn").addEventListener("click", sayHello);
+    </script>
+</body>
+</html>
