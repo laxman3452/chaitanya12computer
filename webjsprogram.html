@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Questions and Answers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .section-title {
+            color: #2c3e50;
+            margin-top: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .qa-card {
+            background: #fdfdfd;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+            border-top: 1px solid #eee;
+            border-right: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+        .question {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #1a252f;
+            margin-bottom: 10px;
+        }
+        .answer-text {
+            margin-bottom: 10px;
+            white-space: pre-line;
+        }
+        pre {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: "Consolas", "Courier New", monospace;
+            font-size: 0.95em;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>JavaScript Questions & Answers</h1>
+
+    <!-- Part 1 -->
+    <h2 class="section-title">Part 1: Basic Logic & Conditions</h2>
+
+    <div class="qa-card">
+        <div class="question">Qn(1). Write a javascript code to find greatest number among 3 number entered by the user.</div>
+        <pre><code>let a = Number(prompt("Enter first number:"));
+let b = Number(prompt("Enter second number:"));
+let c = Number(prompt("Enter third number:"));
+
+if (a >= b && a >= c) {
+    document.write("Greatest number is: " + a);
+}
+else if (b >= a && b >= c) {
+    document.write("Greatest number is: " + b);
+}
+else {
+    document.write("Greatest number is: " + c);
+}</code></pre>
+    </div>
+
+    <div class="qa-card">
+        <div class="question">Qn(2). Write a javascript code to find smallest number among 3 number entered by the user.</div>
+        <pre><code>let a = Number(prompt("Enter first number:"));
+let b = Number(prompt("Enter second number:"));
+let c = Number(prompt("Enter third number:"));
+
+if (a <= b && a <= c) {
+    document.write("Smallest number is: " + a);
+}
+else if (b <= a && b <= c) {
+    document.write("Smallest number is: " + b);
+}
+else {
+    document.write("Smallest number is: " + c);
+}</code></pre>
+    </div>
+
+    <div class="qa-card">
+        <div class="question">Qn(3). Write javascript code to find smallest and greatest among 2 numbers entered by the user.</div>
+        <pre><code>let a = Number(prompt("Enter first number:"));
+let b = Number(prompt("Enter second number:"));
+
+if (a > b) {
+    document.write("Greatest number is: " + a + "&lt;br&gt;");
+    document.write("Smallest number is: " + b);
+}
+else {
+    document.write("Greatest number is: " + b + "&lt;br&gt;");
+    document.write("Smallest number is: " + a);
+}</code></pre>
+    </div>
+
+    <div class="qa-card">
+        <div class="question">Qn(4). Write a javascript code that takes name and age from user and checks if user is eligible to vote.</div>
+        <pre><code>let name = prompt("Enter your name:");
+let age = Number(prompt("Enter your age:"));
+
+if (age >= 18) {
+    document.write(name + " is eligible to vote.");
+}
+else {
+    document.write(name + " is not eligible to vote.");
+}</code></pre>
+    </div>
+
+    <div class="qa-card">
+        <div class="question">Qn(5). Write a javascript code that takes name and marks from user and checks whether user is pass or fail.</div>
+        <pre><code>let name = prompt("Enter your name:");
+let marks = Number(prompt("Enter your marks:"));
+
+if (marks >= 40) {
+    document.write(name + " is Pass.");
+}
+else {
+    document.write(name + " is Fail.");
+}</code></pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h2 class="section-title">Part 2: HTML & JavaScript Programs</h2>
+
+    <div class="qa-card">
+        <div class="question">Qn 1. Write a javascript code along with html that displays the multiplication table of a entered number.</div>
+        <pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Multiplication Table&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;script&gt;
+var n = prompt("Enter a number:");
+
+document.write("&lt;h2&gt;Multiplication Table of " + n + "&lt;/h2&gt;");
+var i = 1;
+while (i &lt;= 10) {
+    document.write(n + " × " + i + " = " + (n * i) + "&lt;br&gt;");
+    i++;
+}
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+
+    <div class="qa-card">
+        <div class="question">Qn 2. Write a js program that checks whether the number is even or odd and print the result.</div>
+        <pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Even or Odd&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;script&gt;
+    var n = prompt("Enter a number:");
+
+    if (n % 2 == 0) {
+        document.write(n + " is an Even number.");
+    }
+    else {
+        document.write(n + " is an Odd number.");
+    }
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+
+    <div class="qa-card">
+        <div class="question">Qn 3. How do you add event handler in js? Give example.</div>
+        <div class="answer-text">An event handler is a JavaScript code or function that runs when a specific event happens on a webpage.</div>
+        <pre><code>Demonstration of onclick event handler:
+
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;button onclick="showMessage()"&gt;Click Me&lt;/button&gt;
+
+&lt;script&gt;
+function showMessage() {
+    alert("Button was clicked!");
+}
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+
+Demonstration of onSubmit event handler:
+
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;form onsubmit="showMessage()"&gt;
+    Enter your name:
+    &lt;input type="text"&gt;
+    &lt;input type="submit" value="Submit"&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+function showMessage() {
+    alert("Form submitted!");
+}
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+
+    <div class="qa-card">
+        <div class="question">Qn 4. Write a function in javascript that takes 2 number from user and displays its sum.</div>
+        <pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Sum of Two Numbers&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;script&gt;
+    function sum() {
+        var a = Number(prompt("Enter first number:"));
+        var b = Number(prompt("Enter second number:"));
+
+        var result = a + b;
+
+        document.write("Sum = " + result);
+    }
+
+    sum();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+
+    <div class="qa-card">
+        <div class="question">Qn 5. Write a Program in javascript that finds factorial of a given number.</div>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Factorial&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;script&gt;
+    function factorial() {
+        var n = Number(prompt("Enter a number:"));
+        var fact = 1;
+        var i = 1;
+
+        while (i &lt;= n) {
+            fact = fact * i;
+            i++;
+        }
+
+        document.write("Factorial = " + fact);
+    }
+
+    factorial();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    </div>
+
+</div>
+
+</body>
+</html>
